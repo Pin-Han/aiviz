@@ -28,7 +28,7 @@ aiviz/
 | Phase | Description | Status |
 |-------|-------------|--------|
 | [Phase 1](docs/plans/phase1.md) | Project Foundation | Completed |
-| [Phase 2](docs/plans/phase2.md) | Crawler & Parser | Not Started |
+| [Phase 2](docs/plans/phase2.md) | Crawler & Parser | Completed |
 | [Phase 3](docs/plans/phase3.md) | Scoring Engine | Not Started |
 | [Phase 4](docs/plans/phase4.md) | AI Layer & Rate Limiting | Not Started |
 | [Phase 5](docs/plans/phase5.md) | API Endpoint | Not Started |
