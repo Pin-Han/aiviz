@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "@aiviz/shared": ["../shared"]
+    }
+  },
+  "include": ["./**/*.ts", "../shared/**/*.ts"]
+}
