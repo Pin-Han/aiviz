@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/aiviz/',
   resolve: {
     alias: {
       '@aiviz/shared': path.resolve(__dirname, '../shared'),
