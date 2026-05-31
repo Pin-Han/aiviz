@@ -32,7 +32,7 @@ aiviz/
 | [Phase 3](docs/plans/phase3.md) | Scoring Engine | Completed |
 | [Phase 4](docs/plans/phase4.md) | AI Layer & Rate Limiting | Completed |
 | [Phase 5](docs/plans/phase5.md) | API Endpoint | Completed |
-| [Phase 6](docs/plans/phase6.md) | Frontend | Not Started |
+| [Phase 6](docs/plans/phase6.md) | Frontend | Completed |
 | [Phase 7](docs/plans/phase7.md) | Deployment & Docs | Not Started |
 
 ## Tech Stack
