@@ -1,9 +1,31 @@
-import { kv } from '@vercel/kv'
 import { RATE_LIMIT_PER_IP, RATE_LIMIT_GLOBAL } from '../../shared/constants.js'
 
 export interface RateLimitResult {
   allowed: boolean
   remaining: number
+}
+
+// In-memory fallback when Vercel KV is not configured
+const memoryStore = new Map<string, { count: number; expiresAt: number }>()
+
+function getMemoryCount(key: string): number {
+  const entry = memoryStore.get(key)
+  if (!entry) return 0
+  if (Date.now() > entry.expiresAt) {
+    memoryStore.delete(key)
+    return 0
+  }
+  return entry.count
+}
+
+function incrementMemory(key: string, ttlSeconds: number): number {
+  const entry = memoryStore.get(key)
+  if (!entry || Date.now() > entry.expiresAt) {
+    memoryStore.set(key, { count: 1, expiresAt: Date.now() + ttlSeconds * 1000 })
+    return 1
+  }
+  entry.count++
+  return entry.count
 }
 
 function getSecondsUntilMidnightUTC8(): number {
@@ -18,7 +40,8 @@ function getSecondsUntilMidnightUTC8(): number {
   return Math.ceil(diffMs / 1000)
 }
 
-export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
+async function checkWithKv(ip: string): Promise<RateLimitResult> {
+  const { kv } = await import('@vercel/kv')
   const ipKey = `rate:ip:${ip}`
   const globalKey = 'rate:global'
 
@@ -27,33 +50,47 @@ export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
     kv.get<number>(globalKey),
   ])
 
-  // Check if already at limit
   if ((ipCount ?? 0) >= RATE_LIMIT_PER_IP) {
     return { allowed: false, remaining: 0 }
   }
-
   if ((globalCount ?? 0) >= RATE_LIMIT_GLOBAL) {
     return { allowed: false, remaining: 0 }
   }
 
-  // Increment counters
   const ttl = getSecondsUntilMidnightUTC8()
+  const [newIpCount] = await Promise.all([kv.incr(ipKey), kv.incr(globalKey)])
 
-  const [newIpCount] = await Promise.all([
-    kv.incr(ipKey),
-    kv.incr(globalKey),
-  ])
+  if (newIpCount === 1) await kv.expire(ipKey, ttl)
+  if ((globalCount ?? 0) === 0) await kv.expire(globalKey, ttl)
 
-  // Set expiry (only on first increment to avoid resetting TTL)
-  if (newIpCount === 1) {
-    await kv.expire(ipKey, ttl)
-  }
-  if ((globalCount ?? 0) === 0) {
-    await kv.expire(globalKey, ttl)
-  }
+  return { allowed: true, remaining: RATE_LIMIT_PER_IP - newIpCount }
+}
 
-  return {
-    allowed: true,
-    remaining: RATE_LIMIT_PER_IP - newIpCount,
+function checkWithMemory(ip: string): RateLimitResult {
+  const ipKey = `rate:ip:${ip}`
+  const globalKey = 'rate:global'
+
+  const ipCount = getMemoryCount(ipKey)
+  const globalCount = getMemoryCount(globalKey)
+
+  if (ipCount >= RATE_LIMIT_PER_IP) return { allowed: false, remaining: 0 }
+  if (globalCount >= RATE_LIMIT_GLOBAL) return { allowed: false, remaining: 0 }
+
+  const ttl = getSecondsUntilMidnightUTC8()
+  const newIpCount = incrementMemory(ipKey, ttl)
+  incrementMemory(globalKey, ttl)
+
+  return { allowed: true, remaining: RATE_LIMIT_PER_IP - newIpCount }
+}
+
+export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
+  // Use Vercel KV if configured, otherwise fall back to in-memory
+  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    try {
+      return await checkWithKv(ip)
+    } catch {
+      return checkWithMemory(ip)
+    }
   }
+  return checkWithMemory(ip)
 }

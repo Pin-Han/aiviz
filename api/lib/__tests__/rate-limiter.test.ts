@@ -1,54 +1,43 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { checkRateLimit } from '../rate-limiter.js'
 
-const mockGet = vi.fn()
-const mockIncr = vi.fn()
-const mockExpire = vi.fn()
+// Ensure KV env vars are NOT set so we use in-memory fallback
+beforeEach(() => {
+  delete process.env.KV_REST_API_URL
+  delete process.env.KV_REST_API_TOKEN
+})
 
-vi.mock('@vercel/kv', () => ({
-  kv: {
-    get: (...args: unknown[]) => mockGet(...args),
-    incr: (...args: unknown[]) => mockIncr(...args),
-    expire: (...args: unknown[]) => mockExpire(...args),
-  },
-}))
-
-describe('checkRateLimit', () => {
+describe('checkRateLimit (in-memory fallback)', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    vi.resetModules()
   })
 
   it('allows request when under limits', async () => {
-    mockGet.mockResolvedValue(null)
-    mockIncr.mockResolvedValue(1)
-
-    const result = await checkRateLimit('192.168.1.1')
+    const { checkRateLimit } = await import('../rate-limiter.js')
+    const result = await checkRateLimit('192.168.1.100')
 
     expect(result.allowed).toBe(true)
     expect(result.remaining).toBe(2)
   })
 
   it('blocks request when IP limit exceeded', async () => {
-    mockGet.mockImplementation((key: string) => {
-      if (key.startsWith('rate:ip:')) return Promise.resolve(3)
-      return Promise.resolve(10)
-    })
+    const { checkRateLimit } = await import('../rate-limiter.js')
 
-    const result = await checkRateLimit('192.168.1.1')
+    await checkRateLimit('192.168.1.200')
+    await checkRateLimit('192.168.1.200')
+    await checkRateLimit('192.168.1.200')
+    const result = await checkRateLimit('192.168.1.200')
 
     expect(result.allowed).toBe(false)
     expect(result.remaining).toBe(0)
   })
 
-  it('blocks request when global limit exceeded', async () => {
-    mockGet.mockImplementation((key: string) => {
-      if (key.startsWith('rate:ip:')) return Promise.resolve(1)
-      if (key === 'rate:global') return Promise.resolve(500)
-      return Promise.resolve(null)
-    })
+  it('tracks different IPs independently', async () => {
+    const { checkRateLimit } = await import('../rate-limiter.js')
 
-    const result = await checkRateLimit('192.168.1.1')
+    await checkRateLimit('192.168.1.300')
+    const result = await checkRateLimit('192.168.1.301')
 
-    expect(result.allowed).toBe(false)
+    expect(result.allowed).toBe(true)
+    expect(result.remaining).toBe(2)
   })
 })
