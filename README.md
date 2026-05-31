@@ -30,7 +30,7 @@ aiviz/
 | [Phase 1](docs/plans/phase1.md) | Project Foundation | Completed |
 | [Phase 2](docs/plans/phase2.md) | Crawler & Parser | Completed |
 | [Phase 3](docs/plans/phase3.md) | Scoring Engine | Completed |
-| [Phase 4](docs/plans/phase4.md) | AI Layer & Rate Limiting | Not Started |
+| [Phase 4](docs/plans/phase4.md) | AI Layer & Rate Limiting | Completed |
 | [Phase 5](docs/plans/phase5.md) | API Endpoint | Not Started |
 | [Phase 6](docs/plans/phase6.md) | Frontend | Not Started |
 | [Phase 7](docs/plans/phase7.md) | Deployment & Docs | Not Started |
