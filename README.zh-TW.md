@@ -31,7 +31,7 @@
 | [Phase 6](docs/plans/phase6.md) | 前端介面 | Completed |
 | [Phase 7](docs/plans/phase7.md) | 部署與文件 | Completed |
 | [Phase 8](docs/plans/phase8.md) | UX 優化：評分智慧化 | Completed |
-| [Phase 9](docs/plans/phase9.md) | AI 爬蟲可及性檢查 | Not Started |
+| [Phase 9](docs/plans/phase9.md) | AI 爬蟲可及性檢查 | Completed |
 
 ## 本地開發
 
