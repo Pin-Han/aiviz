@@ -5,6 +5,7 @@ import { parseHtml } from './lib/parser.js'
 import { runAllRules } from './lib/scorer.js'
 import { GeminiProvider } from './lib/gemini-provider.js'
 import { checkRateLimit } from './lib/rate-limiter.js'
+import { detectPageType } from './lib/page-detector.js'
 
 function isValidUrl(str: string): boolean {
   try {
@@ -78,7 +79,16 @@ export default async function handler(
     // Step 2: Parse
     const pageData = parseHtml(crawlResult.html, crawlResult.url, crawlResult.crawlTimeMs)
 
-    // Step 3: Score with all rules
+    // Step 3: Detect page type
+    const pageType = detectPageType(pageData)
+    let pageTypeMessage: string | undefined
+    if (pageType === 'homepage') {
+      pageTypeMessage = '偵測到這是首頁而非商品頁。首頁通常不包含 Product Schema，這是正常的。建議輸入單一商品的 URL 以獲得更準確的分析。'
+    } else if (pageType === 'other') {
+      pageTypeMessage = '此頁面可能不是商品頁。如果這是商品頁但缺少結構化資料，請參考下方的修復建議。'
+    }
+
+    // Step 4: Score with all rules
     const ruleResults = runAllRules(pageData)
 
     // Step 4: Async check for llms.txt and override the rule result
@@ -133,6 +143,8 @@ export default async function handler(
       },
       rules: ruleResults,
       aiReadability,
+      pageType,
+      pageTypeMessage,
       meta: {
         crawlTimeMs: crawlResult.crawlTimeMs,
         aiCallTimeMs,

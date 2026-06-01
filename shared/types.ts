@@ -104,6 +104,8 @@ export interface AnalysisResponse {
     collapsed: boolean
   }>
   aiReadability: AiReadability
+  pageType: 'product' | 'homepage' | 'other'
+  pageTypeMessage?: string
   meta: {
     crawlTimeMs: number
     aiCallTimeMs: number

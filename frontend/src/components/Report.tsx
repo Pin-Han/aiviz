@@ -47,6 +47,22 @@ export function Report({ data, onReset }: ReportProps) {
           </div>
         </div>
 
+        {/* Page type warning */}
+        {data.pageTypeMessage && (
+          <div className="glass-card p-4 animate-fade-in-up" style={{ borderColor: 'rgba(251, 191, 36, 0.2)' }}>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-lg bg-warn/10 flex items-center justify-center flex-shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-warn)" strokeWidth="2.5">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <p className="text-sm text-text-muted leading-relaxed">{data.pageTypeMessage}</p>
+            </div>
+          </div>
+        )}
+
         {/* Score + Radar */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ScoreCard
