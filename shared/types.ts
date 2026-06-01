@@ -77,6 +77,9 @@ export interface AiReadabilityResponse {
   summary: string
   strengths: string[]
   weaknesses: string[]
+  competitivenessScore: number
+  improvementPotential: string
+  peerComparison: string
 }
 
 export type AiReadability = AiReadabilityResponse | { unavailable: true }

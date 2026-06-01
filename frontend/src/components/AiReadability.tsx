@@ -28,6 +28,25 @@ export function AiReadability({ data }: AiReadabilityProps) {
 
       <p className="text-sm text-text-muted leading-relaxed mb-4">{data.summary}</p>
 
+      {/* Competitiveness gauge */}
+      {data.competitivenessScore > 0 && (
+        <div className="mb-4 p-4 rounded-xl bg-surface-2/50">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-mono text-text-dim tracking-[0.15em]">AI CITATION LIKELIHOOD</span>
+            <span className="text-sm font-mono font-bold text-accent">{data.competitivenessScore}/10</span>
+          </div>
+          <div className="h-2 bg-surface rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ease-out ${
+                data.competitivenessScore >= 7 ? 'bg-pass' :
+                data.competitivenessScore >= 4 ? 'bg-warn' : 'bg-fail'
+              }`}
+              style={{ width: `${data.competitivenessScore * 10}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {data.strengths.length > 0 && (
           <div className="rounded-xl bg-pass/5 border border-pass/10 p-4">
@@ -56,6 +75,24 @@ export function AiReadability({ data }: AiReadabilityProps) {
           </div>
         )}
       </div>
+
+      {/* Improvement potential & Peer comparison */}
+      {(data.improvementPotential || data.peerComparison) && (
+        <div className="mt-4 space-y-2">
+          {data.improvementPotential && (
+            <div className="flex items-start gap-2 text-sm text-text-muted">
+              <span className="text-accent flex-shrink-0 mt-0.5">&#x2197;</span>
+              <span>{data.improvementPotential}</span>
+            </div>
+          )}
+          {data.peerComparison && (
+            <div className="flex items-start gap-2 text-sm text-text-muted">
+              <span className="text-text-dim flex-shrink-0 mt-0.5">&#x2261;</span>
+              <span>{data.peerComparison}</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
