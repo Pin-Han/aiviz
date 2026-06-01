@@ -2,11 +2,10 @@ import type { AnalysisResponse } from '@aiviz/shared/types.js'
 import { SCORE_MAX_TOTAL } from '@aiviz/shared/constants.js'
 import { ScoreCard } from './ScoreCard'
 import { RadarChart } from './RadarChart'
-import { RuleList } from './RuleList'
-import { AiReadability } from './AiReadability'
-import { FixSuggestions } from './FixSuggestions'
-import { ShareButton } from './ShareButton'
+import { NarrativeReport } from './NarrativeReport'
+import { AiSuggestions } from './AiSuggestions'
 import { SearchSimulation } from './SearchSimulation'
+import { ShareButton } from './ShareButton'
 
 interface ReportProps {
   data: AnalysisResponse
@@ -48,7 +47,6 @@ export function Report({ data, onReset }: ReportProps) {
   const pct = Math.round((data.score.total / SCORE_MAX_TOTAL) * 100)
   const verdict = getVerdict(pct)
 
-  // Check for dynamic rendering issue
   const jsRule = data.rules.find((r) => r.id === 'js-rendering')
   const isDynamicRender = jsRule && jsRule.status === 'fail'
 
@@ -100,11 +98,7 @@ export function Report({ data, onReset }: ReportProps) {
 
         {/* Page type warning */}
         {data.pageTypeMessage && (
-          <PageTypeWarning
-            message={data.pageTypeMessage}
-            pageType={data.pageType}
-            url={data.url}
-          />
+          <PageTypeWarning message={data.pageTypeMessage} pageType={data.pageType} url={data.url} />
         )}
 
         {/* Dynamic rendering warning */}
@@ -112,7 +106,7 @@ export function Report({ data, onReset }: ReportProps) {
           <DynamicRenderWarning url={data.url} />
         )}
 
-        {/* Score + Radar */}
+        {/* Score overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ScoreCard
             total={data.score.total}
@@ -127,17 +121,14 @@ export function Report({ data, onReset }: ReportProps) {
           />
         </div>
 
+        {/* 3-Layer Narrative */}
+        <NarrativeReport data={data} />
+
         {/* AI Search Simulation */}
         <SearchSimulation data={data.searchSimulation} />
 
-        {/* Fix Suggestions */}
-        <FixSuggestions rules={data.rules} />
-
-        {/* AI Readability */}
-        <AiReadability data={data.aiReadability} />
-
-        {/* Detailed Rule List */}
-        <RuleList rules={data.rules} />
+        {/* AI Suggestions */}
+        <AiSuggestions rules={data.rules} aiReadability={data.aiReadability} />
 
         {/* Footer */}
         <div className="text-center pt-4 pb-8">
@@ -170,7 +161,7 @@ function PageTypeWarning({ message, pageType, url }: { message: string; pageType
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50">
               <p className="text-xs text-text-dim mb-1.5 font-mono tracking-wider">TRY A PRODUCT URL</p>
               <p className="text-xs text-text-muted">
-                例如：{domain}/products/商品名稱 或 {domain}/shop/商品名稱
+                {domain}/products/商品名稱 or {domain}/shop/商品名稱
               </p>
             </div>
           )}
@@ -183,7 +174,6 @@ function PageTypeWarning({ message, pageType, url }: { message: string; pageType
 function DynamicRenderWarning({ url }: { url: string }) {
   let domain = ''
   try { domain = new URL(url).hostname } catch { /* */ }
-
   const isMarketplace = ['shopee', 'momo', 'pchome', 'ruten'].some((p) => domain.includes(p))
 
   return (
@@ -199,28 +189,20 @@ function DynamicRenderWarning({ url }: { url: string }) {
         <div>
           <p className="text-sm text-fail font-medium mb-1">此頁面使用動態渲染（JavaScript SPA）</p>
           <p className="text-sm text-text-muted leading-relaxed">
-            我們的爬蟲無法取得完整內容，這代表 AI 爬蟲（GPTBot、PerplexityBot）也可能看不到你的商品資訊。
+            AI 爬蟲（GPTBot、PerplexityBot）可能無法讀取你的商品資訊。
           </p>
           {isMarketplace ? (
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50 space-y-2">
-              <p className="text-xs text-text-muted leading-relaxed">
-                偵測到這是電商平台的頁面。平台商品頁面通常由平台控制渲染方式，你無法直接修改。
+              <p className="text-xs text-text-muted">平台商品頁面由平台控制渲染方式，建議考慮建立獨立商品網站。</p>
+              <p className="text-[10px] font-mono text-accent/60 tracking-wider">
+                COMING SOON: AI 品牌監測
               </p>
-              <p className="text-xs text-text-muted leading-relaxed">
-                建議考慮建立獨立商品網站（如 Shopify），讓你完全掌控 SEO 與 AI 可見度。
-              </p>
-              <div className="pt-1">
-                <p className="text-[10px] font-mono text-accent/60 tracking-wider">
-                  COMING SOON: AI 品牌監測 — 即使平台擋了爬蟲，也能追蹤你的品牌在 AI 搜尋中的提及率
-                </p>
-              </div>
             </div>
           ) : (
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50 space-y-1.5">
-              <p className="text-xs text-text-dim font-mono tracking-wider mb-1">RECOMMENDED ACTIONS</p>
-              <p className="text-xs text-text-muted">1. 採用 SSR（Server-Side Rendering）確保 AI 爬蟲能讀取內容</p>
-              <p className="text-xs text-text-muted">2. 在 HTML 中內嵌 JSON-LD，不依賴 JavaScript 動態插入</p>
-              <p className="text-xs text-text-muted">3. 使用 prerender.io 等服務為爬蟲提供靜態 HTML</p>
+              <p className="text-xs text-text-dim font-mono tracking-wider mb-1">RECOMMENDED</p>
+              <p className="text-xs text-text-muted">1. 採用 SSR 確保 AI 爬蟲能讀取內容</p>
+              <p className="text-xs text-text-muted">2. 在 HTML 中內嵌 JSON-LD，不依賴 JS 動態插入</p>
             </div>
           )}
         </div>
