@@ -34,6 +34,7 @@ aiviz/
 | [Phase 5](docs/plans/phase5.md) | API Endpoint | Completed |
 | [Phase 6](docs/plans/phase6.md) | Frontend | Completed |
 | [Phase 7](docs/plans/phase7.md) | Deployment & Docs | Completed |
+| [Phase 8](docs/plans/phase8.md) | UX: Scoring Intelligence | Not Started |
 
 ## Tech Stack
 

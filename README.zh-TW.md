@@ -30,6 +30,7 @@
 | [Phase 5](docs/plans/phase5.md) | API 端點 | Completed |
 | [Phase 6](docs/plans/phase6.md) | 前端介面 | Completed |
 | [Phase 7](docs/plans/phase7.md) | 部署與文件 | Completed |
+| [Phase 8](docs/plans/phase8.md) | UX 優化：評分智慧化 | Not Started |
 
 ## 本地開發
 
