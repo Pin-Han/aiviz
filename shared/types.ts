@@ -84,6 +84,30 @@ export interface AiReadabilityResponse {
 
 export type AiReadability = AiReadabilityResponse | { unavailable: true }
 
+// ── AI Search Simulation ────────────────────────────────
+
+export interface SearchSimulationQuery {
+  query: string
+  wouldRecommend: boolean
+  reason: string
+  missingFactors: string[]
+}
+
+export interface SearchSimulationResult {
+  productType: string
+  queries: SearchSimulationQuery[]
+  keywords: KeywordVisibility[]
+  overallVerdict: string
+}
+
+export interface KeywordVisibility {
+  keyword: string
+  visibility: 'high' | 'medium' | 'low' | 'none'
+  reason: string
+}
+
+export type AiSearchSimulation = SearchSimulationResult | { unavailable: true }
+
 // ── API Response ────────────────────────────────────────
 
 export interface AnalysisResponse {
@@ -108,6 +132,7 @@ export interface AnalysisResponse {
     collapsed: boolean
   }>
   aiReadability: AiReadability
+  searchSimulation: AiSearchSimulation
   pageType: 'product' | 'homepage' | 'other'
   pageTypeMessage?: string
   meta: {

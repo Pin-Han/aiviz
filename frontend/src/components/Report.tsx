@@ -6,6 +6,7 @@ import { RuleList } from './RuleList'
 import { AiReadability } from './AiReadability'
 import { FixSuggestions } from './FixSuggestions'
 import { ShareButton } from './ShareButton'
+import { SearchSimulation } from './SearchSimulation'
 
 interface ReportProps {
   data: AnalysisResponse
@@ -125,6 +126,9 @@ export function Report({ data, onReset }: ReportProps) {
             advanced={data.score.advanced}
           />
         </div>
+
+        {/* AI Search Simulation */}
+        <SearchSimulation data={data.searchSimulation} />
 
         {/* Fix Suggestions */}
         <FixSuggestions rules={data.rules} />

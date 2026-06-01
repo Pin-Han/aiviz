@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import type { PageData, AiReadabilityResponse } from '../../shared/types.js'
+import type { PageData, AiReadabilityResponse, SearchSimulationResult } from '../../shared/types.js'
 import type { AIProvider } from './ai-provider.js'
 
 export class GeminiProvider implements AIProvider {
@@ -11,12 +11,12 @@ export class GeminiProvider implements AIProvider {
   }
 
   async assessReadability(pageData: PageData): Promise<AiReadabilityResponse> {
-    const prompt = this.buildPrompt(pageData)
+    const prompt = this.buildReadabilityPrompt(pageData)
 
     try {
       const result = await this.model.generateContent(prompt)
       const text = result.response.text()
-      return this.parseResponse(text)
+      return this.parseReadabilityResponse(text)
     } catch {
       return {
         summary: 'AI 可讀性評估無法完成，請稍後再試',
@@ -29,7 +29,26 @@ export class GeminiProvider implements AIProvider {
     }
   }
 
-  private buildPrompt(pageData: PageData): string {
+  async simulateSearch(pageData: PageData): Promise<SearchSimulationResult> {
+    const prompt = this.buildSearchSimulationPrompt(pageData)
+
+    try {
+      const result = await this.model.generateContent(prompt)
+      const text = result.response.text()
+      return this.parseSearchSimulationResponse(text)
+    } catch {
+      return {
+        productType: '',
+        queries: [],
+        keywords: [],
+        overallVerdict: 'AI 搜尋模擬無法完成，請稍後再試',
+      }
+    }
+  }
+
+  // ── Readability ─────────────────────────────────────────
+
+  private buildReadabilityPrompt(pageData: PageData): string {
     const jsonLdStr = pageData.jsonLd ? JSON.stringify(pageData.jsonLd, null, 2) : '(none)'
     const ogStr = JSON.stringify(pageData.openGraph, null, 2)
     const metaStr = JSON.stringify(pageData.metaTags, null, 2)
@@ -67,13 +86,9 @@ ${metaStr}
 - peerComparison 要具體，例如「同類商品頁面通常包含用戶評價、規格比較表與品牌認證標章」`
   }
 
-  private parseResponse(text: string): AiReadabilityResponse {
+  private parseReadabilityResponse(text: string): AiReadabilityResponse {
     try {
-      const cleaned = text
-        .replace(/```json\s*/g, '')
-        .replace(/```\s*/g, '')
-        .trim()
-
+      const cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
       const parsed = JSON.parse(cleaned)
       return {
         summary: String(parsed.summary || ''),
@@ -91,6 +106,95 @@ ${metaStr}
         competitivenessScore: 0,
         improvementPotential: '',
         peerComparison: '',
+      }
+    }
+  }
+
+  // ── Search Simulation ───────────────────────────────────
+
+  private buildSearchSimulationPrompt(pageData: PageData): string {
+    const jsonLdStr = pageData.jsonLd ? JSON.stringify(pageData.jsonLd, null, 2) : '(none)'
+    const ogStr = JSON.stringify(pageData.openGraph, null, 2)
+    const metaStr = JSON.stringify(pageData.metaTags, null, 2)
+
+    return `你是一個 AI 搜尋引擎模擬器。以下是一個電商商品頁面的結構化資料。
+
+請模擬：如果用戶在 ChatGPT、Perplexity、Gemini 等 AI 搜尋引擎中搜尋此類商品，這個商品會不會被推薦？
+
+商品頁 URL: ${pageData.url}
+
+JSON-LD (schema.org):
+${jsonLdStr}
+
+Open Graph:
+${ogStr}
+
+Meta Tags:
+${metaStr}
+
+請用以下 JSON 格式回答（純 JSON，不要 markdown code block）：
+{
+  "productType": "此商品的類型，例如：無線耳機、筆記型電腦、運動鞋",
+  "queries": [
+    {
+      "query": "模擬用戶會問 AI 的問題，例如：推薦我一款 3000 元以內的無線耳機",
+      "wouldRecommend": true,
+      "reason": "為什麼會/不會推薦，一句話",
+      "missingFactors": ["如果不推薦，列出缺少什麼才導致不被推薦"]
+    }
+  ],
+  "keywords": [
+    {
+      "keyword": "與此商品相關的搜尋關鍵字",
+      "visibility": "high/medium/low/none",
+      "reason": "為什麼此關鍵字的可見度是這個等級"
+    }
+  ],
+  "overallVerdict": "一句話總結：這個商品在 AI 搜尋中的整體表現如何"
+}
+
+注意：
+- 用繁體中文回答
+- queries 請產生 3 個不同角度的模擬搜尋問題（例如：價格導向、功能導向、比較導向）
+- keywords 請列出 4-5 個相關關鍵字
+- visibility 等級定義：high=很可能被推薦, medium=有機會, low=不太可能, none=幾乎不可能
+- wouldRecommend 要根據頁面實際提供的資料判斷，不是根據品牌知名度
+- missingFactors 只在 wouldRecommend 為 false 時需要填寫
+- 所有判斷都基於頁面提供的結構化資料品質，不是品牌本身的知名度`
+  }
+
+  private parseSearchSimulationResponse(text: string): SearchSimulationResult {
+    try {
+      const cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
+      const parsed = JSON.parse(cleaned)
+
+      return {
+        productType: String(parsed.productType || ''),
+        queries: Array.isArray(parsed.queries)
+          ? parsed.queries.map((q: Record<string, unknown>) => ({
+              query: String(q.query || ''),
+              wouldRecommend: Boolean(q.wouldRecommend),
+              reason: String(q.reason || ''),
+              missingFactors: Array.isArray(q.missingFactors) ? q.missingFactors.map(String) : [],
+            }))
+          : [],
+        keywords: Array.isArray(parsed.keywords)
+          ? parsed.keywords.map((k: Record<string, unknown>) => ({
+              keyword: String(k.keyword || ''),
+              visibility: ['high', 'medium', 'low', 'none'].includes(String(k.visibility))
+                ? (String(k.visibility) as 'high' | 'medium' | 'low' | 'none')
+                : 'none',
+              reason: String(k.reason || ''),
+            }))
+          : [],
+        overallVerdict: String(parsed.overallVerdict || ''),
+      }
+    } catch {
+      return {
+        productType: '',
+        queries: [],
+        keywords: [],
+        overallVerdict: text.slice(0, 200),
       }
     }
   }

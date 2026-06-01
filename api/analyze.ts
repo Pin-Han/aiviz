@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import type { AnalysisResponse, ApiError, AiReadability } from '../shared/types.js'
+import type { AnalysisResponse, ApiError, AiReadability, AiSearchSimulation } from '../shared/types.js'
 import { crawlUrl } from './lib/crawler.js'
 import { parseHtml } from './lib/parser.js'
 import { runAllRules } from './lib/scorer.js'
@@ -147,24 +147,41 @@ export default async function handler(
       }
     }
 
-    // Step 6: AI readability assessment
+    // Step 6: AI readability + search simulation (parallel)
     let aiReadability: AiReadability
+    let searchSimulation: AiSearchSimulation
     let aiCallTimeMs = 0
 
     const geminiKey = process.env.GEMINI_API_KEY
-    if (geminiKey) {
+    if (geminiKey && pageType === 'product') {
+      const aiStart = Date.now()
+      const provider = new GeminiProvider(geminiKey)
+      const [aiResult, simResult] = await Promise.all([
+        provider.assessReadability(pageData),
+        provider.simulateSearch(pageData),
+      ])
+      aiCallTimeMs = Date.now() - aiStart
+
+      aiReadability = aiResult.summary.includes('無法完成')
+        ? { unavailable: true }
+        : aiResult
+
+      searchSimulation = simResult.queries.length > 0
+        ? simResult
+        : { unavailable: true }
+    } else if (geminiKey) {
       const aiStart = Date.now()
       const provider = new GeminiProvider(geminiKey)
       const aiResult = await provider.assessReadability(pageData)
       aiCallTimeMs = Date.now() - aiStart
 
-      if (aiResult.summary.includes('無法完成')) {
-        aiReadability = { unavailable: true }
-      } else {
-        aiReadability = aiResult
-      }
+      aiReadability = aiResult.summary.includes('無法完成')
+        ? { unavailable: true }
+        : aiResult
+      searchSimulation = { unavailable: true }
     } else {
       aiReadability = { unavailable: true }
+      searchSimulation = { unavailable: true }
     }
 
     // Step 7: Compute scores
@@ -189,6 +206,7 @@ export default async function handler(
       },
       rules: ruleResults,
       aiReadability,
+      searchSimulation,
       pageType,
       pageTypeMessage,
       meta: {

@@ -109,4 +109,43 @@ describe('GeminiProvider', () => {
     expect(result.improvementPotential).toBe('')
     expect(result.peerComparison).toBe('')
   })
+
+  it('simulateSearch returns parsed queries and keywords', async () => {
+    mockGenerateContent.mockResolvedValueOnce({
+      response: {
+        text: () => JSON.stringify({
+          productType: '無線耳機',
+          queries: [
+            { query: '推薦無線耳機', wouldRecommend: true, reason: '資料完整', missingFactors: [] },
+            { query: '最便宜的耳機', wouldRecommend: false, reason: '缺少價格', missingFactors: ['價格資訊'] },
+          ],
+          keywords: [
+            { keyword: '無線耳機', visibility: 'high', reason: '名稱匹配' },
+            { keyword: '降噪耳機', visibility: 'low', reason: '缺少規格' },
+          ],
+          overallVerdict: '整體表現中等',
+        }),
+      },
+    })
+
+    const result = await provider.simulateSearch(mockPageData)
+
+    expect(result.productType).toBe('無線耳機')
+    expect(result.queries).toHaveLength(2)
+    expect(result.queries[0].wouldRecommend).toBe(true)
+    expect(result.queries[1].missingFactors).toEqual(['價格資訊'])
+    expect(result.keywords).toHaveLength(2)
+    expect(result.keywords[0].visibility).toBe('high')
+    expect(result.overallVerdict).toBe('整體表現中等')
+  })
+
+  it('simulateSearch returns fallback on API error', async () => {
+    mockGenerateContent.mockRejectedValueOnce(new Error('API Error'))
+
+    const result = await provider.simulateSearch(mockPageData)
+
+    expect(result.queries).toEqual([])
+    expect(result.keywords).toEqual([])
+    expect(result.overallVerdict).toContain('無法完成')
+  })
 })
