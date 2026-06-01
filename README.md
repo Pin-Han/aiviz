@@ -36,6 +36,7 @@ aiviz/
 | [Phase 7](docs/plans/phase7.md) | Deployment & Docs | Completed |
 | [Phase 8](docs/plans/phase8.md) | UX: Scoring Intelligence | Completed |
 | [Phase 9](docs/plans/phase9.md) | AI Crawler Accessibility | Completed |
+| [Phase 10](docs/plans/phase10.md) | Report Hook + Smart Detection | Completed |
 
 ## Tech Stack
 
