@@ -159,7 +159,7 @@ function PageTypeWarning({ message, pageType, url }: { message: string; pageType
           <p className="text-sm text-text-muted leading-relaxed">{message}</p>
           {pageType === 'homepage' && domain && (
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50">
-              <p className="text-xs text-text-dim mb-1.5 font-mono tracking-wider">TRY A PRODUCT URL</p>
+              <p className="text-xs text-text-muted mb-1.5 font-mono tracking-wider">TRY A PRODUCT URL</p>
               <p className="text-xs text-text-muted">
                 {domain}/products/商品名稱 or {domain}/shop/商品名稱
               </p>
@@ -194,13 +194,13 @@ function DynamicRenderWarning({ url }: { url: string }) {
           {isMarketplace ? (
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50 space-y-2">
               <p className="text-xs text-text-muted">平台商品頁面由平台控制渲染方式，建議考慮建立獨立商品網站。</p>
-              <p className="text-[10px] font-mono text-accent/60 tracking-wider">
+              <p className="text-xs font-mono text-accent/60 tracking-wider">
                 COMING SOON: AI 品牌監測
               </p>
             </div>
           ) : (
             <div className="mt-3 p-3 rounded-lg bg-surface-2/50 space-y-1.5">
-              <p className="text-xs text-text-dim font-mono tracking-wider mb-1">RECOMMENDED</p>
+              <p className="text-xs text-text-muted font-mono tracking-wider mb-1">RECOMMENDED</p>
               <p className="text-xs text-text-muted">1. 採用 SSR 確保 AI 爬蟲能讀取內容</p>
               <p className="text-xs text-text-muted">2. 在 HTML 中內嵌 JSON-LD，不依賴 JS 動態插入</p>
             </div>

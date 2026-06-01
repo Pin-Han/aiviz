@@ -46,7 +46,7 @@ function RuleSection({ title, tag, rules }: { title: string; tag: string; rules:
     <div>
       <div className="flex items-center gap-3 mb-3">
         <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
-        <span className="text-[10px] font-mono text-text-dim tracking-[0.15em] bg-surface-2 px-2 py-0.5 rounded">{tag}</span>
+        <span className="text-xs font-mono text-text-dim tracking-[0.15em] bg-surface-2 px-2 py-0.5 rounded">{tag}</span>
       </div>
       <div className="space-y-1.5">
         {visible.map((rule) => (
@@ -61,7 +61,7 @@ function RuleSection({ title, tag, rules }: { title: string; tag: string; rules:
               <p className="text-sm text-text-muted">
                 另有 {collapsed.length} 項因缺少 Product Schema 而無法檢查
               </p>
-              <p className="text-xs text-text-dim mt-0.5">加入 Product Schema 後自動解鎖</p>
+              <p className="text-sm text-text-muted mt-0.5">加入 Product Schema 後自動解鎖</p>
             </div>
           </div>
         )}
@@ -127,13 +127,13 @@ function CodeBlock({ code }: { code: string }) {
 
   return (
     <div className="relative mt-3 group">
-      <pre className="bg-[#0d1117] border border-border rounded-xl p-4 text-xs font-mono text-accent/80 overflow-x-auto leading-relaxed">
+      <pre className="bg-surface-2 border border-border rounded-xl p-4 text-xs font-mono text-text-primary overflow-x-auto leading-relaxed">
         <code>{code}</code>
       </pre>
       <button
         onClick={handleCopy}
         className="
-          absolute top-2 right-2 px-2.5 py-1 rounded-lg text-[10px] font-mono tracking-wider
+          absolute top-2 right-2 px-2.5 py-1 rounded-lg text-xs font-mono tracking-wider
           bg-surface-2 border border-border text-text-dim
           hover:text-text-primary hover:border-border-hover
           opacity-0 group-hover:opacity-100 transition-all duration-200

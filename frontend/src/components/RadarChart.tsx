@@ -38,26 +38,26 @@ export function RadarChart({ accessibility, basic, advanced }: RadarChartProps) 
       <h3 className="text-xs font-mono text-text-dim tracking-[0.15em] uppercase mb-2">Score Distribution</h3>
       <ResponsiveContainer width="100%" height={260}>
         <RechartsRadarChart data={data} cx="50%" cy="50%" outerRadius="65%">
-          <PolarGrid stroke="#1e2d3d" strokeDasharray="3 3" />
+          <PolarGrid stroke="#e7e2dc" strokeDasharray="3 3" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fill: '#7a8ba3', fontSize: 12, fontFamily: 'DM Sans' }}
+            tick={{ fill: '#57534e', fontSize: 12, fontFamily: 'DM Sans' }}
           />
           <PolarRadiusAxis
             angle={90}
             domain={[0, 100]}
             tickCount={5}
-            tick={{ fill: '#4a5568', fontSize: 9, fontFamily: 'JetBrains Mono' }}
+            tick={{ fill: '#a8a29e', fontSize: 12, fontFamily: 'JetBrains Mono' }}
             axisLine={false}
           />
           <Radar
             name="Score"
             dataKey="score"
-            stroke="#38bdf8"
+            stroke="#0d7377"
             strokeWidth={2}
-            fill="#38bdf8"
-            fillOpacity={0.15}
-            dot={{ fill: '#38bdf8', r: 4, strokeWidth: 0 }}
+            fill="#0d7377"
+            fillOpacity={0.12}
+            dot={{ fill: '#0d7377', r: 4, strokeWidth: 0 }}
           />
         </RechartsRadarChart>
       </ResponsiveContainer>

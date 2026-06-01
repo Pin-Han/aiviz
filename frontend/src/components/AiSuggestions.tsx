@@ -146,7 +146,7 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
               </button>
               {showCode && (
                 <div className="relative mt-2 group">
-                  <pre className="bg-[#0d1117] border border-border rounded-lg p-3 text-sm font-mono text-accent/70 overflow-x-auto leading-relaxed">
+                  <pre className="bg-surface-2 border border-border rounded-lg p-3 text-sm font-mono text-text-primary overflow-x-auto leading-relaxed">
                     <code>{rule.code}</code>
                   </pre>
                   <button
