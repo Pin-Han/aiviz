@@ -45,7 +45,7 @@ export interface MetaTagData {
 
 // ── Rule System ─────────────────────────────────────────
 
-export type RuleCategory = 'basic' | 'advanced'
+export type RuleCategory = 'accessibility' | 'basic' | 'advanced'
 export type RuleStatus = 'pass' | 'warn' | 'fail'
 
 export interface Rule {
@@ -91,6 +91,7 @@ export interface AnalysisResponse {
   analyzedAt: string
   score: {
     total: number
+    accessibility: number
     basic: number
     advanced: number
   }

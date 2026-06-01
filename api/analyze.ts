@@ -6,6 +6,7 @@ import { runAllRules } from './lib/scorer.js'
 import { GeminiProvider } from './lib/gemini-provider.js'
 import { checkRateLimit } from './lib/rate-limiter.js'
 import { detectPageType } from './lib/page-detector.js'
+import { parseRobotsTxt, AI_BOTS } from './rules/accessibility/robots-txt.js'
 
 function isValidUrl(str: string): boolean {
   try {
@@ -20,6 +21,18 @@ function getClientIp(req: VercelRequest): string {
   const forwarded = req.headers['x-forwarded-for']
   if (typeof forwarded === 'string') return forwarded.split(',')[0].trim()
   return req.socket?.remoteAddress ?? 'unknown'
+}
+
+async function checkRobotsTxtBlocking(url: string): Promise<{ blocked: string[]; blanketBlock: boolean }> {
+  try {
+    const origin = new URL(url).origin
+    const res = await fetch(`${origin}/robots.txt`, { signal: AbortSignal.timeout(3000) })
+    if (!res.ok) return { blocked: [], blanketBlock: false }
+    const text = await res.text()
+    return parseRobotsTxt(text)
+  } catch {
+    return { blocked: [], blanketBlock: false }
+  }
 }
 
 async function checkLlmsTxt(url: string): Promise<boolean> {
@@ -91,8 +104,37 @@ export default async function handler(
     // Step 4: Score with all rules
     const ruleResults = runAllRules(pageData)
 
-    // Step 4: Async check for llms.txt and override the rule result
-    const hasLlmsTxt = await checkLlmsTxt(url)
+    // Step 5: Async checks (robots.txt + llms.txt) in parallel
+    const [robotsResult, hasLlmsTxt] = await Promise.all([
+      checkRobotsTxtBlocking(url),
+      checkLlmsTxt(url),
+    ])
+
+    // Override robots.txt rule result
+    const robotsIndex = ruleResults.findIndex((r) => r.id === 'robots-txt-ai')
+    if (robotsIndex !== -1) {
+      const { blocked, blanketBlock } = robotsResult
+      if (blanketBlock || blocked.length === AI_BOTS.length) {
+        ruleResults[robotsIndex] = {
+          ...ruleResults[robotsIndex],
+          score: 0,
+          status: 'fail',
+          message: 'robots.txt 封鎖了所有主要 AI 爬蟲，你的商品在 AI 搜尋中完全隱形',
+          fix: '移除 robots.txt 中對 AI 爬蟲的封鎖，或至少允許 GPTBot 和 Google-Extended',
+          code: '# 允許 AI 爬蟲存取\nUser-agent: GPTBot\nAllow: /\n\nUser-agent: Google-Extended\nAllow: /',
+        }
+      } else if (blocked.length > 0) {
+        ruleResults[robotsIndex] = {
+          ...ruleResults[robotsIndex],
+          score: 5,
+          status: 'warn',
+          message: `部分 AI 爬蟲被封鎖：${blocked.join(', ')}`,
+          fix: `考慮允許這些 AI 爬蟲存取：${blocked.join(', ')}`,
+        }
+      }
+    }
+
+    // Override llms.txt rule result
     const llmsTxtIndex = ruleResults.findIndex((r) => r.id === 'llms-txt')
     if (llmsTxtIndex !== -1 && hasLlmsTxt) {
       ruleResults[llmsTxtIndex] = {
@@ -105,7 +147,7 @@ export default async function handler(
       }
     }
 
-    // Step 5: AI readability assessment
+    // Step 6: AI readability assessment
     let aiReadability: AiReadability
     let aiCallTimeMs = 0
 
@@ -125,7 +167,10 @@ export default async function handler(
       aiReadability = { unavailable: true }
     }
 
-    // Step 6: Compute scores
+    // Step 7: Compute scores
+    const accessibilityScore = ruleResults
+      .filter((r) => r.category === 'accessibility')
+      .reduce((sum, r) => sum + r.score, 0)
     const basicScore = ruleResults
       .filter((r) => r.category === 'basic')
       .reduce((sum, r) => sum + r.score, 0)
@@ -137,7 +182,8 @@ export default async function handler(
       url,
       analyzedAt: new Date().toISOString(),
       score: {
-        total: basicScore + advancedScore,
+        total: accessibilityScore + basicScore + advancedScore,
+        accessibility: accessibilityScore,
         basic: basicScore,
         advanced: advancedScore,
       },

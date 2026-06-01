@@ -25,11 +25,13 @@ const STATUS_CONFIG: Record<RuleStatus, { icon: string; color: string; bg: strin
 }
 
 export function RuleList({ rules }: RuleListProps) {
+  const accessibility = rules.filter((r) => r.category === 'accessibility')
   const basic = rules.filter((r) => r.category === 'basic')
   const advanced = rules.filter((r) => r.category === 'advanced')
 
   return (
     <div className="space-y-6 animate-fade-in-up stagger-3">
+      <RuleSection title="AI 爬蟲可及性" tag="CRAWLER ACCESS" rules={accessibility} />
       <RuleSection title="基本項目" tag="BASIC" rules={basic} />
       <RuleSection title="進階優化" tag="ADVANCED" rules={advanced} />
     </div>
