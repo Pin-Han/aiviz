@@ -67,10 +67,15 @@ export function Report({ data, onReset }: ReportProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ScoreCard
             total={data.score.total}
+            accessibility={data.score.accessibility}
             basic={data.score.basic}
             advanced={data.score.advanced}
           />
-          <RadarChart rules={data.rules} />
+          <RadarChart
+            accessibility={data.score.accessibility}
+            basic={data.score.basic}
+            advanced={data.score.advanced}
+          />
         </div>
 
         {/* Fix Suggestions */}

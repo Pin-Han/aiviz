@@ -49,20 +49,22 @@ export const imageAltRule: Rule = {
       }
     }
 
+    const missing = productImages.length - withAlt.length
+
     if (pct >= 50) {
       return {
         score: 3,
         status: 'warn',
-        message: `僅 ${pct}% 的圖片有替代文字（${withAlt.length}/${productImages.length}），建議達到 80% 以上`,
-        fix: '為商品圖片加入描述性的 alt 屬性，例如 alt="白色無線藍牙耳機 正面照"',
+        message: `${missing} 張圖片缺少替代文字（共 ${productImages.length} 張，${withAlt.length} 張有 alt），建議達到 80% 以上`,
+        fix: `還有 ${missing} 張圖片需要加入 alt 屬性，描述圖片中的商品外觀、顏色、角度等`,
       }
     }
 
     return {
       score: 0,
       status: 'fail',
-      message: `僅 ${pct}% 的圖片有替代文字（${withAlt.length}/${productImages.length}），AI 無法理解大部分圖片內容`,
-      fix: '為所有商品圖片加入描述性的 alt 屬性',
+      message: `${missing} 張圖片缺少替代文字（共 ${productImages.length} 張，僅 ${withAlt.length} 張有 alt），AI 無法理解大部分圖片內容`,
+      fix: `${missing} 張圖片需要加入描述性的 alt 屬性，讓 AI 能理解商品圖片內容`,
       code: `<img src="product.jpg" alt="商品名稱 - 顏色/規格/角度描述">`,
     }
   },
