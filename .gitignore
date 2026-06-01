@@ -7,3 +7,4 @@ dist/
 .DS_Store
 docs/superpowers/specs/
 docs/plans/roadmap.md
+docs/internal/
