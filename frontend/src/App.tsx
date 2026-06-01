@@ -110,7 +110,7 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
       </div>
 
       {/* Footer */}
-      <p className="mt-16 text-[10px] font-mono text-text-dim tracking-[0.2em] animate-fade-in-up stagger-3">
+      <p className="mt-16 text-xs font-mono text-text-muted tracking-[0.2em] animate-fade-in-up stagger-3">
         OPEN SOURCE &middot; ZERO COST &middot; PRIVACY FIRST
       </p>
     </div>
@@ -132,7 +132,7 @@ function FeatureCard({
         {icon}
       </div>
       <h3 className="text-sm font-semibold text-text-primary mb-1.5">{title}</h3>
-      <p className="text-xs text-text-muted leading-relaxed">{description}</p>
+      <p className="text-sm text-text-muted leading-relaxed">{description}</p>
     </div>
   )
 }

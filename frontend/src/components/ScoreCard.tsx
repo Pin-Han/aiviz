@@ -35,10 +35,10 @@ export function ScoreCard({ total, accessibility, basic, advanced }: ScoreCardPr
         </div>
       </div>
 
-      <p className="text-xs font-mono text-text-dim tracking-[0.2em] uppercase mb-1">
+      <p className="text-xs font-mono text-text-muted tracking-[0.2em] uppercase mb-1">
         {getLabel(pct)}
       </p>
-      <p className="text-[10px] font-mono text-text-dim mb-5">
+      <p className="text-xs font-mono text-text-muted mb-5">
         {total}/{SCORE_MAX_TOTAL} pts
       </p>
 

@@ -34,7 +34,7 @@ export function AnalysisProgress({ step }: AnalysisProgressProps) {
         <h2 className="text-lg font-semibold text-text-primary mb-1 text-center">
           正在掃描中
         </h2>
-        <p className="text-xs text-text-dim text-center font-mono mb-8 tracking-wider">SCANNING IN PROGRESS</p>
+        <p className="text-xs text-text-muted text-center font-mono mb-8 tracking-wider">SCANNING IN PROGRESS</p>
 
         <div className="space-y-4">
           {STEPS.map((s, i) => {
@@ -66,7 +66,7 @@ export function AnalysisProgress({ step }: AnalysisProgressProps) {
                   <p className={`text-sm font-medium ${isCurrent ? 'text-accent' : isDone ? 'text-pass' : 'text-text-dim'}`}>
                     {s.label}
                   </p>
-                  <p className="text-xs text-text-dim font-mono mt-0.5">{s.desc}</p>
+                  <p className="text-sm text-text-muted font-mono mt-0.5">{s.desc}</p>
                 </div>
               </div>
             )

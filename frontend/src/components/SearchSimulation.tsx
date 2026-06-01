@@ -26,13 +26,13 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
             </svg>
           </div>
           <h3 className="text-sm font-semibold text-text-primary">AI 搜尋模擬</h3>
-          <span className="text-[9px] font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">SIMULATED</span>
+          <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">SIMULATED</span>
         </div>
-        <p className="text-xs text-text-dim mb-4 ml-7">
+        <p className="text-sm text-text-muted mb-4 ml-7">
           根據頁面結構化資料品質，模擬你的商品在 AI 搜尋中被推薦的可能性
         </p>
         <div className="ml-7 mb-5 p-2.5 rounded-lg bg-surface-2/30 border border-border/30">
-          <p className="text-[10px] text-text-dim leading-relaxed">
+          <p className="text-xs text-text-muted leading-relaxed">
             以下為基於結構化資料的模擬分析，非即時搜尋結果。實際排名受品牌知名度、用戶行為、AI 演算法等多重因素影響。
           </p>
         </div>
@@ -67,7 +67,7 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
                   {!q.wouldRecommend && q.missingFactors.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {q.missingFactors.map((f, j) => (
-                        <span key={j} className="text-[10px] px-2 py-0.5 rounded-md bg-fail/5 border border-fail/10 text-fail/80">
+                        <span key={j} className="text-xs px-2 py-0.5 rounded-md bg-fail/5 border border-fail/10 text-fail/80">
                           {f}
                         </span>
                       ))}
@@ -116,7 +116,7 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
                       style={{ width: config.width }}
                     />
                   </div>
-                  <p className="text-[10px] text-text-dim leading-relaxed">{k.reason}</p>
+                  <p className="text-xs text-text-muted leading-relaxed">{k.reason}</p>
                 </div>
               )
             })}

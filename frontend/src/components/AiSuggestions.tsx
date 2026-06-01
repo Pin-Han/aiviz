@@ -43,7 +43,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
           </svg>
         </div>
         <h2 className="text-sm font-semibold text-text-primary">AI 建議的修正方向</h2>
-        <span className="text-[9px] font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">AI POWERED</span>
+        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">AI POWERED</span>
       </div>
 
       {/* AI Readability Summary */}
@@ -56,7 +56,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
           {/* Competitiveness */}
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).competitivenessScore > 0 && (
             <div className="mt-3 flex items-center gap-3">
-              <span className="text-[10px] font-mono text-text-dim tracking-wider">AI CITATION LIKELIHOOD</span>
+              <span className="text-xs font-mono text-text-dim tracking-wider">AI CITATION LIKELIHOOD</span>
               <div className="flex-1 h-1.5 bg-surface rounded-full overflow-hidden max-w-[120px]">
                 <div
                   className={`h-full rounded-full ${
@@ -95,13 +95,13 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
       {hasAi && (
         <div className="mt-4 pt-4 border-t border-border/30 space-y-2">
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).improvementPotential && (
-            <div className="flex items-start gap-2 text-xs text-text-muted">
+            <div className="flex items-start gap-2 text-sm text-text-muted">
               <span className="text-accent flex-shrink-0 mt-px">\u2197</span>
               <span>{(aiReadability as Exclude<AiReadability, { unavailable: true }>).improvementPotential}</span>
             </div>
           )}
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).peerComparison && (
-            <div className="flex items-start gap-2 text-xs text-text-muted">
+            <div className="flex items-start gap-2 text-sm text-text-muted">
               <span className="text-text-dim flex-shrink-0 mt-px">\u2261</span>
               <span>{(aiReadability as Exclude<AiReadability, { unavailable: true }>).peerComparison}</span>
             </div>
@@ -126,32 +126,32 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
   return (
     <div className="rounded-xl bg-surface-2/20 border border-border/30 p-3.5">
       <div className="flex gap-3">
-        <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-[10px] font-mono font-bold mt-0.5">
+        <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-mono font-bold mt-0.5">
           {index}
         </span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-text-primary font-medium">{rule.name}</p>
-            <span className="text-[10px] font-mono text-accent/60">+{rule.maxScore - rule.score} pts</span>
+            <span className="text-xs font-mono text-accent/60">+{rule.maxScore - rule.score} pts</span>
           </div>
-          <p className="text-xs text-text-muted mt-1 leading-relaxed">{rule.fix}</p>
+          <p className="text-sm text-text-muted mt-1 leading-relaxed">{rule.fix}</p>
 
           {rule.code && (
             <div className="mt-2">
               <button
                 onClick={() => setShowCode(!showCode)}
-                className="text-[10px] font-mono text-accent/70 hover:text-accent transition-colors"
+                className="text-xs font-mono text-accent/70 hover:text-accent transition-colors"
               >
                 {showCode ? '\u25B2 隱藏程式碼' : '\u25BC 查看修復程式碼'}
               </button>
               {showCode && (
                 <div className="relative mt-2 group">
-                  <pre className="bg-[#0d1117] border border-border rounded-lg p-3 text-[11px] font-mono text-accent/70 overflow-x-auto leading-relaxed">
+                  <pre className="bg-[#0d1117] border border-border rounded-lg p-3 text-sm font-mono text-accent/70 overflow-x-auto leading-relaxed">
                     <code>{rule.code}</code>
                   </pre>
                   <button
                     onClick={handleCopy}
-                    className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded text-[9px] font-mono tracking-wider bg-surface-2 border border-border text-text-dim hover:text-text-primary opacity-0 group-hover:opacity-100 transition-all"
+                    className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded text-xs font-mono tracking-wider bg-surface-2 border border-border text-text-dim hover:text-text-primary opacity-0 group-hover:opacity-100 transition-all"
                   >
                     {copied ? 'COPIED' : 'COPY'}
                   </button>
@@ -174,15 +174,15 @@ function CollapsedSchemaGroup({ items, totalPts }: { items: AnalysisResponse['ru
         onClick={() => setExpanded(!expanded)}
         className="w-full flex gap-3 p-3.5 text-left hover:bg-fail/5 transition-colors"
       >
-        <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-fail/10 text-fail flex items-center justify-center text-[10px] font-mono font-bold mt-0.5">
+        <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-fail/10 text-fail flex items-center justify-center text-xs font-mono font-bold mt-0.5">
           !
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-sm text-text-primary font-medium">
             加入 Product Schema 後可解鎖 {items.length} 項改善
           </p>
-          <p className="text-xs text-text-dim mt-0.5">{items.map((r) => r.name).join('、')}</p>
-          <p className="text-[10px] font-mono text-accent/60 mt-1">+{totalPts} pts potential</p>
+          <p className="text-sm text-text-muted mt-0.5">{items.map((r) => r.name).join('、')}</p>
+          <p className="text-xs font-mono text-accent/60 mt-1">+{totalPts} pts potential</p>
         </div>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
           className={`text-text-dim mt-1 flex-shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`}>

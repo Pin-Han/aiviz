@@ -64,7 +64,7 @@ export function NarrativeReport({ data }: NarrativeReportProps) {
     <div className="space-y-4 animate-fade-in-up stagger-2">
       <div className="flex items-center gap-2 mb-1">
         <h2 className="text-sm font-semibold text-text-primary">你的商品在 AI 搜尋中的旅程</h2>
-        <span className="text-[9px] font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">3-LAYER ANALYSIS</span>
+        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">3-LAYER ANALYSIS</span>
       </div>
 
       {/* Layer 1: Can AI crawlers access? */}
@@ -148,7 +148,7 @@ function NarrativeLayer({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
               <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
-              <span className="text-[9px] font-mono text-text-dim tracking-wider">{subtitle}</span>
+              <span className="text-xs font-mono text-text-dim tracking-wider">{subtitle}</span>
             </div>
 
             {/* Mini status bar */}
@@ -177,7 +177,7 @@ function NarrativeLayer({
             </div>
 
             {/* Conclusion */}
-            <p className={`text-xs mt-2 ${colors.text}`}>{conclusion}</p>
+            <p className={`text-sm mt-2 ${colors.text}`}>{conclusion}</p>
           </div>
 
           <svg
@@ -197,8 +197,8 @@ function NarrativeLayer({
             <RuleDetail key={rule.id} rule={rule} />
           ))}
           {collapsedRules.length > 0 && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-surface-2/30 text-xs text-text-dim">
-              <span className="w-5 h-5 rounded bg-fail/10 flex items-center justify-center text-[10px] font-bold text-fail">
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-surface-2/30 text-sm text-text-muted">
+              <span className="w-5 h-5 rounded bg-fail/10 flex items-center justify-center text-xs font-bold text-fail">
                 {collapsedRules.length}
               </span>
               <span>項因缺少 Product Schema 而無法檢查（加入後自動解鎖）</span>
@@ -217,15 +217,15 @@ function RuleDetail({ rule }: { rule: AnalysisResponse['rules'][0] }) {
 
   return (
     <div className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-surface-2/20 transition-colors">
-      <span className={`w-5 h-5 rounded ${config.bg} flex items-center justify-center text-[10px] font-bold ${config.color} flex-shrink-0 mt-0.5`}>
+      <span className={`w-5 h-5 rounded ${config.bg} flex items-center justify-center text-xs font-bold ${config.color} flex-shrink-0 mt-0.5`}>
         {config.icon}
       </span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <span className="text-xs text-text-primary">{rule.name}</span>
-          <span className="text-[10px] font-mono text-text-dim">{rule.score}/{rule.maxScore}</span>
+          <span className="text-xs font-mono text-text-dim">{rule.score}/{rule.maxScore}</span>
         </div>
-        <p className="text-[11px] text-text-dim mt-0.5 leading-relaxed">{rule.message}</p>
+        <p className="text-sm text-text-muted mt-0.5 leading-relaxed">{rule.message}</p>
       </div>
     </div>
   )

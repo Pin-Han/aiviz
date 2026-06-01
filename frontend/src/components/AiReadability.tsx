@@ -24,7 +24,7 @@ export function AiReadability({ data }: AiReadabilityProps) {
           </svg>
         </div>
         <h3 className="text-sm font-semibold text-text-primary">AI 可讀性評估</h3>
-        <span className="text-[9px] font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">AI ANALYSIS</span>
+        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">AI ANALYSIS</span>
       </div>
 
       <p className="text-sm text-text-muted leading-relaxed mb-4">{data.summary}</p>
@@ -33,7 +33,7 @@ export function AiReadability({ data }: AiReadabilityProps) {
       {data.competitivenessScore > 0 && (
         <div className="mb-4 p-4 rounded-xl bg-surface-2/50">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-mono text-text-dim tracking-[0.15em]">AI CITATION LIKELIHOOD</span>
+            <span className="text-xs font-mono text-text-dim tracking-[0.15em]">AI CITATION LIKELIHOOD</span>
             <span className="text-sm font-mono font-bold text-accent">{data.competitivenessScore}/10</span>
           </div>
           <div className="h-2 bg-surface rounded-full overflow-hidden">
@@ -51,10 +51,10 @@ export function AiReadability({ data }: AiReadabilityProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {data.strengths.length > 0 && (
           <div className="rounded-xl bg-pass/5 border border-pass/10 p-4">
-            <p className="text-[10px] font-mono text-pass tracking-[0.15em] mb-2">STRENGTHS</p>
+            <p className="text-xs font-mono text-pass tracking-[0.15em] mb-2">STRENGTHS</p>
             <ul className="space-y-1.5">
               {data.strengths.map((s, i) => (
-                <li key={i} className="text-xs text-text-muted flex items-start gap-2">
+                <li key={i} className="text-sm text-text-muted flex items-start gap-2">
                   <span className="text-pass mt-px">+</span>
                   <span>{s}</span>
                 </li>
@@ -64,10 +64,10 @@ export function AiReadability({ data }: AiReadabilityProps) {
         )}
         {data.weaknesses.length > 0 && (
           <div className="rounded-xl bg-fail/5 border border-fail/10 p-4">
-            <p className="text-[10px] font-mono text-fail tracking-[0.15em] mb-2">WEAKNESSES</p>
+            <p className="text-xs font-mono text-fail tracking-[0.15em] mb-2">WEAKNESSES</p>
             <ul className="space-y-1.5">
               {data.weaknesses.map((w, i) => (
-                <li key={i} className="text-xs text-text-muted flex items-start gap-2">
+                <li key={i} className="text-sm text-text-muted flex items-start gap-2">
                   <span className="text-fail mt-px">-</span>
                   <span>{w}</span>
                 </li>

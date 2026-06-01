@@ -59,7 +59,7 @@ export function UrlInput({ onSubmit, disabled, remainingQuota }: UrlInputProps) 
         </button>
       </div>
       {remainingQuota !== undefined && (
-        <p className="mt-3 text-xs text-text-dim text-center font-mono tracking-wider">
+        <p className="mt-3 text-xs text-text-muted text-center font-mono tracking-wider">
           TODAY REMAINING: {remainingQuota}/3
         </p>
       )}

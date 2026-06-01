@@ -132,7 +132,7 @@ export function Report({ data, onReset }: ReportProps) {
 
         {/* Footer */}
         <div className="text-center pt-4 pb-8">
-          <p className="text-[10px] font-mono text-text-dim tracking-[0.15em]">
+          <p className="text-xs font-mono text-text-dim tracking-[0.15em]">
             CRAWL {data.meta.crawlTimeMs}ms &middot; AI {data.meta.aiCallTimeMs}ms &middot; AIViz v1.0
           </p>
         </div>
