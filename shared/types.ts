@@ -101,6 +101,7 @@ export interface AnalysisResponse {
     message: string
     fix: string | null
     code: string | null
+    collapsed: boolean
   }>
   aiReadability: AiReadability
   meta: {

@@ -11,6 +11,7 @@ interface RuleItem {
   message: string
   fix: string | null
   code: string | null
+  collapsed: boolean
 }
 
 interface RuleListProps {
@@ -36,6 +37,9 @@ export function RuleList({ rules }: RuleListProps) {
 }
 
 function RuleSection({ title, tag, rules }: { title: string; tag: string; rules: RuleItem[] }) {
+  const visible = rules.filter((r) => !r.collapsed)
+  const collapsed = rules.filter((r) => r.collapsed)
+
   return (
     <div>
       <div className="flex items-center gap-3 mb-3">
@@ -43,9 +47,22 @@ function RuleSection({ title, tag, rules }: { title: string; tag: string; rules:
         <span className="text-[10px] font-mono text-text-dim tracking-[0.15em] bg-surface-2 px-2 py-0.5 rounded">{tag}</span>
       </div>
       <div className="space-y-1.5">
-        {rules.map((rule) => (
+        {visible.map((rule) => (
           <RuleRow key={rule.id} rule={rule} />
         ))}
+        {collapsed.length > 0 && (
+          <div className="glass-card p-4 flex items-start gap-3">
+            <span className="w-6 h-6 rounded-lg bg-fail/10 flex items-center justify-center text-xs font-bold text-fail flex-shrink-0">
+              {collapsed.length}
+            </span>
+            <div>
+              <p className="text-sm text-text-muted">
+                另有 {collapsed.length} 項因缺少 Product Schema 而無法檢查
+              </p>
+              <p className="text-xs text-text-dim mt-0.5">加入 Product Schema 後自動解鎖</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

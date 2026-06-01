@@ -11,10 +11,19 @@ export interface ScoredRuleResult {
   message: string
   fix: string | null
   code: string | null
+  collapsed: boolean
 }
 
+const SCHEMA_DEPENDENT_IDS = [
+  'name-description',
+  'price-currency',
+  'image-quality',
+  'aggregate-rating',
+  'brand-info',
+]
+
 export function runAllRules(pageData: PageData): ScoredRuleResult[] {
-  return allRules.map((rule) => {
+  const results = allRules.map((rule) => {
     const result = rule.check(pageData)
     return {
       id: rule.id,
@@ -26,6 +35,19 @@ export function runAllRules(pageData: PageData): ScoredRuleResult[] {
       message: result.message,
       fix: result.fix ?? null,
       code: result.code ?? null,
+      collapsed: false,
     }
   })
+
+  // If product-schema failed, collapse dependent basic rules
+  const schemaRule = results.find((r) => r.id === 'product-schema')
+  if (schemaRule && schemaRule.status === 'fail') {
+    results.forEach((r) => {
+      if (SCHEMA_DEPENDENT_IDS.includes(r.id)) {
+        r.collapsed = true
+      }
+    })
+  }
+
+  return results
 }

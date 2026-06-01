@@ -63,4 +63,28 @@ describe('runAllRules', () => {
 
     expect(total).toBeGreaterThan(60)
   })
+
+  it('collapses dependent rules when product-schema fails', () => {
+    const results = runAllRules(EMPTY_PAGE)
+
+    const schemaRule = results.find((r) => r.id === 'product-schema')
+    expect(schemaRule?.status).toBe('fail')
+    expect(schemaRule?.collapsed).toBe(false)
+
+    const collapsed = results.filter((r) => r.collapsed)
+    expect(collapsed.length).toBe(5)
+    expect(collapsed.map((r) => r.id).sort()).toEqual([
+      'aggregate-rating',
+      'brand-info',
+      'image-quality',
+      'name-description',
+      'price-currency',
+    ])
+  })
+
+  it('does not collapse rules when product-schema passes', () => {
+    const results = runAllRules(FULL_PAGE)
+    const collapsed = results.filter((r) => r.collapsed)
+    expect(collapsed.length).toBe(0)
+  })
 })
