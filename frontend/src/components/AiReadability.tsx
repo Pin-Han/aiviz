@@ -24,6 +24,7 @@ export function AiReadability({ data }: AiReadabilityProps) {
           </svg>
         </div>
         <h3 className="text-sm font-semibold text-text-primary">AI 可讀性評估</h3>
+        <span className="text-[9px] font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">AI ANALYSIS</span>
       </div>
 
       <p className="text-sm text-text-muted leading-relaxed mb-4">{data.summary}</p>
