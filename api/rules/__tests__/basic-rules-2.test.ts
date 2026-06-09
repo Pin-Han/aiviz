@@ -62,6 +62,46 @@ describe('aggregateRatingRule', () => {
     expect(result.score).toBe(0)
     expect(result.code).toBeDefined()
   })
+
+  it('returns warn when ratingValue exceeds bestRating', () => {
+    const page = {
+      ...basePageData,
+      jsonLd: {
+        '@type': 'Product',
+        aggregateRating: { '@type': 'AggregateRating', ratingValue: '6', bestRating: '5', reviewCount: '2985' },
+      },
+    }
+    const result = aggregateRatingRule.check(page)
+    expect(result.status).toBe('warn')
+    expect(result.score).toBe(5)
+    expect(result.message).toContain('超出範圍')
+  })
+
+  it('returns pass when ratingValue is within range', () => {
+    const page = {
+      ...basePageData,
+      jsonLd: {
+        '@type': 'Product',
+        aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.5', bestRating: '5', reviewCount: '100' },
+      },
+    }
+    const result = aggregateRatingRule.check(page)
+    expect(result.status).toBe('pass')
+    expect(result.score).toBe(10)
+  })
+
+  it('defaults bestRating to 5 when not specified', () => {
+    const page = {
+      ...basePageData,
+      jsonLd: {
+        '@type': 'Product',
+        aggregateRating: { '@type': 'AggregateRating', ratingValue: '6', reviewCount: '50' },
+      },
+    }
+    const result = aggregateRatingRule.check(page)
+    expect(result.status).toBe('warn')
+    expect(result.message).toContain('超出範圍')
+  })
 })
 
 describe('brandInfoRule', () => {
