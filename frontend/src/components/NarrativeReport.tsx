@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { AnalysisResponse, RuleStatus } from '@aiviz/shared/types.js'
 import { SCORE_MAX_ACCESSIBILITY, SCORE_MAX_BASIC, SCORE_MAX_ADVANCED } from '@aiviz/shared/constants.js'
+import { useI18n } from '../i18n'
 
 interface NarrativeReportProps {
   data: AnalysisResponse
@@ -21,26 +22,6 @@ const LAYER_COLORS = {
   bad:  { dot: 'bg-fail', text: 'text-fail', border: 'border-fail/20', bg: 'bg-fail/5' },
 }
 
-function getLayerConclusion(layerName: string, status: 'good' | 'warn' | 'bad', rules: AnalysisResponse['rules']): string {
-  const failing = rules.filter((r) => r.status === 'fail' && !r.collapsed)
-  const failNames = failing.map((r) => r.name).join('、')
-
-  if (layerName === 'access') {
-    if (status === 'good') return 'AI 爬蟲可以正常存取你的頁面'
-    if (status === 'warn') return `大致可存取，但有小問題：${failNames}`
-    return `AI 爬蟲存取受阻：${failNames}`
-  }
-  if (layerName === 'understand') {
-    if (status === 'good') return 'AI 能充分理解你在賣什麼商品'
-    if (status === 'warn') return `AI 能部分理解，但缺少：${failNames}`
-    return 'AI 無法有效理解你的商品資訊'
-  }
-  // recommend
-  if (status === 'good') return 'AI 有較高機率推薦你的商品給用戶'
-  if (status === 'warn') return '有被推薦的可能，但競爭力不足'
-  return 'AI 目前不太可能主動推薦你的商品'
-}
-
 // ── Status Icon ─────────────────────────────────────────
 
 const STATUS_ICON: Record<RuleStatus, { icon: string; color: string; bg: string }> = {
@@ -52,6 +33,8 @@ const STATUS_ICON: Record<RuleStatus, { icon: string; color: string; bg: string 
 // ── Main Component ──────────────────────────────────────
 
 export function NarrativeReport({ data }: NarrativeReportProps) {
+  const { t } = useI18n()
+
   const accessRules = data.rules.filter((r) => r.category === 'accessibility')
   const basicRules = data.rules.filter((r) => r.category === 'basic')
   const advancedRules = data.rules.filter((r) => r.category === 'advanced')
@@ -60,18 +43,26 @@ export function NarrativeReport({ data }: NarrativeReportProps) {
   const basicStatus = getLayerStatus(data.score.basic, SCORE_MAX_BASIC)
   const advancedStatus = getLayerStatus(data.score.advanced, SCORE_MAX_ADVANCED)
 
+  function getLayerConclusion(layerName: string, status: 'good' | 'warn' | 'bad', rules: AnalysisResponse['rules']): string {
+    const failing = rules.filter((r) => r.status === 'fail' && !r.collapsed)
+    const failNames = failing.map((r) => r.name).join(', ')
+
+    const key = `narrative.${layerName}.${status}`
+    return t(key, { issues: failNames })
+  }
+
   return (
     <div className="space-y-4 animate-fade-in-up stagger-2">
       <div className="flex items-center gap-2 mb-1">
-        <h2 className="text-sm font-semibold text-text-primary">你的商品在 AI 搜尋中的旅程</h2>
-        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">3-LAYER ANALYSIS</span>
+        <h2 className="text-sm font-semibold text-text-primary">{t('narrative.title')}</h2>
+        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">{t('narrative.tag')}</span>
       </div>
 
       {/* Layer 1: Can AI crawlers access? */}
       <NarrativeLayer
         number={1}
-        title="AI 爬蟲進得來嗎？"
-        subtitle="CRAWLER ACCESS"
+        title={t('narrative.layer1.title')}
+        subtitle={t('narrative.layer1.subtitle')}
         score={data.score.accessibility}
         maxScore={SCORE_MAX_ACCESSIBILITY}
         status={accessStatus.status}
@@ -82,8 +73,8 @@ export function NarrativeReport({ data }: NarrativeReportProps) {
       {/* Layer 2: Can AI understand? */}
       <NarrativeLayer
         number={2}
-        title="AI 看得懂你在賣什麼嗎？"
-        subtitle="STRUCTURED DATA"
+        title={t('narrative.layer2.title')}
+        subtitle={t('narrative.layer2.subtitle')}
         score={data.score.basic}
         maxScore={SCORE_MAX_BASIC}
         status={basicStatus.status}
@@ -94,8 +85,8 @@ export function NarrativeReport({ data }: NarrativeReportProps) {
       {/* Layer 3: Would AI recommend? */}
       <NarrativeLayer
         number={3}
-        title="AI 會推薦你的商品嗎？"
-        subtitle="RECOMMENDATION POTENTIAL"
+        title={t('narrative.layer3.title')}
+        subtitle={t('narrative.layer3.subtitle')}
         score={data.score.advanced}
         maxScore={SCORE_MAX_ADVANCED}
         status={advancedStatus.status}
@@ -127,6 +118,7 @@ function NarrativeLayer({
   conclusion: string
   rules: AnalysisResponse['rules']
 }) {
+  const { t } = useI18n()
   const [expanded, setExpanded] = useState(false)
   const colors = LAYER_COLORS[status]
   const visibleRules = rules.filter((r) => !r.collapsed)
@@ -201,7 +193,7 @@ function NarrativeLayer({
               <span className="w-5 h-5 rounded bg-fail/10 flex items-center justify-center text-xs font-bold text-fail">
                 {collapsedRules.length}
               </span>
-              <span>項因缺少 Product Schema 而無法檢查（加入後自動解鎖）</span>
+              <span>{t('narrative.collapsed')}</span>
             </div>
           )}
         </div>

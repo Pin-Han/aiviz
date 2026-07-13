@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useI18n } from '../i18n'
 
 interface FixRule {
   id: string
@@ -17,6 +18,7 @@ interface FixSuggestionsProps {
 const SCHEMA_DEPENDENT_IDS = ['name-description', 'price-currency', 'image-quality', 'aggregate-rating', 'brand-info']
 
 export function FixSuggestions({ rules }: FixSuggestionsProps) {
+  const { t } = useI18n()
   const fixable = rules
     .filter((r) => r.fix && r.status !== 'pass')
     .sort((a, b) => (b.maxScore - b.score) - (a.maxScore - a.score))
@@ -29,8 +31,8 @@ export function FixSuggestions({ rules }: FixSuggestionsProps) {
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <p className="text-pass font-medium text-sm">所有項目都通過了</p>
-        <p className="text-xs text-text-dim mt-1 font-mono tracking-wider">ALL CHECKS PASSED</p>
+        <p className="text-pass font-medium text-sm">{t('fix.allPass')}</p>
+        <p className="text-xs text-text-dim mt-1 font-mono tracking-wider">{t('fix.allPassTag')}</p>
       </div>
     )
   }
@@ -47,8 +49,8 @@ export function FixSuggestions({ rules }: FixSuggestionsProps) {
   return (
     <div className="glass-card p-6 animate-fade-in-up stagger-2">
       <div className="flex items-center gap-2 mb-4">
-        <h3 className="text-sm font-semibold text-text-primary">優先修復建議</h3>
-        <span className="text-[10px] font-mono text-text-dim tracking-[0.15em] bg-surface-2 px-2 py-0.5 rounded">BY IMPACT</span>
+        <h3 className="text-sm font-semibold text-text-primary">{t('fix.title')}</h3>
+        <span className="text-[10px] font-mono text-text-dim tracking-[0.15em] bg-surface-2 px-2 py-0.5 rounded">{t('fix.tag')}</span>
       </div>
       <div className="space-y-3">
         {independentItems.map((r, i) => (
@@ -63,6 +65,8 @@ export function FixSuggestions({ rules }: FixSuggestionsProps) {
 }
 
 function FixItem({ rule, index }: { rule: FixRule; index: number }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex gap-3">
       <span className="flex-shrink-0 w-6 h-6 rounded-lg bg-accent/10 text-accent flex items-center justify-center text-xs font-mono font-bold">
@@ -71,13 +75,14 @@ function FixItem({ rule, index }: { rule: FixRule; index: number }) {
       <div className="min-w-0">
         <p className="text-sm text-text-primary font-medium">{rule.name}</p>
         <p className="text-xs text-text-muted mt-0.5 leading-relaxed">{rule.fix}</p>
-        <p className="text-[10px] text-text-dim font-mono mt-1">+{rule.maxScore - rule.score} pts potential</p>
+        <p className="text-[10px] text-text-dim font-mono mt-1">{t('suggestions.ptsPotential', { pts: rule.maxScore - rule.score })}</p>
       </div>
     </div>
   )
 }
 
 function CollapsedFixGroup({ items, totalPts, startIndex }: { items: FixRule[]; totalPts: number; startIndex: number }) {
+  const { t } = useI18n()
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -91,12 +96,12 @@ function CollapsedFixGroup({ items, totalPts, startIndex }: { items: FixRule[]; 
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-sm text-text-primary font-medium">
-            加入 Product Schema 後可解鎖 {items.length} 項改善
+            {t('fix.schemaUnlock', { count: items.length })}
           </p>
           <p className="text-xs text-text-muted mt-0.5">
-            包含：{items.map((r) => r.name).join('、')}
+            {t('fix.includes', { names: items.map((r) => r.name).join(', ') })}
           </p>
-          <p className="text-[10px] text-text-dim font-mono mt-1">+{totalPts} pts potential</p>
+          <p className="text-[10px] text-text-dim font-mono mt-1">{t('suggestions.ptsPotential', { pts: totalPts })}</p>
         </div>
         <svg
           width="12" height="12" viewBox="0 0 24 24" fill="none"

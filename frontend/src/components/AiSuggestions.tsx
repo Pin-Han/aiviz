@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { AnalysisResponse, AiReadability } from '@aiviz/shared/types.js'
+import { useI18n } from '../i18n'
 
 interface AiSuggestionsProps {
   rules: AnalysisResponse['rules']
@@ -9,6 +10,7 @@ interface AiSuggestionsProps {
 const SCHEMA_DEPENDENT_IDS = ['name-description', 'price-currency', 'image-quality', 'aggregate-rating', 'brand-info']
 
 export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
+  const { t } = useI18n()
   const fixable = rules
     .filter((r) => r.fix && r.status !== 'pass' && !r.collapsed)
     .sort((a, b) => (b.maxScore - b.score) - (a.maxScore - a.score))
@@ -29,7 +31,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <p className="text-pass font-medium text-sm">表現優異，目前無需修正</p>
+        <p className="text-pass font-medium text-sm">{t('suggestions.allPass')}</p>
       </div>
     )
   }
@@ -42,8 +44,8 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
           </svg>
         </div>
-        <h2 className="text-sm font-semibold text-text-primary">AI 建議的修正方向</h2>
-        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">AI POWERED</span>
+        <h2 className="text-sm font-semibold text-text-primary">{t('suggestions.title')}</h2>
+        <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">{t('suggestions.tag')}</span>
       </div>
 
       {/* AI Readability Summary */}
@@ -56,7 +58,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
           {/* Competitiveness */}
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).competitivenessScore > 0 && (
             <div className="mt-3 flex items-center gap-3">
-              <span className="text-xs font-mono text-text-dim tracking-wider">AI CITATION LIKELIHOOD</span>
+              <span className="text-xs font-mono text-text-dim tracking-wider">{t('aiReadability.citation')}</span>
               <div className="flex-1 h-1.5 bg-surface rounded-full overflow-hidden max-w-[120px]">
                 <div
                   className={`h-full rounded-full ${
@@ -77,7 +79,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
       {/* Fix list */}
       {independentFixes.length > 0 && (
         <div className="space-y-2.5">
-          <p className="text-xs text-text-dim font-mono tracking-wider">PRIORITY FIXES</p>
+          <p className="text-xs text-text-dim font-mono tracking-wider">{t('suggestions.priorityFixes')}</p>
           {independentFixes.map((r, i) => (
             <FixRow key={r.id} rule={r} index={i + 1} />
           ))}
@@ -113,6 +115,7 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
 }
 
 function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: number }) {
+  const { t } = useI18n()
   const [showCode, setShowCode] = useState(false)
   const [copied, setCopied] = useState(false)
 
@@ -132,7 +135,7 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-text-primary font-medium">{rule.name}</p>
-            <span className="text-xs font-mono text-accent/60">+{rule.maxScore - rule.score} pts</span>
+            <span className="text-xs font-mono text-accent/60">{t('suggestions.ptsPotential', { pts: rule.maxScore - rule.score })}</span>
           </div>
           <p className="text-sm text-text-muted mt-1 leading-relaxed">{rule.fix}</p>
 
@@ -142,7 +145,7 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
                 onClick={() => setShowCode(!showCode)}
                 className="text-xs font-mono text-accent/70 hover:text-accent transition-colors"
               >
-                {showCode ? '\u25B2 隱藏程式碼' : '\u25BC 查看修復程式碼'}
+                {showCode ? t('suggestions.hideCode') : t('suggestions.showCode')}
               </button>
               {showCode && (
                 <div className="relative mt-2 group">
@@ -153,7 +156,7 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
                     onClick={handleCopy}
                     className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded text-xs font-mono tracking-wider bg-surface-2 border border-border text-text-dim hover:text-text-primary opacity-0 group-hover:opacity-100 transition-all"
                   >
-                    {copied ? 'COPIED' : 'COPY'}
+                    {copied ? t('rules.copied') : t('rules.copy')}
                   </button>
                 </div>
               )}
@@ -166,6 +169,7 @@ function FixRow({ rule, index }: { rule: AnalysisResponse['rules'][0]; index: nu
 }
 
 function CollapsedSchemaGroup({ items, totalPts }: { items: AnalysisResponse['rules']; totalPts: number }) {
+  const { t } = useI18n()
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -179,10 +183,10 @@ function CollapsedSchemaGroup({ items, totalPts }: { items: AnalysisResponse['ru
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-sm text-text-primary font-medium">
-            加入 Product Schema 後可解鎖 {items.length} 項改善
+            {t('suggestions.schemaUnlock', { count: items.length })}
           </p>
-          <p className="text-sm text-text-muted mt-0.5">{items.map((r) => r.name).join('、')}</p>
-          <p className="text-xs font-mono text-accent/60 mt-1">+{totalPts} pts potential</p>
+          <p className="text-sm text-text-muted mt-0.5">{items.map((r) => r.name).join(', ')}</p>
+          <p className="text-xs font-mono text-accent/60 mt-1">{t('suggestions.ptsPotential', { pts: totalPts })}</p>
         </div>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
           className={`text-text-dim mt-1 flex-shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`}>

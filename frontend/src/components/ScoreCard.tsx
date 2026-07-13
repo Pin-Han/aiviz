@@ -1,4 +1,5 @@
 import { SCORE_MAX_ACCESSIBILITY, SCORE_MAX_BASIC, SCORE_MAX_ADVANCED, SCORE_MAX_TOTAL } from '@aiviz/shared/constants.js'
+import { useI18n } from '../i18n'
 
 interface ScoreCardProps {
   total: number
@@ -13,16 +14,15 @@ function getScoreColor(score: number) {
   return { text: 'text-fail', ring: 'border-fail', bg: 'bg-fail/10' }
 }
 
-function getLabel(pct: number) {
-  if (pct >= 80) return 'Excellent'
-  if (pct >= 60) return 'Good'
-  if (pct >= 40) return 'Fair'
-  return 'Poor'
-}
-
 export function ScoreCard({ total, accessibility, basic, advanced }: ScoreCardProps) {
+  const { t } = useI18n()
   const pct = Math.round((total / SCORE_MAX_TOTAL) * 100)
   const colors = getScoreColor(pct)
+
+  const label = pct >= 80 ? t('score.excellent')
+    : pct >= 60 ? t('score.good')
+    : pct >= 40 ? t('score.fair')
+    : t('score.poor')
 
   return (
     <div className="glass-card p-8 flex flex-col items-center animate-fade-in-up">
@@ -36,17 +36,17 @@ export function ScoreCard({ total, accessibility, basic, advanced }: ScoreCardPr
       </div>
 
       <p className="text-xs font-mono text-text-muted tracking-[0.2em] uppercase mb-1">
-        {getLabel(pct)}
+        {label}
       </p>
       <p className="text-xs font-mono text-text-muted mb-5">
-        {total}/{SCORE_MAX_TOTAL} pts
+        {t('score.pts', { total, max: SCORE_MAX_TOTAL })}
       </p>
 
       {/* Breakdown */}
       <div className="w-full space-y-3">
-        <ScoreBar label="AI 爬蟲可及性" score={accessibility} max={SCORE_MAX_ACCESSIBILITY} />
-        <ScoreBar label="基本項" score={basic} max={SCORE_MAX_BASIC} />
-        <ScoreBar label="進階優化" score={advanced} max={SCORE_MAX_ADVANCED} />
+        <ScoreBar label={t('category.accessibility')} score={accessibility} max={SCORE_MAX_ACCESSIBILITY} />
+        <ScoreBar label={t('category.basic')} score={basic} max={SCORE_MAX_BASIC} />
+        <ScoreBar label={t('category.advanced')} score={advanced} max={SCORE_MAX_ADVANCED} />
       </div>
     </div>
   )

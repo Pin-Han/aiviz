@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useAnalysis } from './hooks/useAnalysis'
+import { useI18n, SUPPORTED_LOCALES } from './i18n'
+import type { Locale } from './i18n'
 import { UrlInput } from './components/UrlInput'
 import { AnalysisProgress } from './components/AnalysisProgress'
 import { Report } from './components/Report'
@@ -7,6 +9,7 @@ import { decodeReport } from './utils/shareEncoder'
 
 function App() {
   const { state, analyze, reset, setSharedReport } = useAnalysis()
+  const { t, locale, setLocale } = useI18n()
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -31,6 +34,21 @@ function App() {
         }}
       />
 
+      {/* Language switcher */}
+      <div className="fixed top-4 right-4 z-50">
+        <select
+          value={locale}
+          onChange={(e) => setLocale(e.target.value as Locale)}
+          className="text-xs font-mono bg-surface border border-border rounded-lg px-2 py-1.5 text-text-muted cursor-pointer hover:border-border-hover transition-colors outline-none"
+        >
+          {SUPPORTED_LOCALES.map((l) => (
+            <option key={l} value={l}>
+              {l === 'zh-TW' ? '繁體中文' : 'English'}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {state.status === 'idle' && <Landing onAnalyze={analyze} />}
       {state.status === 'loading' && <AnalysisProgress step={state.step} />}
       {state.status === 'success' && <Report data={state.data} onReset={reset} />}
@@ -40,6 +58,8 @@ function App() {
 }
 
 function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 relative">
       <div className="text-center mb-10 animate-fade-in-up">
@@ -55,13 +75,11 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mb-3 tracking-tight leading-tight">
-          你的商品，<br className="sm:hidden" />
-          <span className="text-accent">AI 搜得到嗎？</span>
+          {t('landing.title.line1')}<br className="sm:hidden" />
+          <span className="text-accent">{t('landing.title.line2')}</span>
         </h1>
-        <p className="text-sm text-text-muted max-w-md mx-auto leading-relaxed">
-          60 秒掃描你的商品頁，檢查 AI 搜尋引擎的可見度，
-          <br className="hidden sm:block" />
-          獲得可直接複製的修復程式碼
+        <p className="text-sm text-text-muted max-w-md mx-auto leading-relaxed whitespace-pre-line">
+          {t('landing.subtitle')}
         </p>
       </div>
 
@@ -80,8 +98,8 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
               <line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
           }
-          title="結構化資料評分"
-          description="掃描 schema.org 標記完整度，8 項檢查規則"
+          title={t('landing.feature1.title')}
+          description={t('landing.feature1.desc')}
         />
         <FeatureCard
           icon={
@@ -91,8 +109,8 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
               <path d="M12 8h.01"/>
             </svg>
           }
-          title="AI 可讀性評估"
-          description="從 AI 搜尋引擎的角度，診斷你的商品資料品質"
+          title={t('landing.feature2.title')}
+          description={t('landing.feature2.desc')}
         />
         <FeatureCard
           icon={
@@ -101,14 +119,14 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
               <polyline points="8 6 2 12 8 18"/>
             </svg>
           }
-          title="一鍵修復建議"
-          description="產出可直接複製的 JSON-LD 程式碼片段"
+          title={t('landing.feature3.title')}
+          description={t('landing.feature3.desc')}
         />
       </div>
 
       {/* Footer */}
       <p className="mt-16 text-xs font-mono text-text-muted tracking-[0.2em] animate-fade-in-up stagger-3">
-        OPEN SOURCE &middot; ZERO COST &middot; PRIVACY FIRST
+        {t('landing.footer')}
       </p>
     </div>
   )
@@ -135,6 +153,8 @@ function FeatureCard({
 }
 
 function ErrorView({ message, onReset }: { message: string; onReset: () => void }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4">
       <div className="glass-card p-8 max-w-md w-full text-center animate-fade-in-up" style={{ borderColor: 'rgba(248, 113, 113, 0.2)' }}>
@@ -145,8 +165,10 @@ function ErrorView({ message, onReset }: { message: string; onReset: () => void 
             <line x1="9" y1="9" x2="15" y2="15"/>
           </svg>
         </div>
-        <p className="text-sm text-fail font-medium mb-1">分析失敗</p>
-        <p className="text-xs text-text-muted mb-6 leading-relaxed">{message}</p>
+        <p className="text-sm text-fail font-medium mb-1">{t('error.title')}</p>
+        <p className="text-xs text-text-muted mb-6 leading-relaxed">
+          {message === 'error.network' ? t('error.network') : message}
+        </p>
         <button
           onClick={onReset}
           className="
@@ -154,7 +176,7 @@ function ErrorView({ message, onReset }: { message: string; onReset: () => void 
             hover:bg-accent/90 active:scale-[0.97] transition-all duration-200
           "
         >
-          RETRY
+          {t('error.retry')}
         </button>
       </div>
     </div>

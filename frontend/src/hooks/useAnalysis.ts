@@ -1,9 +1,11 @@
 import { useState, useCallback } from 'react'
 import type { AnalysisResponse, ApiError } from '@aiviz/shared/types.js'
 
+export type AnalysisStep = 'crawling' | 'parsing' | 'analyzing'
+
 export type AnalysisState =
   | { status: 'idle' }
-  | { status: 'loading'; step: string }
+  | { status: 'loading'; step: AnalysisStep }
   | { status: 'success'; data: AnalysisResponse }
   | { status: 'error'; message: string }
 
@@ -13,13 +15,13 @@ export function useAnalysis() {
   const [state, setState] = useState<AnalysisState>({ status: 'idle' })
 
   const analyze = useCallback(async (url: string) => {
-    setState({ status: 'loading', step: '爬取頁面中...' })
+    setState({ status: 'loading', step: 'crawling' })
 
     try {
       const stepTimer = setTimeout(() => {
         setState((prev) =>
           prev.status === 'loading'
-            ? { status: 'loading', step: '解析結構化資料...' }
+            ? { status: 'loading', step: 'parsing' }
             : prev,
         )
       }, 3000)
@@ -27,7 +29,7 @@ export function useAnalysis() {
       const stepTimer2 = setTimeout(() => {
         setState((prev) =>
           prev.status === 'loading'
-            ? { status: 'loading', step: 'AI 可讀性評估中...' }
+            ? { status: 'loading', step: 'analyzing' }
             : prev,
         )
       }, 6000)
@@ -50,7 +52,7 @@ export function useAnalysis() {
       const data: AnalysisResponse = await response.json()
       setState({ status: 'success', data })
     } catch {
-      setState({ status: 'error', message: '網路連線錯誤，請檢查網路後再試' })
+      setState({ status: 'error', message: 'error.network' })
     }
   }, [])
 

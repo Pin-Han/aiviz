@@ -1,15 +1,15 @@
-const STEPS = [
-  { label: '爬取頁面中', desc: 'Fetching page HTML...' },
-  { label: '解析結構化資料', desc: 'Parsing JSON-LD & Open Graph...' },
-  { label: 'AI 可讀性評估中', desc: 'Analyzing readability...' },
-]
+import { useI18n } from '../i18n'
+import type { AnalysisStep } from '../hooks/useAnalysis'
+
+const STEP_IDS: AnalysisStep[] = ['crawling', 'parsing', 'analyzing']
 
 interface AnalysisProgressProps {
-  step: string
+  step: AnalysisStep
 }
 
 export function AnalysisProgress({ step }: AnalysisProgressProps) {
-  const currentIndex = STEPS.findIndex((s) => step.startsWith(s.label))
+  const { t } = useI18n()
+  const currentIndex = STEP_IDS.indexOf(step)
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 relative overflow-hidden">
@@ -32,19 +32,19 @@ export function AnalysisProgress({ step }: AnalysisProgressProps) {
         </div>
 
         <h2 className="text-lg font-semibold text-text-primary mb-1 text-center">
-          正在掃描中
+          {t('progress.title')}
         </h2>
-        <p className="text-xs text-text-muted text-center font-mono mb-8 tracking-wider">SCANNING IN PROGRESS</p>
+        <p className="text-xs text-text-muted text-center font-mono mb-8 tracking-wider">{t('progress.subtitle')}</p>
 
         <div className="space-y-4">
-          {STEPS.map((s, i) => {
+          {STEP_IDS.map((id, i) => {
             const isDone = i < currentIndex
-            const isCurrent = i === currentIndex || (currentIndex === -1 && i === 0)
+            const isCurrent = i === currentIndex
             const isPending = !isDone && !isCurrent
 
             return (
               <div
-                key={s.label}
+                key={id}
                 className={`flex items-start gap-4 transition-all duration-500 ${isPending ? 'opacity-30' : ''}`}
               >
                 <div className="flex-shrink-0 mt-0.5">
@@ -64,9 +64,11 @@ export function AnalysisProgress({ step }: AnalysisProgressProps) {
                 </div>
                 <div>
                   <p className={`text-sm font-medium ${isCurrent ? 'text-accent' : isDone ? 'text-pass' : 'text-text-dim'}`}>
-                    {s.label}
+                    {t(`progress.step.${id}.label`)}
                   </p>
-                  <p className="text-sm text-text-muted font-mono mt-0.5">{s.desc}</p>
+                  <p className="text-sm text-text-muted font-mono mt-0.5">
+                    {t(`progress.step.${id}.desc`)}
+                  </p>
                 </div>
               </div>
             )

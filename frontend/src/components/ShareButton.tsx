@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import type { AnalysisResponse } from '@aiviz/shared/types.js'
 import { encodeReport } from '../utils/shareEncoder'
+import { useI18n } from '../i18n'
 
 interface ShareButtonProps {
   data: AnalysisResponse
 }
 
 export function ShareButton({ data }: ShareButtonProps) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
 
   const handleShare = async () => {
@@ -18,7 +20,7 @@ export function ShareButton({ data }: ShareButtonProps) {
       setCopied(true)
       setTimeout(() => setCopied(false), 3000)
     } catch {
-      window.prompt('複製此連結分享報告：', shareUrl)
+      window.prompt(t('share.prompt'), shareUrl)
     }
   }
 
@@ -37,7 +39,7 @@ export function ShareButton({ data }: ShareButtonProps) {
         <polyline points="16 6 12 2 8 6"/>
         <line x1="12" y1="2" x2="12" y2="15"/>
       </svg>
-      {copied ? 'COPIED' : 'SHARE'}
+      {copied ? t('share.copied') : t('share.button')}
     </button>
   )
 }

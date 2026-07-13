@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { RuleCategory, RuleStatus } from '@aiviz/shared/types.js'
+import { useI18n } from '../i18n'
 
 interface RuleItem {
   id: string
@@ -25,20 +26,22 @@ const STATUS_CONFIG: Record<RuleStatus, { icon: string; color: string; bg: strin
 }
 
 export function RuleList({ rules }: RuleListProps) {
+  const { t } = useI18n()
   const accessibility = rules.filter((r) => r.category === 'accessibility')
   const basic = rules.filter((r) => r.category === 'basic')
   const advanced = rules.filter((r) => r.category === 'advanced')
 
   return (
     <div className="space-y-6 animate-fade-in-up stagger-3">
-      <RuleSection title="AI 爬蟲可及性" tag="CRAWLER ACCESS" rules={accessibility} />
-      <RuleSection title="基本項目" tag="BASIC" rules={basic} />
-      <RuleSection title="進階優化" tag="ADVANCED" rules={advanced} />
+      <RuleSection title={t('category.accessibility')} tag={t('category.accessibility.tag')} rules={accessibility} />
+      <RuleSection title={t('category.basic.full')} tag={t('category.basic.tag')} rules={basic} />
+      <RuleSection title={t('category.advanced')} tag={t('category.advanced.tag')} rules={advanced} />
     </div>
   )
 }
 
 function RuleSection({ title, tag, rules }: { title: string; tag: string; rules: RuleItem[] }) {
+  const { t } = useI18n()
   const visible = rules.filter((r) => !r.collapsed)
   const collapsed = rules.filter((r) => r.collapsed)
 
@@ -59,9 +62,9 @@ function RuleSection({ title, tag, rules }: { title: string; tag: string; rules:
             </span>
             <div>
               <p className="text-sm text-text-muted">
-                另有 {collapsed.length} 項因缺少 Product Schema 而無法檢查
+                {t('rules.collapsed.count', { count: collapsed.length })}
               </p>
-              <p className="text-sm text-text-muted mt-0.5">加入 Product Schema 後自動解鎖</p>
+              <p className="text-sm text-text-muted mt-0.5">{t('rules.collapsed.unlock')}</p>
             </div>
           </div>
         )}
@@ -71,6 +74,7 @@ function RuleSection({ title, tag, rules }: { title: string; tag: string; rules:
 }
 
 function RuleRow({ rule }: { rule: RuleItem }) {
+  const { t } = useI18n()
   const [expanded, setExpanded] = useState(false)
   const config = STATUS_CONFIG[rule.status]
 
@@ -105,7 +109,7 @@ function RuleRow({ rule }: { rule: RuleItem }) {
           <p className="text-sm text-text-muted mt-3 leading-relaxed">{rule.message}</p>
           {rule.fix && (
             <div className="mt-3 p-3 rounded-xl bg-accent/5 border border-accent/10">
-              <p className="text-xs font-mono text-accent/80 tracking-wider uppercase mb-1">Fix</p>
+              <p className="text-xs font-mono text-accent/80 tracking-wider uppercase mb-1">{t('rules.fix')}</p>
               <p className="text-sm text-text-primary">{rule.fix}</p>
             </div>
           )}
@@ -117,6 +121,7 @@ function RuleRow({ rule }: { rule: RuleItem }) {
 }
 
 function CodeBlock({ code }: { code: string }) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -139,7 +144,7 @@ function CodeBlock({ code }: { code: string }) {
           opacity-0 group-hover:opacity-100 transition-all duration-200
         "
       >
-        {copied ? 'COPIED' : 'COPY'}
+        {copied ? t('rules.copied') : t('rules.copy')}
       </button>
     </div>
   )

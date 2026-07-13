@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useI18n } from '../i18n'
 
 interface UrlInputProps {
   onSubmit: (url: string) => void
@@ -9,6 +10,7 @@ interface UrlInputProps {
 export function UrlInput({ onSubmit, disabled, remainingQuota }: UrlInputProps) {
   const [url, setUrl] = useState('')
   const [focused, setFocused] = useState(false)
+  const { t } = useI18n()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,7 +41,7 @@ export function UrlInput({ onSubmit, disabled, remainingQuota }: UrlInputProps) 
             onChange={(e) => setUrl(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            placeholder="輸入商品頁 URL..."
+            placeholder={t('input.placeholder')}
             className="flex-1 bg-transparent py-3 text-text-primary placeholder-text-dim outline-none text-[15px]"
             disabled={disabled}
             required
@@ -55,12 +57,12 @@ export function UrlInput({ onSubmit, disabled, remainingQuota }: UrlInputProps) 
             transition-all duration-200 text-sm tracking-wide
           "
         >
-          分析
+          {t('input.submit')}
         </button>
       </div>
       {remainingQuota !== undefined && (
         <p className="mt-3 text-xs text-text-muted text-center font-mono tracking-wider">
-          TODAY REMAINING: {remainingQuota}/3
+          {t('input.remaining', { remaining: remainingQuota })}
         </p>
       )}
     </form>

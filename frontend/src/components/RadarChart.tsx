@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { SCORE_MAX_ACCESSIBILITY, SCORE_MAX_BASIC, SCORE_MAX_ADVANCED } from '@aiviz/shared/constants.js'
+import { useI18n } from '../i18n'
 
 interface RadarChartProps {
   accessibility: number
@@ -15,19 +16,21 @@ interface RadarChartProps {
 }
 
 export function RadarChart({ accessibility, basic, advanced }: RadarChartProps) {
+  const { t } = useI18n()
+
   const data = [
     {
-      subject: 'AI 爬蟲可及性',
+      subject: t('radar.accessibility'),
       score: Math.round((accessibility / SCORE_MAX_ACCESSIBILITY) * 100),
       fullMark: 100,
     },
     {
-      subject: '結構化資料',
+      subject: t('radar.basic'),
       score: Math.round((basic / SCORE_MAX_BASIC) * 100),
       fullMark: 100,
     },
     {
-      subject: '進階優化',
+      subject: t('radar.advanced'),
       score: Math.round((advanced / SCORE_MAX_ADVANCED) * 100),
       fullMark: 100,
     },
@@ -35,7 +38,7 @@ export function RadarChart({ accessibility, basic, advanced }: RadarChartProps) 
 
   return (
     <div className="glass-card p-6 animate-fade-in-up stagger-1">
-      <h3 className="text-xs font-mono text-text-dim tracking-[0.15em] uppercase mb-2">Score Distribution</h3>
+      <h3 className="text-xs font-mono text-text-dim tracking-[0.15em] uppercase mb-2">{t('radar.title')}</h3>
       <ResponsiveContainer width="100%" height={260}>
         <RechartsRadarChart data={data} cx="50%" cy="50%" outerRadius="65%">
           <PolarGrid stroke="#e7e2dc" strokeDasharray="3 3" />
@@ -51,7 +54,7 @@ export function RadarChart({ accessibility, basic, advanced }: RadarChartProps) 
             axisLine={false}
           />
           <Radar
-            name="Score"
+            name={t('radar.score')}
             dataKey="score"
             stroke="#0d7377"
             strokeWidth={2}

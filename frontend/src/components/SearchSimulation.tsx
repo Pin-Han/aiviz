@@ -1,18 +1,22 @@
 import type { AiSearchSimulation } from '@aiviz/shared/types.js'
+import { useI18n } from '../i18n'
+import type { TranslationKey } from '../i18n'
 
 interface SearchSimulationProps {
   data: AiSearchSimulation
 }
 
-const VISIBILITY_CONFIG = {
-  high:   { label: '高', color: 'text-pass', bg: 'bg-pass/10', bar: 'bg-pass', width: '100%' },
-  medium: { label: '中', color: 'text-warn', bg: 'bg-warn/10', bar: 'bg-warn', width: '60%' },
-  low:    { label: '低', color: 'text-fail', bg: 'bg-fail/10', bar: 'bg-fail', width: '30%' },
-  none:   { label: '無', color: 'text-fail', bg: 'bg-fail/10', bar: 'bg-fail', width: '5%' },
-}
-
 export function SearchSimulation({ data }: SearchSimulationProps) {
+  const { t } = useI18n()
+
   if ('unavailable' in data) return null
+
+  const visibilityConfig = {
+    high:   { label: t('search.visibility.high'), color: 'text-pass', bg: 'bg-pass/10', bar: 'bg-pass', width: '100%' },
+    medium: { label: t('search.visibility.medium'), color: 'text-warn', bg: 'bg-warn/10', bar: 'bg-warn', width: '60%' },
+    low:    { label: t('search.visibility.low'), color: 'text-fail', bg: 'bg-fail/10', bar: 'bg-fail', width: '30%' },
+    none:   { label: t('search.visibility.none'), color: 'text-fail', bg: 'bg-fail/10', bar: 'bg-fail', width: '5%' },
+  } as const
 
   return (
     <div className="space-y-5 animate-fade-in-up stagger-2">
@@ -25,15 +29,15 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
               <path d="m21 21-4.35-4.35"/>
             </svg>
           </div>
-          <h3 className="text-sm font-semibold text-text-primary">AI 搜尋模擬</h3>
-          <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">SIMULATED</span>
+          <h3 className="text-sm font-semibold text-text-primary">{t('search.title')}</h3>
+          <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded ml-1">{t('search.tag')}</span>
         </div>
         <p className="text-sm text-text-muted mb-4 ml-7">
-          根據頁面結構化資料品質，模擬你的商品在 AI 搜尋中被推薦的可能性
+          {t('search.desc')}
         </p>
         <div className="ml-7 mb-5 p-2.5 rounded-lg bg-surface-2/30 border border-border/30">
           <p className="text-xs text-text-muted leading-relaxed">
-            以下為基於結構化資料的模擬分析，非即時搜尋結果。實際排名受品牌知名度、用戶行為、AI 演算法等多重因素影響。
+            {t('search.disclaimer')}
           </p>
         </div>
 
@@ -61,7 +65,7 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
                     &ldquo;{q.query}&rdquo;
                   </p>
                   <p className={`text-xs mt-1.5 ${q.wouldRecommend ? 'text-pass' : 'text-fail'}`}>
-                    {q.wouldRecommend ? '可能被推薦' : '不太可能被推薦'}
+                    {q.wouldRecommend ? t('search.wouldRecommend') : t('search.wouldNotRecommend')}
                   </p>
                   <p className="text-xs text-text-muted mt-1 leading-relaxed">{q.reason}</p>
                   {!q.wouldRecommend && q.missingFactors.length > 0 && (
@@ -98,12 +102,12 @@ export function SearchSimulation({ data }: SearchSimulationProps) {
                 <line x1="16" y1="3" x2="14" y2="21"/>
               </svg>
             </div>
-            <h3 className="text-sm font-semibold text-text-primary">關鍵字可見度</h3>
+            <h3 className="text-sm font-semibold text-text-primary">{t('search.keywords')}</h3>
           </div>
 
           <div className="space-y-3">
             {data.keywords.map((k, i) => {
-              const config = VISIBILITY_CONFIG[k.visibility]
+              const config = visibilityConfig[k.visibility]
               return (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-1.5">
