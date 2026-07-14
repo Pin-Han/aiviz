@@ -94,6 +94,7 @@ function App() {
 
       {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} />}
       {state.status === 'loading' && <AnalysisProgress step={state.step} />}
+      {state.status === 'loading-report' && <ReportLoading />}
       {state.status === 'success' && <Report data={state.data} onReset={reset} />}
       {state.status === 'error' && <ErrorView message={state.message} onReset={reset} />}
     </div>
@@ -191,6 +192,17 @@ function FeatureCard({
       </div>
       <h3 className="text-sm font-semibold text-text-primary mb-1.5">{title}</h3>
       <p className="text-sm text-text-muted leading-relaxed">{description}</p>
+    </div>
+  )
+}
+
+function ReportLoading() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="glass-card p-10 text-center animate-fade-in-up">
+        <div className="w-10 h-10 rounded-full border-2 border-accent border-t-transparent animate-spin mx-auto mb-4" />
+        <p className="text-sm text-text-muted font-mono tracking-wider">LOADING REPORT</p>
+      </div>
     </div>
   )
 }

@@ -3,16 +3,25 @@ import type { AnalysisResponse, ApiError } from '@aiviz/shared/types.js'
 
 export type AnalysisStep = 'crawling' | 'parsing' | 'analyzing'
 
+// Check if the initial URL is a shared report link
+function isSharedReportUrl(): boolean {
+  return /^\/r\/[A-Za-z0-9_-]+$/.test(window.location.pathname)
+    || new URLSearchParams(window.location.search).has('r')
+}
+
 export type AnalysisState =
   | { status: 'idle' }
   | { status: 'loading'; step: AnalysisStep }
+  | { status: 'loading-report' }
   | { status: 'success'; data: AnalysisResponse }
   | { status: 'error'; message: string }
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 export function useAnalysis() {
-  const [state, setState] = useState<AnalysisState>({ status: 'idle' })
+  const [state, setState] = useState<AnalysisState>(
+    isSharedReportUrl() ? { status: 'loading-report' } : { status: 'idle' },
+  )
 
   const analyze = useCallback(async (url: string, locale?: string) => {
     setState({ status: 'loading', step: 'crawling' })
