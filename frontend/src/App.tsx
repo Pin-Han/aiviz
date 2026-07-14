@@ -7,11 +7,27 @@ import { AnalysisProgress } from './components/AnalysisProgress'
 import { Report } from './components/Report'
 import { decodeReport } from './utils/shareEncoder'
 
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
 function App() {
   const { state, analyze, reset, setSharedReport } = useAnalysis()
   const { t, locale, setLocale } = useI18n()
 
   useEffect(() => {
+    // Handle /r/:id shared report links
+    const pathMatch = window.location.pathname.match(/^\/r\/([A-Za-z0-9_-]+)$/)
+    if (pathMatch) {
+      const id = pathMatch[1]
+      fetch(`${API_BASE}/api/reports/${id}`)
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => {
+          if (data) setSharedReport(data)
+        })
+        .catch(() => {})
+      return
+    }
+
+    // Legacy: handle ?r= compressed report links
     const params = new URLSearchParams(window.location.search)
     const encoded = params.get('r')
     if (encoded) {

@@ -1,36 +1,63 @@
 import { useState } from 'react'
 import type { AnalysisResponse } from '@aiviz/shared/types.js'
-import { encodeReport } from '../utils/shareEncoder'
 import { useI18n } from '../i18n'
 
 interface ShareButtonProps {
   data: AnalysisResponse
 }
 
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
 export function ShareButton({ data }: ShareButtonProps) {
   const { t } = useI18n()
   const [copied, setCopied] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   const handleShare = async () => {
-    const encoded = encodeReport(data)
-    const shareUrl = `${window.location.origin}${window.location.pathname}?r=${encoded}`
+    if (saving) return
+    setSaving(true)
 
     try {
-      await navigator.clipboard.writeText(shareUrl)
+      // Try saving to backend for a short URL
+      const res = await fetch(`${API_BASE}/api/reports`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ report: data }),
+      })
+
+      if (res.ok) {
+        const { id } = await res.json()
+        const shareUrl = `${window.location.origin}/r/${id}`
+        await navigator.clipboard.writeText(shareUrl)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 3000)
+        return
+      }
+    } catch {
+      // Fall through to fallback
+    } finally {
+      setSaving(false)
+    }
+
+    // Fallback: copy current URL
+    try {
+      await navigator.clipboard.writeText(window.location.href)
       setCopied(true)
       setTimeout(() => setCopied(false), 3000)
     } catch {
-      window.prompt(t('share.prompt'), shareUrl)
+      window.prompt(t('share.prompt'), window.location.href)
     }
   }
 
   return (
     <button
       onClick={handleShare}
+      disabled={saving}
       className="
         flex items-center gap-2 px-4 py-2.5
         border border-border text-text-muted rounded-xl text-xs font-mono tracking-wider
         hover:border-border-hover hover:text-text-primary
+        disabled:opacity-50
         active:scale-[0.97] transition-all duration-200
       "
     >
@@ -39,7 +66,7 @@ export function ShareButton({ data }: ShareButtonProps) {
         <polyline points="16 6 12 2 8 6"/>
         <line x1="12" y1="2" x2="12" y2="15"/>
       </svg>
-      {copied ? t('share.copied') : t('share.button')}
+      {saving ? '...' : copied ? t('share.copied') : t('share.button')}
     </button>
   )
 }
