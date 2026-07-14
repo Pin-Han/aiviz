@@ -25,6 +25,8 @@ export interface JsonLdProduct {
     '@type': string
     ratingValue?: string | number
     reviewCount?: string | number
+    bestRating?: string | number
+    worstRating?: string | number
   }
   [key: string]: unknown
 }

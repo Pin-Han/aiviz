@@ -8,10 +8,10 @@
 import { config } from 'dotenv'
 config({ path: new URL('.env', import.meta.url).pathname })
 
-import { crawlUrl } from './lib/crawler.js'
-import { parseHtml } from './lib/parser.js'
-import { runAllRules } from './lib/scorer.js'
-import { GeminiProvider } from './lib/gemini-provider.js'
+import { crawlUrl } from './_lib/crawler.js'
+import { parseHtml } from './_lib/parser.js'
+import { runAllRules } from './_lib/scorer.js'
+import { GeminiProvider } from './_lib/gemini-provider.js'
 
 async function main() {
   const url = process.argv[2]

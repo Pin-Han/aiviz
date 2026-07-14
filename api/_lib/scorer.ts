@@ -1,5 +1,5 @@
 import type { RuleCategory, RuleStatus, PageData } from '../../shared/types.js'
-import { allRules } from '../rules/index.js'
+import { allRules } from '../_rules/index.js'
 
 export interface ScoredRuleResult {
   id: string

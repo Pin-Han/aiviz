@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import type { AnalysisResponse, ApiError, AiReadability, AiSearchSimulation } from '../shared/types.js'
-import { crawlUrl } from './lib/crawler.js'
-import { parseHtml } from './lib/parser.js'
-import { runAllRules } from './lib/scorer.js'
-import { GeminiProvider } from './lib/gemini-provider.js'
-import { checkRateLimit } from './lib/rate-limiter.js'
-import { detectPageType } from './lib/page-detector.js'
-import { parseRobotsTxt, AI_BOTS } from './rules/accessibility/robots-txt.js'
+import { crawlUrl } from './_lib/crawler.js'
+import { parseHtml } from './_lib/parser.js'
+import { runAllRules } from './_lib/scorer.js'
+import { GeminiProvider } from './_lib/gemini-provider.js'
+import { checkRateLimit } from './_lib/rate-limiter.js'
+import { detectPageType } from './_lib/page-detector.js'
+import { parseRobotsTxt, AI_BOTS } from './_rules/accessibility/robots-txt.js'
 
 function isValidUrl(str: string): boolean {
   try {
