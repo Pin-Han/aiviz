@@ -98,13 +98,13 @@ export function AiSuggestions({ rules, aiReadability }: AiSuggestionsProps) {
         <div className="mt-4 pt-4 border-t border-border/30 space-y-2">
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).improvementPotential && (
             <div className="flex items-start gap-2 text-sm text-text-muted">
-              <span className="text-accent flex-shrink-0 mt-px">\u2197</span>
+              <span className="text-accent flex-shrink-0 mt-px">{'\u2197'}</span>
               <span>{(aiReadability as Exclude<AiReadability, { unavailable: true }>).improvementPotential}</span>
             </div>
           )}
           {(aiReadability as Exclude<AiReadability, { unavailable: true }>).peerComparison && (
             <div className="flex items-start gap-2 text-sm text-text-muted">
-              <span className="text-text-dim flex-shrink-0 mt-px">\u2261</span>
+              <span className="text-text-dim flex-shrink-0 mt-px">{'\u2261'}</span>
               <span>{(aiReadability as Exclude<AiReadability, { unavailable: true }>).peerComparison}</span>
             </div>
           )}
