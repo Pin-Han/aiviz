@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAnalysis } from './hooks/useAnalysis'
 import { useI18n, SUPPORTED_LOCALES } from './i18n'
 import type { Locale } from './i18n'
@@ -10,9 +10,11 @@ import { decodeReport } from './utils/shareEncoder'
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 function App() {
-  const { state, analyze, reset, setSharedReport } = useAnalysis()
+  const { state, analyze, reset: rawReset, setSharedReport } = useAnalysis()
   const { t, locale, setLocale } = useI18n()
+  const savedRef = useRef(false)
 
+  // Load shared report from URL on mount
   useEffect(() => {
     // Handle /r/:id shared report links
     const pathMatch = window.location.pathname.match(/^\/r\/([A-Za-z0-9_-]+)$/)
@@ -38,6 +40,31 @@ function App() {
       }
     }
   }, [setSharedReport])
+
+  // Auto-save report to backend and update URL
+  useEffect(() => {
+    if (state.status !== 'success' || savedRef.current) return
+    savedRef.current = true
+
+    fetch(`${API_BASE}/api/reports`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ report: state.data }),
+    })
+      .then((res) => res.ok ? res.json() : null)
+      .then((result) => {
+        if (result?.id) {
+          window.history.replaceState({}, '', `/r/${result.id}`)
+        }
+      })
+      .catch(() => {})
+  }, [state])
+
+  const reset = () => {
+    savedRef.current = false
+    window.history.replaceState({}, '', '/')
+    rawReset()
+  }
 
   return (
     <div className="min-h-screen bg-bg relative">
