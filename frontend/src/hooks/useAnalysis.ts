@@ -9,7 +9,7 @@ export type AnalysisState =
   | { status: 'success'; data: AnalysisResponse }
   | { status: 'error'; message: string }
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 export function useAnalysis() {
   const [state, setState] = useState<AnalysisState>({ status: 'idle' })
