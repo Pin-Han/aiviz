@@ -92,7 +92,7 @@ function App() {
         </select>
       </div>
 
-      {state.status === 'idle' && <Landing onAnalyze={analyze} />}
+      {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} />}
       {state.status === 'loading' && <AnalysisProgress step={state.step} />}
       {state.status === 'success' && <Report data={state.data} onReset={reset} />}
       {state.status === 'error' && <ErrorView message={state.message} onReset={reset} />}

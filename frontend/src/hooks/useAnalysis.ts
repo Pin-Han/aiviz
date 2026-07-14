@@ -14,7 +14,7 @@ const API_BASE = import.meta.env.VITE_API_URL ?? ''
 export function useAnalysis() {
   const [state, setState] = useState<AnalysisState>({ status: 'idle' })
 
-  const analyze = useCallback(async (url: string) => {
+  const analyze = useCallback(async (url: string, locale?: string) => {
     setState({ status: 'loading', step: 'crawling' })
 
     try {
@@ -37,7 +37,7 @@ export function useAnalysis() {
       const response = await fetch(`${API_BASE}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, locale }),
       })
 
       clearTimeout(stepTimer)

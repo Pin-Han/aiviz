@@ -63,7 +63,8 @@ export default async function handler(
   }
 
   // Parse and validate input
-  const { url } = req.body ?? {}
+  const { url, locale } = req.body ?? {}
+  const lang = locale === 'en' ? 'en' : 'zh-TW'
 
   if (!url || typeof url !== 'string' || !isValidUrl(url)) {
     res.status(400).json({
@@ -155,7 +156,7 @@ export default async function handler(
     const geminiKey = process.env.GEMINI_API_KEY
     if (geminiKey && pageType === 'product') {
       const aiStart = Date.now()
-      const provider = new GeminiProvider(geminiKey)
+      const provider = new GeminiProvider(geminiKey, lang)
       const [aiResult, simResult] = await Promise.all([
         provider.assessReadability(pageData),
         provider.simulateSearch(pageData),
@@ -171,7 +172,7 @@ export default async function handler(
         : { unavailable: true }
     } else if (geminiKey) {
       const aiStart = Date.now()
-      const provider = new GeminiProvider(geminiKey)
+      const provider = new GeminiProvider(geminiKey, lang)
       const aiResult = await provider.assessReadability(pageData)
       aiCallTimeMs = Date.now() - aiStart
 
