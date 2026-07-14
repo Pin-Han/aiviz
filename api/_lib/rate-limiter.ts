@@ -41,13 +41,16 @@ function getSecondsUntilMidnightUTC8(): number {
 }
 
 async function checkWithKv(ip: string): Promise<RateLimitResult> {
-  const { kv } = await import('@vercel/kv')
+  const { getRedis } = await import('./redis.js')
+  const redis = getRedis()
+  if (!redis) return checkWithMemory(ip)
+
   const ipKey = `rate:ip:${ip}`
   const globalKey = 'rate:global'
 
   const [ipCount, globalCount] = await Promise.all([
-    kv.get<number>(ipKey),
-    kv.get<number>(globalKey),
+    redis.get<number>(ipKey),
+    redis.get<number>(globalKey),
   ])
 
   if ((ipCount ?? 0) >= RATE_LIMIT_PER_IP) {
@@ -58,10 +61,14 @@ async function checkWithKv(ip: string): Promise<RateLimitResult> {
   }
 
   const ttl = getSecondsUntilMidnightUTC8()
-  const [newIpCount] = await Promise.all([kv.incr(ipKey), kv.incr(globalKey)])
+  const pipeline = redis.pipeline()
+  pipeline.incr(ipKey)
+  pipeline.incr(globalKey)
+  const results = await pipeline.exec()
+  const newIpCount = results[0] as number
 
-  if (newIpCount === 1) await kv.expire(ipKey, ttl)
-  if ((globalCount ?? 0) === 0) await kv.expire(globalKey, ttl)
+  if (newIpCount === 1) await redis.expire(ipKey, ttl)
+  if ((globalCount ?? 0) === 0) await redis.expire(globalKey, ttl)
 
   return { allowed: true, remaining: RATE_LIMIT_PER_IP - newIpCount }
 }
