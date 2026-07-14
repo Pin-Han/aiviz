@@ -126,6 +126,26 @@ export function Report({ data, onReset }: ReportProps) {
         {/* AI Suggestions */}
         <AiSuggestions rules={data.rules} aiReadability={data.aiReadability} />
 
+        {/* CTA */}
+        <div className="glass-card p-6 text-center animate-fade-in-up" style={{ borderColor: 'rgba(13, 115, 119, 0.15)' }}>
+          <h3 className="text-sm font-semibold text-text-primary mb-2">{t('cta.title')}</h3>
+          <p className="text-sm text-text-muted mb-4 max-w-md mx-auto leading-relaxed">{t('cta.desc')}</p>
+          <a
+            href="mailto:patrick04184@gmail.com?subject=AIViz%20-%20SEO/AEO/GEO%20Consultation"
+            className="
+              inline-flex items-center gap-2 px-5 py-2.5
+              bg-accent text-bg rounded-xl text-xs font-mono font-semibold tracking-wider
+              hover:bg-accent/90 active:scale-[0.97] transition-all duration-200
+            "
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            {t('cta.button')}
+          </a>
+        </div>
+
         {/* Footer */}
         <div className="text-center pt-4 pb-8">
           <p className="text-xs font-mono text-text-dim tracking-[0.15em]">

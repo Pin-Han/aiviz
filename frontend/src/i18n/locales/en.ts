@@ -149,6 +149,11 @@ const en: Record<string, string> = {
   'share.copied': 'COPIED',
   'share.button': 'SHARE',
   'share.prompt': 'Copy this link to share the report:',
+
+  // ── CTA ──────────────────────────────────────────────
+  'cta.title': 'Need deeper AI search optimization?',
+  'cta.desc': 'We offer SEO / AEO / GEO consulting to help your products gain higher visibility in AI search engines.',
+  'cta.button': 'CONTACT US',
 }
 
 export default en

@@ -149,6 +149,11 @@ const zhTW: Record<string, string> = {
   'share.copied': 'COPIED',
   'share.button': 'SHARE',
   'share.prompt': '複製此連結分享報告：',
+
+  // ── CTA ──────────────────────────────────────────────
+  'cta.title': '需要更深入的 AI 搜尋優化？',
+  'cta.desc': '我們提供 SEO / AEO / GEO 諮詢服務，幫助你的商品在 AI 搜尋引擎中獲得更高可見度。',
+  'cta.button': 'CONTACT US',
 }
 
 export default zhTW

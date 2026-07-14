@@ -41,10 +41,19 @@ function App() {
     }
   }, [setSharedReport])
 
-  // Auto-save report to backend and update URL
+  // Auto-save report to backend, update URL, and track GA4 event
   useEffect(() => {
     if (state.status !== 'success' || savedRef.current) return
     savedRef.current = true
+
+    // GA4: track analysis completion
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'analysis_complete', {
+        analyzed_url: state.data.url,
+        score: state.data.score.total,
+        page_type: state.data.pageType,
+      })
+    }
 
     fetch(`${API_BASE}/api/reports`, {
       method: 'POST',
