@@ -65,11 +65,11 @@ const en: Record<string, string> = {
 
   // ── Category Labels ──────────────────────────────────
   'category.accessibility': 'AI Crawler Access',
-  'category.basic': 'Basic',
-  'category.basic.full': 'Basic Checks',
+  'category.basic': 'Structured Data',
+  'category.basic.full': 'Structured Data',
   'category.advanced': 'Advanced',
   'category.accessibility.tag': 'CRAWLER ACCESS',
-  'category.basic.tag': 'BASIC',
+  'category.basic.tag': 'STRUCTURED DATA',
   'category.advanced.tag': 'ADVANCED',
 
   // ── Radar Chart ──────────────────────────────────────
@@ -86,17 +86,17 @@ const en: Record<string, string> = {
   'narrative.layer1.subtitle': 'CRAWLER ACCESS',
   'narrative.layer2.title': 'Can AI understand what you\'re selling?',
   'narrative.layer2.subtitle': 'STRUCTURED DATA',
-  'narrative.layer3.title': 'Would AI recommend your product?',
-  'narrative.layer3.subtitle': 'RECOMMENDATION POTENTIAL',
+  'narrative.layer3.title': 'Is your page optimized for AI?',
+  'narrative.layer3.subtitle': 'ADVANCED OPTIMIZATION',
   'narrative.access.good': 'AI crawlers can access your page normally',
   'narrative.access.warn': 'Mostly accessible, but with minor issues: {issues}',
   'narrative.access.bad': 'AI crawler access is blocked: {issues}',
   'narrative.understand.good': 'AI can fully understand what product you\'re selling',
   'narrative.understand.warn': 'AI can partially understand, but missing: {issues}',
   'narrative.understand.bad': 'AI cannot effectively understand your product information',
-  'narrative.recommend.good': 'AI is likely to recommend your product to users',
-  'narrative.recommend.warn': 'There\'s a chance of being recommended, but competitiveness is lacking',
-  'narrative.recommend.bad': 'AI is currently unlikely to proactively recommend your product',
+  'narrative.recommend.good': 'Your page has all advanced AI optimization items in place',
+  'narrative.recommend.warn': 'Some advanced optimization items are not yet complete',
+  'narrative.recommend.bad': 'Advanced AI optimization items are not configured yet',
   'narrative.collapsed': ' checks unavailable without Product Schema (will unlock once added)',
 
   // ── Rule List ────────────────────────────────────────

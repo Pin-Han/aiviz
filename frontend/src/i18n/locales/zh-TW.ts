@@ -65,11 +65,11 @@ const zhTW: Record<string, string> = {
 
   // ── Category Labels ──────────────────────────────────
   'category.accessibility': 'AI 爬蟲可及性',
-  'category.basic': '基本項',
-  'category.basic.full': '基本項目',
+  'category.basic': '結構化資料',
+  'category.basic.full': '結構化資料',
   'category.advanced': '進階優化',
   'category.accessibility.tag': 'CRAWLER ACCESS',
-  'category.basic.tag': 'BASIC',
+  'category.basic.tag': 'STRUCTURED DATA',
   'category.advanced.tag': 'ADVANCED',
 
   // ── Radar Chart ──────────────────────────────────────
@@ -86,17 +86,17 @@ const zhTW: Record<string, string> = {
   'narrative.layer1.subtitle': 'CRAWLER ACCESS',
   'narrative.layer2.title': 'AI 看得懂你在賣什麼嗎？',
   'narrative.layer2.subtitle': 'STRUCTURED DATA',
-  'narrative.layer3.title': 'AI 會推薦你的商品嗎？',
-  'narrative.layer3.subtitle': 'RECOMMENDATION POTENTIAL',
+  'narrative.layer3.title': '你的頁面有為 AI 優化嗎？',
+  'narrative.layer3.subtitle': 'ADVANCED OPTIMIZATION',
   'narrative.access.good': 'AI 爬蟲可以正常存取你的頁面',
   'narrative.access.warn': '大致可存取，但有小問題：{issues}',
   'narrative.access.bad': 'AI 爬蟲存取受阻：{issues}',
   'narrative.understand.good': 'AI 能充分理解你在賣什麼商品',
   'narrative.understand.warn': 'AI 能部分理解，但缺少：{issues}',
   'narrative.understand.bad': 'AI 無法有效理解你的商品資訊',
-  'narrative.recommend.good': 'AI 有較高機率推薦你的商品給用戶',
-  'narrative.recommend.warn': '有被推薦的可能，但競爭力不足',
-  'narrative.recommend.bad': 'AI 目前不太可能主動推薦你的商品',
+  'narrative.recommend.good': '你的頁面已具備完整的 AI 優化項目',
+  'narrative.recommend.warn': '部分進階優化項目尚未完成',
+  'narrative.recommend.bad': '進階 AI 優化項目尚未設置',
   'narrative.collapsed': '項因缺少 Product Schema 而無法檢查（加入後自動解鎖）',
 
   // ── Rule List ────────────────────────────────────────

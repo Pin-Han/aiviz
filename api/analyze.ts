@@ -7,6 +7,7 @@ import { GeminiProvider } from './_lib/gemini-provider.js'
 import { checkRateLimit } from './_lib/rate-limiter.js'
 import { detectPageType } from './_lib/page-detector.js'
 import { parseRobotsTxt, AI_BOTS } from './_rules/accessibility/robots-txt.js'
+import { translateRuleResults } from './_lib/rule-i18n.js'
 
 function isValidUrl(str: string): boolean {
   try {
@@ -97,9 +98,13 @@ export default async function handler(
     const pageType = detectPageType(pageData)
     let pageTypeMessage: string | undefined
     if (pageType === 'homepage') {
-      pageTypeMessage = '偵測到這是首頁而非商品頁。首頁通常不包含 Product Schema，這是正常的。建議輸入單一商品的 URL 以獲得更準確的分析。'
+      pageTypeMessage = lang === 'en'
+        ? 'This appears to be a homepage, not a product page. Homepages typically don\'t have Product Schema — this is normal. Try entering a single product URL for a more accurate analysis.'
+        : '偵測到這是首頁而非商品頁。首頁通常不包含 Product Schema，這是正常的。建議輸入單一商品的 URL 以獲得更準確的分析。'
     } else if (pageType === 'other') {
-      pageTypeMessage = '此頁面可能不是商品頁。如果這是商品頁但缺少結構化資料，請參考下方的修復建議。'
+      pageTypeMessage = lang === 'en'
+        ? 'This page may not be a product page. If it is a product page but lacks structured data, see the fix suggestions below.'
+        : '此頁面可能不是商品頁。如果這是商品頁但缺少結構化資料，請參考下方的修復建議。'
     }
 
     // Step 4: Score with all rules
@@ -185,14 +190,17 @@ export default async function handler(
       searchSimulation = { unavailable: true }
     }
 
-    // Step 7: Compute scores
-    const accessibilityScore = ruleResults
+    // Step 7: Translate rule results if needed
+    const translatedRules = translateRuleResults(ruleResults, lang)
+
+    // Step 8: Compute scores
+    const accessibilityScore = translatedRules
       .filter((r) => r.category === 'accessibility')
       .reduce((sum, r) => sum + r.score, 0)
-    const basicScore = ruleResults
+    const basicScore = translatedRules
       .filter((r) => r.category === 'basic')
       .reduce((sum, r) => sum + r.score, 0)
-    const advancedScore = ruleResults
+    const advancedScore = translatedRules
       .filter((r) => r.category === 'advanced')
       .reduce((sum, r) => sum + r.score, 0)
 
@@ -205,7 +213,7 @@ export default async function handler(
         basic: basicScore,
         advanced: advancedScore,
       },
-      rules: ruleResults,
+      rules: translatedRules,
       aiReadability,
       searchSimulation,
       pageType,
