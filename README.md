@@ -28,10 +28,6 @@ AIViz scans your product page and answers three questions:
 - **Shareable Reports** — Each report gets a short URL (`/r/:id`), stored for 30 days
 - **Bilingual** — Auto-detects browser language (English / 繁體中文)
 
-## Screenshot
-
-![AIViz Report](https://ai-vision-check-pink.vercel.app/r/5V8Wm_Mj)
-
 ## Tech Stack
 
 | Layer | Technology |
