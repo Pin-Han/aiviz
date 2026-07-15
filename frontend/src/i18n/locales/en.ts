@@ -151,9 +151,10 @@ const en: Record<string, string> = {
   'share.prompt': 'Copy this link to share the report:',
 
   // ── CTA ──────────────────────────────────────────────
-  'cta.title': 'Need deeper AI search optimization?',
-  'cta.desc': 'We offer SEO / AEO / GEO consulting to help your products gain higher visibility in AI search engines.',
-  'cta.button': 'CONTACT US',
+  'cta.title': 'Want to track your AI visibility over time?',
+  'cta.desc': 'Automated scans, change alerts, competitor comparison — AI monitoring is coming soon. Leave your email for early access.',
+  'cta.button': 'GET EARLY ACCESS',
+  'cta.consulting': 'Or inquire about SEO / AEO / GEO consulting \u2192',
 
   // ── Landing (About link) ─────────────────────────────
   'landing.learnMore': 'Learn more about AIViz',

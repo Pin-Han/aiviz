@@ -131,7 +131,7 @@ export function Report({ data, onReset }: ReportProps) {
           <h3 className="text-sm font-semibold text-text-primary mb-2">{t('cta.title')}</h3>
           <p className="text-sm text-text-muted mb-4 max-w-md mx-auto leading-relaxed">{t('cta.desc')}</p>
           <a
-            href="mailto:patrick04184@gmail.com?subject=AIViz%20-%20SEO/AEO/GEO%20Consultation"
+            href="mailto:patrick04184@gmail.com?subject=AIViz%20-%20Early%20Access%20Request"
             className="
               inline-flex items-center gap-2 px-5 py-2.5
               bg-accent text-bg rounded-xl text-xs font-mono font-semibold tracking-wider
@@ -144,6 +144,14 @@ export function Report({ data, onReset }: ReportProps) {
             </svg>
             {t('cta.button')}
           </a>
+          <p className="text-xs text-text-dim mt-3">
+            <a
+              href="mailto:patrick04184@gmail.com?subject=AIViz%20-%20SEO/AEO/GEO%20Consultation"
+              className="hover:text-text-muted transition-colors"
+            >
+              {t('cta.consulting')}
+            </a>
+          </p>
         </div>
 
         {/* Footer */}

@@ -35,11 +35,8 @@ export function ScoreCard({ total, accessibility, basic, advanced }: ScoreCardPr
         </div>
       </div>
 
-      <p className="text-xs font-mono text-text-muted tracking-[0.2em] uppercase mb-1">
+      <p className="text-xs font-mono text-text-muted tracking-[0.2em] uppercase mb-5">
         {label}
-      </p>
-      <p className="text-xs font-mono text-text-muted mb-5">
-        {t('score.pts', { total, max: SCORE_MAX_TOTAL })}
       </p>
 
       {/* Breakdown */}

@@ -151,9 +151,10 @@ const zhTW: Record<string, string> = {
   'share.prompt': '複製此連結分享報告：',
 
   // ── CTA ──────────────────────────────────────────────
-  'cta.title': '需要更深入的 AI 搜尋優化？',
-  'cta.desc': '我們提供 SEO / AEO / GEO 諮詢服務，幫助你的商品在 AI 搜尋引擎中獲得更高可見度。',
-  'cta.button': 'CONTACT US',
+  'cta.title': '想持續追蹤你的 AI 可見度？',
+  'cta.desc': '自動定期掃描、變化通知、競品比較 — AI 監控功能即將推出。留下 email 搶先體驗。',
+  'cta.button': 'GET EARLY ACCESS',
+  'cta.consulting': '或洽詢 SEO / AEO / GEO 顧問服務 \u2192',
 
   // ── Landing (About link) ─────────────────────────────
   'landing.learnMore': '了解更多關於 AIViz',
