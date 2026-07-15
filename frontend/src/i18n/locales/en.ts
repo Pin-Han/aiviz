@@ -154,6 +154,42 @@ const en: Record<string, string> = {
   'cta.title': 'Need deeper AI search optimization?',
   'cta.desc': 'We offer SEO / AEO / GEO consulting to help your products gain higher visibility in AI search engines.',
   'cta.button': 'CONTACT US',
+
+  // ── Landing (About link) ─────────────────────────────
+  'landing.learnMore': 'Learn more about AIViz',
+
+  // ── About Page ───────────────────────────────────────
+  'about.back': 'Back to Home',
+  'about.hero.title': 'Help AI search engines find your products',
+  'about.hero.subtitle': 'AIViz is a free AI visibility health checker designed for e-commerce sellers.',
+
+  'about.what.title': 'What is this?',
+  'about.what.desc': 'Google has Rich Results Test to check if your page meets Google Search structured data standards. But AI search engines (ChatGPT, Perplexity, Gemini) understand your products differently. AIViz was built for this — in 60 seconds, find out if AI can discover your product.',
+
+  'about.who.title': 'Who is it for?',
+  'about.who.shopify': 'Shopify store owners',
+  'about.who.cyberbiz': 'CYBERBIZ / 91APP store owners',
+  'about.who.woo': 'WooCommerce / self-hosted stores',
+  'about.who.marketer': 'E-commerce marketers & SEO consultants',
+
+  'about.how.title': 'How does it work?',
+  'about.how.step1.title': 'Crawl the page',
+  'about.how.step1.desc': 'Fetch product page HTML, parse JSON-LD, Open Graph, and Meta Tags',
+  'about.how.step2.title': '3-layer scoring',
+  'about.how.step2.desc': 'AI crawler access (30 pts) + Structured data (80 pts) + Advanced optimization (20 pts)',
+  'about.how.step3.title': 'AI simulation',
+  'about.how.step3.desc': 'Use Gemini AI to simulate search engine recommendation logic and assess your product\'s chances',
+
+  'about.roadmap.title': 'Roadmap',
+  'about.roadmap.item1': 'Shopify App — one-click install, automatic AI visibility monitoring',
+  'about.roadmap.item2': 'AI Brand Monitoring — track how often your brand is mentioned in AI search',
+  'about.roadmap.item3': 'Competitor Analysis — compare your AI visibility against competitors',
+  'about.roadmap.item4': 'Scheduled Scans — automatic periodic checks with change notifications',
+
+  'about.contact.title': 'Get in Touch',
+  'about.contact.desc': 'Have questions about SEO / AEO / GEO, or interested in working together? Drop us an email.',
+
+  'about.opensource': 'This project is open source on GitHub',
 }
 
 export default en

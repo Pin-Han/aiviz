@@ -154,6 +154,42 @@ const zhTW: Record<string, string> = {
   'cta.title': '需要更深入的 AI 搜尋優化？',
   'cta.desc': '我們提供 SEO / AEO / GEO 諮詢服務，幫助你的商品在 AI 搜尋引擎中獲得更高可見度。',
   'cta.button': 'CONTACT US',
+
+  // ── Landing (About link) ─────────────────────────────
+  'landing.learnMore': '了解更多關於 AIViz',
+
+  // ── About Page ───────────────────────────────────────
+  'about.back': '返回首頁',
+  'about.hero.title': '讓 AI 搜尋引擎找到你的商品',
+  'about.hero.subtitle': 'AIViz 是一款免費的 AI 可見度健檢工具，專為電商賣家設計。',
+
+  'about.what.title': '這是什麼？',
+  'about.what.desc': 'Google 有 Rich Results Test，讓你檢查網頁是否符合 Google 搜尋的結構化資料標準。但 AI 搜尋引擎（ChatGPT、Perplexity、Gemini）用不同的方式理解你的商品。AIViz 就是為此而生 — 60 秒內告訴你 AI 搜得到你的商品嗎。',
+
+  'about.who.title': '誰適合用？',
+  'about.who.shopify': 'Shopify 店家',
+  'about.who.cyberbiz': 'CYBERBIZ / 91APP 店家',
+  'about.who.woo': 'WooCommerce / 自架站',
+  'about.who.marketer': '電商行銷人員與 SEO 顧問',
+
+  'about.how.title': '怎麼運作？',
+  'about.how.step1.title': '爬取頁面',
+  'about.how.step1.desc': '抓取商品頁的 HTML，解析 JSON-LD、Open Graph、Meta Tags',
+  'about.how.step2.title': '三層評分',
+  'about.how.step2.desc': 'AI 爬蟲可及性（30 分）+ 結構化資料（80 分）+ 進階優化（20 分）',
+  'about.how.step3.title': 'AI 模擬分析',
+  'about.how.step3.desc': '用 Gemini AI 模擬搜尋引擎的推薦邏輯，評估你的商品被推薦的機率',
+
+  'about.roadmap.title': '未來計畫',
+  'about.roadmap.item1': 'Shopify App 一鍵安裝，自動監控 AI 可見度',
+  'about.roadmap.item2': 'AI 品牌監測 — 追蹤你的品牌在 AI 搜尋中的提及率',
+  'about.roadmap.item3': '競品分析 — 比較你和競爭對手的 AI 可見度差異',
+  'about.roadmap.item4': '定期掃描報告 — 自動排程檢查，變化時通知你',
+
+  'about.contact.title': '聯絡我們',
+  'about.contact.desc': '有任何 SEO / AEO / GEO 相關問題，或想合作，歡迎來信。',
+
+  'about.opensource': '本專案開源於 GitHub',
 }
 
 export default zhTW

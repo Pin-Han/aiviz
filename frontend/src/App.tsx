@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAnalysis } from './hooks/useAnalysis'
 import { useI18n, SUPPORTED_LOCALES } from './i18n'
 import type { Locale } from './i18n'
 import { UrlInput } from './components/UrlInput'
 import { AnalysisProgress } from './components/AnalysisProgress'
 import { Report } from './components/Report'
+import { About } from './components/About'
 import { decodeReport } from './utils/shareEncoder'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
@@ -13,6 +14,9 @@ function App() {
   const { state, analyze, reset: rawReset, setSharedReport } = useAnalysis()
   const { t, locale, setLocale } = useI18n()
   const savedRef = useRef(false)
+  const [page, setPage] = useState<'app' | 'about'>(
+    window.location.pathname === '/about' ? 'about' : 'app',
+  )
 
   // Load shared report from URL on mount
   useEffect(() => {
@@ -101,16 +105,22 @@ function App() {
         </select>
       </div>
 
-      {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} />}
-      {state.status === 'loading' && <AnalysisProgress step={state.step} />}
-      {state.status === 'loading-report' && <ReportLoading />}
-      {state.status === 'success' && <Report data={state.data} onReset={reset} />}
-      {state.status === 'error' && <ErrorView message={state.message} onReset={reset} />}
+      {page === 'about' ? (
+        <About onBack={() => { setPage('app'); window.history.pushState({}, '', '/') }} />
+      ) : (
+        <>
+          {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} onAbout={() => { setPage('about'); window.history.pushState({}, '', '/about') }} />}
+          {state.status === 'loading' && <AnalysisProgress step={state.step} />}
+          {state.status === 'loading-report' && <ReportLoading />}
+          {state.status === 'success' && <Report data={state.data} onReset={reset} />}
+          {state.status === 'error' && <ErrorView message={state.message} onReset={reset} />}
+        </>
+      )}
     </div>
   )
 }
 
-function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
+function Landing({ onAnalyze, onAbout }: { onAnalyze: (url: string) => void; onAbout: () => void }) {
   const { t } = useI18n()
 
   return (
@@ -177,8 +187,16 @@ function Landing({ onAnalyze }: { onAnalyze: (url: string) => void }) {
         />
       </div>
 
+      {/* Learn more link */}
+      <button
+        onClick={onAbout}
+        className="mt-12 text-xs text-accent hover:text-accent/80 transition-colors animate-fade-in-up stagger-3"
+      >
+        {t('landing.learnMore')} {'\u2192'}
+      </button>
+
       {/* Footer */}
-      <p className="mt-16 text-xs font-mono text-text-muted tracking-[0.2em] animate-fade-in-up stagger-3">
+      <p className="mt-6 text-xs font-mono text-text-muted tracking-[0.2em] animate-fade-in-up stagger-3">
         {t('landing.footer')}
       </p>
     </div>
