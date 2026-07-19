@@ -8,7 +8,11 @@ export type TranslationKey = string
 const LOCALES: Record<Locale, typeof zhTW> = { 'zh-TW': zhTW, en }
 const SUPPORTED: Locale[] = ['zh-TW', 'en']
 
+const LOCALE_KEY = 'aiviz-locale'
+
 function detectLocale(): Locale {
+  const saved = localStorage.getItem(LOCALE_KEY)
+  if (saved === 'zh-TW' || saved === 'en') return saved
   const lang = navigator.language
   if (lang.startsWith('zh')) return 'zh-TW'
   return 'en'
@@ -23,7 +27,12 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue>(null!)
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(detectLocale)
+  const [locale, setLocaleState] = useState<Locale>(detectLocale)
+
+  const setLocale = useCallback((l: Locale) => {
+    localStorage.setItem(LOCALE_KEY, l)
+    setLocaleState(l)
+  }, [])
 
   const t = useCallback(
     (key: TranslationKey, vars?: Record<string, string | number>) => {
