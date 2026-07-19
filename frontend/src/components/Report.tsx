@@ -1,6 +1,7 @@
 import type { AnalysisResponse } from '@aiviz/shared/types.js'
 import { SCORE_MAX_TOTAL } from '@aiviz/shared/constants.js'
 import { useI18n } from '../i18n'
+import { SHOPIFY_APP_URL, trackShopifyClick } from '../utils/shopify'
 import { ScoreCard } from './ScoreCard'
 import { RadarChart } from './RadarChart'
 import { NarrativeReport } from './NarrativeReport'
@@ -243,8 +244,6 @@ function DynamicRenderWarning({ url }: { url: string }) {
   )
 }
 
-const SHOPIFY_APP_URL = 'https://apps.shopify.com/'
-
 function ShopifyCta() {
   const { t } = useI18n()
 
@@ -264,6 +263,7 @@ function ShopifyCta() {
             href={SHOPIFY_APP_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={trackShopifyClick('report_detected')}
             className="
               inline-flex items-center gap-2 mt-3 px-4 py-2
               rounded-lg text-xs font-mono font-semibold tracking-wider
@@ -295,6 +295,7 @@ function ShopifyCtaGeneric() {
         href={SHOPIFY_APP_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={trackShopifyClick('report_generic')}
         className="text-xs text-text-muted hover:text-accent transition-colors"
       >
         {t('shopify.cta.generic')}

@@ -186,11 +186,14 @@ const en: Record<string, string> = {
   'about.how.step3.title': 'AI simulation',
   'about.how.step3.desc': 'Use Gemini AI to simulate search engine recommendation logic and assess your product\'s chances',
 
+  'about.shopify.title': 'On Shopify? Scan your entire store',
+  'about.shopify.desc': 'Install our free Shopify App to scan all your products at once, track improvement progress, and get one-click fix links. No need to enter URLs one by one.',
+  'about.shopify.button': 'Install Free on Shopify',
+
   'about.roadmap.title': 'Roadmap',
-  'about.roadmap.item1': 'Shopify App — one-click install, automatic AI visibility monitoring',
-  'about.roadmap.item2': 'AI Brand Monitoring — track how often your brand is mentioned in AI search',
-  'about.roadmap.item3': 'Competitor Analysis — compare your AI visibility against competitors',
-  'about.roadmap.item4': 'Scheduled Scans — automatic periodic checks with change notifications',
+  'about.roadmap.item1': 'AI Brand Monitoring — track how often your brand is mentioned in AI search',
+  'about.roadmap.item2': 'Competitor Analysis — compare your AI visibility against competitors',
+  'about.roadmap.item3': 'Scheduled Scans — automatic periodic checks with change notifications',
 
   'about.contact.title': 'Get in Touch',
   'about.contact.desc': 'Have questions about SEO / AEO / GEO, or interested in working together? Drop us an email.',

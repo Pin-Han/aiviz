@@ -186,11 +186,14 @@ const zhTW: Record<string, string> = {
   'about.how.step3.title': 'AI 模擬分析',
   'about.how.step3.desc': '用 Gemini AI 模擬搜尋引擎的推薦邏輯，評估你的商品被推薦的機率',
 
+  'about.shopify.title': 'Shopify 店家？一鍵掃描全站',
+  'about.shopify.desc': '安裝免費的 Shopify App，一次掃描全店商品的 AI 可見度、追蹤改善進度、取得一鍵修復連結。不需要逐頁輸入 URL。',
+  'about.shopify.button': 'Install Free on Shopify',
+
   'about.roadmap.title': '未來計畫',
-  'about.roadmap.item1': 'Shopify App 一鍵安裝，自動監控 AI 可見度',
-  'about.roadmap.item2': 'AI 品牌監測 — 追蹤你的品牌在 AI 搜尋中的提及率',
-  'about.roadmap.item3': '競品分析 — 比較你和競爭對手的 AI 可見度差異',
-  'about.roadmap.item4': '定期掃描報告 — 自動排程檢查，變化時通知你',
+  'about.roadmap.item1': 'AI 品牌監測 — 追蹤你的品牌在 AI 搜尋中的提及率',
+  'about.roadmap.item2': '競品分析 — 比較你和競爭對手的 AI 可見度差異',
+  'about.roadmap.item3': '定期掃描報告 — 自動排程檢查，變化時通知你',
 
   'about.contact.title': '聯絡我們',
   'about.contact.desc': '有任何 SEO / AEO / GEO 相關問題，或想合作，歡迎來信。',

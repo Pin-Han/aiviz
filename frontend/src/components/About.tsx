@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n'
+import { SHOPIFY_APP_URL, trackShopifyClick } from '../utils/shopify'
 
 interface AboutProps {
   onBack: () => void
@@ -103,6 +104,37 @@ export function About({ onBack }: AboutProps) {
           </div>
         </div>
 
+        {/* Shopify App CTA */}
+        <div className="glass-card p-6 animate-fade-in-up stagger-2" style={{ borderColor: 'rgba(150, 191, 72, 0.3)', background: 'rgba(150, 191, 72, 0.03)' }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: '#96bf48' }}>
+              <svg width="12" height="14" viewBox="0 0 256 292" fill="white">
+                <path d="M223.774 57.34c-.201-1.46-1.48-2.268-2.537-2.357-1.055-.088-22.768-.517-22.768-.517s-15.129-14.71-16.818-16.399c-1.69-1.69-4.954-1.143-6.24-.826-.09 0-3.387 1.028-8.577 2.7-5.013-14.71-13.94-28.207-29.606-28.207-.428 0-.876.022-1.324.044C132.878 7.7 129.336 5 126.303 5c-28.872 0-42.7 36.108-47.043 54.471-11.303 3.518-19.352 5.982-20.407 6.316-6.33 1.983-6.508 2.18-7.342 8.123C50.962 78.69 33 222.972 33 222.972L173.906 252l55.752-12.078s-5.686-180.916-5.884-182.582z"/>
+              </svg>
+            </div>
+            <h2 className="text-sm font-semibold text-text-primary">{t('about.shopify.title')}</h2>
+          </div>
+          <p className="text-sm text-text-muted leading-relaxed mb-4">{t('about.shopify.desc')}</p>
+          <a
+            href={SHOPIFY_APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={trackShopifyClick('about_shopify_cta')}
+            className="
+              inline-flex items-center gap-2 px-4 py-2.5
+              rounded-lg text-xs font-mono font-semibold tracking-wider
+              text-white transition-all duration-200
+              hover:opacity-90 active:scale-[0.97]
+            "
+            style={{ background: '#96bf48' }}
+          >
+            {t('about.shopify.button')}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
         {/* Roadmap */}
         <div className="glass-card p-6 animate-fade-in-up stagger-2">
           <div className="flex items-center gap-2 mb-4">
@@ -115,7 +147,7 @@ export function About({ onBack }: AboutProps) {
             <span className="text-xs font-mono text-text-dim tracking-wider bg-surface-2 px-1.5 py-0.5 rounded">COMING SOON</span>
           </div>
           <div className="space-y-2.5">
-            {([1, 2, 3, 4] as const).map((i) => (
+            {([1, 2, 3] as const).map((i) => (
               <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg bg-surface-2/30">
                 <span className="text-accent text-xs mt-0.5">{'\u2192'}</span>
                 <span className="text-sm text-text-muted leading-relaxed">{t(`about.roadmap.item${i}`)}</span>
