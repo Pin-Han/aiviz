@@ -46,21 +46,22 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
         </button>
 
         {/* Meta */}
-        <div className="mb-8 animate-fade-in-up">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="mb-10 pb-8 border-b border-border animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-4">
             <span className="text-xs font-mono text-text-dim tracking-wider">
               {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </span>
+            <span className="w-1 h-1 rounded-full bg-text-dim" />
             {post.tags.map((tag) => (
               <span key={tag} className="text-xs font-mono text-accent/60 bg-accent/5 px-2 py-0.5 rounded tracking-wider">
                 {tag}
               </span>
             ))}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight leading-snug">
             {post.title}
           </h1>
-          <p className="text-sm text-text-muted mt-3 leading-relaxed">{post.description}</p>
+          <p className="text-base text-text-muted mt-4 leading-relaxed">{post.description}</p>
         </div>
 
         {/* Content */}
