@@ -3,8 +3,79 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AIViz — AI Visibility Checker</title>
-    <meta name="description" content="Check if AI search engines can find your e-commerce products. Get actionable fix suggestions in 60 seconds." />
+    <title>AIViz — AI Visibility Checker | AI 搜尋可見度檢測工具</title>
+    <meta name="description" content="免費檢測你的電商商品頁是否能被 ChatGPT、Perplexity、Gemini 等 AI 搜尋引擎找到。60 秒掃描，獲得可直接複製的修復建議。" />
+    <link rel="canonical" href="https://ai-vision-check-pink.vercel.app/" />
+
+    <!-- Alternate languages -->
+    <link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/" />
+    <link rel="alternate" hreflang="x-default" href="https://ai-vision-check-pink.vercel.app/" />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AIViz" />
+    <meta property="og:title" content="AIViz — AI Visibility Checker | AI 搜尋可見度檢測工具" />
+    <meta property="og:description" content="免費檢測你的電商商品頁是否能被 ChatGPT、Perplexity、Gemini 等 AI 搜尋引擎找到。60 秒掃描，獲得可直接複製的修復建議。" />
+    <meta property="og:url" content="https://ai-vision-check-pink.vercel.app/" />
+    <meta property="og:image" content="https://ai-vision-check-pink.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AIViz — 檢測你的商品是否能被 AI 搜尋引擎找到" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AIViz — AI Visibility Checker" />
+    <meta name="twitter:description" content="免費檢測你的電商商品頁是否能被 AI 搜尋引擎找到。60 秒掃描，獲得修復建議。" />
+    <meta name="twitter:image" content="https://ai-vision-check-pink.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="AIViz — AI 搜尋可見度檢測工具" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- LLMs.txt for AI crawler discoverability -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site description" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AIViz",
+      "alternateName": "AI Visibility Checker",
+      "url": "https://ai-vision-check-pink.vercel.app/",
+      "description": "Free AI visibility checker for e-commerce product pages. Scans structured data, evaluates AI readability, and provides fix suggestions for ChatGPT, Perplexity, and Gemini.",
+      "applicationCategory": "SEO Tool",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": ["zh-TW", "en"],
+      "creator": {
+        "@type": "Person",
+        "name": "Pin-Han",
+        "url": "https://github.com/Pin-Han"
+      },
+      "featureList": [
+        "Structured data scoring (JSON-LD, Open Graph, Meta tags)",
+        "AI readability assessment",
+        "AI search simulation",
+        "One-click fix suggestions with copyable code",
+        "robots.txt and llms.txt verification"
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -18,7 +89,28 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static content for crawlers (replaced by React on mount) -->
+      <div style="max-width:640px;margin:0 auto;padding:80px 16px;font-family:system-ui,sans-serif;text-align:center">
+        <h1 style="font-size:2rem;font-weight:700;color:#1c1917;margin:0 0 12px">你的商品，AI 搜得到嗎？</h1>
+        <p style="font-size:0.875rem;color:#78716c;line-height:1.6;margin:0 0 32px">
+          60 秒掃描你的商品頁，檢查 ChatGPT、Perplexity、Gemini 等 AI 搜尋引擎的可見度，獲得可直接複製的修復程式碼。
+        </p>
+        <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;text-align:left">
+          <div><h2 style="font-size:0.875rem;font-weight:600;color:#1c1917;margin:0 0 4px">結構化資料評分</h2><p style="font-size:0.8rem;color:#78716c;margin:0">掃描 schema.org 標記完整度，8 項檢查規則</p></div>
+          <div><h2 style="font-size:0.875rem;font-weight:600;color:#1c1917;margin:0 0 4px">AI 可讀性評估</h2><p style="font-size:0.8rem;color:#78716c;margin:0">從 AI 搜尋引擎的角度，診斷你的商品資料品質</p></div>
+          <div><h2 style="font-size:0.875rem;font-weight:600;color:#1c1917;margin:0 0 4px">一鍵修復建議</h2><p style="font-size:0.8rem;color:#78716c;margin:0">產出可直接複製的 JSON-LD 程式碼片段</p></div>
+        </div>
+        <p style="font-size:0.75rem;color:#a8a29e;margin-top:48px;letter-spacing:0.2em">OPEN SOURCE · ZERO COST · PRIVACY FIRST</p>
+      </div>
+    </div>
+    <noscript>
+      <div style="max-width:640px;margin:0 auto;padding:80px 16px;font-family:system-ui,sans-serif;text-align:center">
+        <h1 style="font-size:2rem;font-weight:700;color:#1c1917">AIViz — AI 搜尋可見度檢測工具</h1>
+        <p style="color:#78716c;margin:16px 0">此工具需要 JavaScript 才能運作。請啟用 JavaScript 後重新整理頁面。</p>
+        <p style="color:#78716c">This tool requires JavaScript. Please enable JavaScript and reload.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

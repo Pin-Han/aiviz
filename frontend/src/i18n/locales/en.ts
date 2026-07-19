@@ -156,6 +156,11 @@ const en: Record<string, string> = {
   'cta.button': 'GET EARLY ACCESS',
   'cta.consulting': 'Or inquire about SEO / AEO / GEO consulting \u2192',
 
+  // ── Shopify CTA ─────────────────────────────────────
+  'shopify.cta.detected': 'This store runs on Shopify — install SEO Checkup to scan all your products at once, track progress, and get fix links.',
+  'shopify.cta.button': 'Install Free on Shopify',
+  'shopify.cta.generic': 'Running a Shopify store? Try our free Shopify app for full-store scanning.',
+
   // ── Landing (About link) ─────────────────────────────
   'landing.learnMore': 'Learn more about AIViz',
 
@@ -191,6 +196,11 @@ const en: Record<string, string> = {
   'about.contact.desc': 'Have questions about SEO / AEO / GEO, or interested in working together? Drop us an email.',
 
   'about.opensource': 'This project is open source on GitHub',
+
+  // ── Page Titles (SEO) ───────────────────────────────
+  'meta.title.home': 'AIViz — AI Visibility Checker',
+  'meta.title.about': 'About AIViz — AI Visibility Checker',
+  'meta.title.report': 'AI Visibility Report for {url} — AIViz',
 }
 
 export default en

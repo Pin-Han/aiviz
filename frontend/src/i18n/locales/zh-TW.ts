@@ -156,6 +156,11 @@ const zhTW: Record<string, string> = {
   'cta.button': 'GET EARLY ACCESS',
   'cta.consulting': '或洽詢 SEO / AEO / GEO 顧問服務 \u2192',
 
+  // ── Shopify CTA ─────────────────────────────────────
+  'shopify.cta.detected': '此商店使用 Shopify — 安裝 SEO Checkup 即可一次掃描全店商品、追蹤改善進度、取得修復連結。',
+  'shopify.cta.button': 'Install Free on Shopify',
+  'shopify.cta.generic': '你有 Shopify 商店嗎？試試我們的免費 Shopify App，一次掃描全站商品。',
+
   // ── Landing (About link) ─────────────────────────────
   'landing.learnMore': '了解更多關於 AIViz',
 
@@ -191,6 +196,11 @@ const zhTW: Record<string, string> = {
   'about.contact.desc': '有任何 SEO / AEO / GEO 相關問題，或想合作，歡迎來信。',
 
   'about.opensource': '本專案開源於 GitHub',
+
+  // ── Page Titles (SEO) ───────────────────────────────
+  'meta.title.home': 'AIViz — AI 搜尋可見度檢測工具',
+  'meta.title.about': '關於 AIViz — AI 搜尋可見度檢測工具',
+  'meta.title.report': '{url} 的 AI 可見度報告 — AIViz',
 }
 
 export default zhTW

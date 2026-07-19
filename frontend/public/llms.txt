@@ -1,0 +1,42 @@
+# AIViz — AI Visibility Checker
+
+> Free, open-source tool that checks if AI search engines (ChatGPT, Perplexity, Gemini) can discover, understand, and recommend your e-commerce products.
+
+## What it does
+
+AIViz scans a product page URL and produces a visibility report covering:
+
+- **Crawler Accessibility**: Can AI bots (GPTBot, PerplexityBot) reach and read the page?
+- **Structured Data Scoring**: Does the page have proper JSON-LD Product schema, Open Graph, and meta tags?
+- **AI Readability Assessment**: How well can an AI model understand what the page is selling?
+- **Search Simulation**: Would an AI search engine recommend this product for relevant queries?
+- **Fix Suggestions**: Copy-paste JSON-LD code snippets to improve visibility.
+
+## How it works
+
+1. Submit a product page URL
+2. AIViz crawls the HTML, extracts structured data (JSON-LD, Open Graph, meta tags)
+3. Runs 13 scoring rules across 3 categories (accessibility, structured data, advanced)
+4. Uses Gemini AI for readability assessment and search simulation
+5. Returns a scored report with actionable fixes
+
+## Who it's for
+
+- Shopify store owners
+- E-commerce sellers on any platform
+- SEO / AEO / GEO practitioners
+- Digital marketers optimizing for AI search
+
+## Key URLs
+
+- Homepage: https://ai-vision-check-pink.vercel.app/
+- About: https://ai-vision-check-pink.vercel.app/about
+- Source code: https://github.com/Pin-Han/aiviz
+
+## Technical details
+
+- Frontend: React 19 SPA (Vite + Tailwind CSS)
+- Backend: Vercel Serverless Functions
+- AI: Google Gemini for readability and search simulation
+- Languages: Traditional Chinese (zh-TW) and English
+- License: Open source

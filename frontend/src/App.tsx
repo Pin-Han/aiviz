@@ -79,6 +79,17 @@ function App() {
     rawReset()
   }
 
+  // Dynamic document title per page
+  useEffect(() => {
+    if (page === 'about') {
+      document.title = t('meta.title.about')
+    } else if (state.status === 'success') {
+      document.title = t('meta.title.report', { url: new URL(state.data.url).hostname })
+    } else {
+      document.title = t('meta.title.home')
+    }
+  }, [page, state.status, state.status === 'success' ? state.data.url : '', t])
+
   return (
     <div className="min-h-screen bg-bg relative">
       {/* Subtle dot pattern */}
