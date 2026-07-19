@@ -18,10 +18,6 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
     }
   }, [post])
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [slug])
-
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -35,57 +31,38 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
     )
   }
 
-  const readingTime = Math.max(1, Math.round(post.html.replace(/<[^>]*>/g, '').length / 500))
-
   return (
-    <div className="min-h-screen py-16 px-4">
-      <article className="max-w-[680px] mx-auto">
+    <div className="min-h-screen py-12 px-4">
+      <article className="max-w-2xl mx-auto">
         {/* Back */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors mb-12"
+          className="flex items-center gap-2 text-xs font-mono text-text-muted hover:text-text-primary transition-colors tracking-wider mb-8"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="15 18 9 12 15 6" />
           </svg>
-          {post.lang === 'zh-TW' ? '所有文章' : 'All articles'}
+          BLOG
         </button>
 
-        {/* Header */}
-        <header className="mb-12 animate-fade-in-up">
-          {/* Tags */}
-          <div className="flex items-center gap-2 mb-5">
+        {/* Meta */}
+        <div className="mb-10 pb-8 border-b border-border animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs font-mono text-text-dim tracking-wider">
+              {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-text-dim" />
             {post.tags.map((tag) => (
-              <span key={tag} className="text-xs font-medium text-accent bg-accent/8 px-2.5 py-1 rounded-full">
+              <span key={tag} className="text-xs font-mono text-accent/60 bg-accent/5 px-2 py-0.5 rounded tracking-wider">
                 {tag}
               </span>
             ))}
           </div>
-
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight leading-[1.25] mb-5">
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight leading-snug">
             {post.title}
           </h1>
-
-          {/* Description */}
-          <p className="text-lg text-text-muted leading-relaxed mb-6">
-            {post.description}
-          </p>
-
-          {/* Meta line */}
-          <div className="flex items-center gap-3 text-sm text-text-dim pt-6 border-t border-border">
-            <span>AIViz</span>
-            <span className="w-1 h-1 rounded-full bg-text-dim" />
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString(
-                post.lang === 'zh-TW' ? 'zh-TW' : 'en-US',
-                { year: 'numeric', month: 'long', day: 'numeric' },
-              )}
-            </time>
-            <span className="w-1 h-1 rounded-full bg-text-dim" />
-            <span>{post.lang === 'zh-TW' ? `${readingTime} 分鐘閱讀` : `${readingTime} min read`}</span>
-          </div>
-        </header>
+          <p className="text-base text-text-muted mt-4 leading-relaxed">{post.description}</p>
+        </div>
 
         {/* Content */}
         <div
@@ -94,48 +71,46 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
         />
 
         {/* Bottom CTA */}
-        <div className="mt-16 rounded-2xl p-8 animate-fade-in-up" style={{ background: 'linear-gradient(135deg, rgba(13,115,119,0.06) 0%, rgba(150,191,72,0.06) 100%)', border: '1px solid rgba(13,115,119,0.12)' }}>
-          <h3 className="text-lg font-bold text-text-primary mb-2">
-            {post.lang === 'zh-TW' ? '想知道你的商品在 AI 搜尋中的表現？' : 'Curious how your products perform in AI search?'}
-          </h3>
-          <p className="text-sm text-text-muted mb-6 leading-relaxed">
-            {post.lang === 'zh-TW'
-              ? '用 AIViz 免費掃描你的商品頁，60 秒拿到完整的 AI 可見度報告和修復建議。'
-              : 'Scan your product page with AIViz for free — get a full AI visibility report with fix suggestions in 60 seconds.'}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="/"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg rounded-xl text-sm font-semibold hover:bg-accent/90 active:scale-[0.97] transition-all"
-            >
-              {post.lang === 'zh-TW' ? '免費掃描商品頁' : 'Scan Your Product Page'}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-            <a
-              href={SHOPIFY_APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={trackShopifyClick('blog_post_cta')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white hover:opacity-90 active:scale-[0.97] transition-all"
-              style={{ background: '#96bf48' }}
-            >
-              Shopify App
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-              </svg>
-            </a>
+        <div className="mt-12 glass-card p-6 animate-fade-in-up" style={{ borderColor: 'rgba(150, 191, 72, 0.3)', background: 'rgba(150, 191, 72, 0.03)' }}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-text-primary mb-1">
+                {post.lang === 'zh-TW' ? '想檢查你的商品 AI 可見度？' : 'Check your store\'s AI visibility'}
+              </p>
+              <p className="text-sm text-text-muted">
+                {post.lang === 'zh-TW'
+                  ? '用 AIViz 免費掃描，60 秒拿到報告。'
+                  : 'Scan with AIViz for free — get your report in 60 seconds.'}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <a
+                href="/"
+                className="px-4 py-2 bg-accent text-bg rounded-lg text-xs font-mono font-semibold tracking-wider hover:bg-accent/90 active:scale-[0.97] transition-all"
+              >
+                {post.lang === 'zh-TW' ? '免費掃描' : 'Scan Free'}
+              </a>
+              <a
+                href={SHOPIFY_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={trackShopifyClick('blog_post_cta')}
+                className="px-4 py-2 rounded-lg text-xs font-mono font-semibold tracking-wider text-white hover:opacity-90 active:scale-[0.97] transition-all"
+                style={{ background: '#96bf48' }}
+              >
+                Shopify App
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Footer nav */}
-        <div className="flex justify-center pt-12 pb-8">
+        {/* Footer */}
+        <div className="text-center pt-8 pb-8">
           <button
             onClick={onBack}
-            className="text-sm text-accent hover:text-accent/80 transition-colors font-medium"
+            className="text-xs text-accent hover:text-accent/80 transition-colors"
           >
-            {post.lang === 'zh-TW' ? '← 回到所有文章' : '← Back to all articles'}
+            {post.lang === 'zh-TW' ? '← 更多文章' : '← More articles'}
           </button>
         </div>
       </article>

@@ -96,40 +96,39 @@
   .stagger-4 { animation-delay: 0.2s; }
   .stagger-5 { animation-delay: 0.25s; }
 
-  /* Blog prose styles — inspired by jidou.ai blog layout */
+  /* Blog prose styles */
   .prose-aiviz {
-    color: #374151;
-    line-height: 1.9;
-    font-size: 1.125rem;
-    letter-spacing: 0.015em;
-    word-break: break-word;
+    color: var(--color-text);
+    line-height: 2;
+    font-size: 1.0625rem;
+    letter-spacing: 0.01em;
   }
   .prose-aiviz h2 {
     color: var(--color-text);
-    font-size: 1.5rem;
+    font-size: 1.375rem;
     font-weight: 700;
-    margin-top: 3.5rem;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
-    line-height: 1.4;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    letter-spacing: -0.01em;
   }
   .prose-aiviz h3 {
     color: var(--color-text);
-    font-size: 1.2rem;
+    font-size: 1.125rem;
     font-weight: 600;
-    margin-top: 2.5rem;
+    margin-top: 2.25rem;
     margin-bottom: 0.75rem;
-    line-height: 1.5;
   }
   .prose-aiviz p {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-muted);
   }
   .prose-aiviz a {
     color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: rgba(13, 115, 119, 0.3);
-    transition: text-decoration-color 0.2s;
   }
   .prose-aiviz a:hover {
     text-decoration-color: var(--color-accent);
@@ -139,29 +138,26 @@
     font-weight: 600;
   }
   .prose-aiviz ul, .prose-aiviz ol {
-    padding-left: 1.5rem;
-    margin-bottom: 1.75rem;
+    padding-left: 1.75rem;
+    margin-bottom: 1.5rem;
   }
   .prose-aiviz li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.625rem;
+    color: var(--color-text-muted);
     line-height: 1.85;
-    padding-left: 0.25rem;
   }
   .prose-aiviz ul li { list-style-type: disc; }
   .prose-aiviz ol li { list-style-type: decimal; }
-  .prose-aiviz li::marker {
-    color: var(--color-accent);
-  }
   .prose-aiviz blockquote {
     border-left: 3px solid var(--color-accent);
-    padding: 1.25rem 1.5rem;
-    margin: 2.5rem 0;
+    padding: 1rem 1.25rem;
+    margin: 2rem 0;
     background: var(--color-accent-glow);
     border-radius: 0 8px 8px 0;
+    font-style: italic;
   }
   .prose-aiviz blockquote p {
     margin-bottom: 0;
-    font-style: italic;
     color: var(--color-text-muted);
   }
   .prose-aiviz code {
@@ -172,58 +168,27 @@
     color: var(--color-text);
   }
   .prose-aiviz pre {
-    background: #1e293b;
-    color: #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.25rem;
     overflow-x: auto;
-    margin: 2.5rem 0;
+    margin: 2rem 0;
     font-size: 0.875rem;
-    line-height: 1.7;
+    line-height: 1.6;
   }
   .prose-aiviz pre code {
     background: none;
     padding: 0;
-    color: inherit;
   }
   .prose-aiviz hr {
     border: none;
     border-top: 1px solid var(--color-border);
-    margin: 3rem 0;
+    margin: 2.5rem 0;
   }
   .prose-aiviz img {
-    border-radius: 12px;
-    margin: 2.5rem 0;
-    width: 100%;
-  }
-  /* Tables */
-  .prose-aiviz table {
-    width: 100%;
-    border-collapse: collapse;
+    border-radius: 8px;
     margin: 2rem 0;
-    font-size: 0.9375rem;
-  }
-  .prose-aiviz thead th {
-    background: var(--color-surface-2);
-    font-weight: 600;
-    color: var(--color-text);
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 2px solid var(--color-border);
-    font-size: 0.875rem;
-    letter-spacing: 0.02em;
-  }
-  .prose-aiviz tbody td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    vertical-align: top;
-    line-height: 1.6;
-  }
-  .prose-aiviz tbody tr:last-child td {
-    border-bottom: none;
-  }
-  .prose-aiviz tbody tr:hover {
-    background: rgba(13, 115, 119, 0.02);
   }
   .line-clamp-2 {
     display: -webkit-box;

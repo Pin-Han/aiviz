@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+  <rect width="800" height="320" rx="16" fill="#fafaf9"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="600" fill="#1c1917">AI 搜尋引擎怎麼「找到」你的商品？</text>
+
+  <!-- Step 1: Your Product Page -->
+  <rect x="32" y="70" width="160" height="100" rx="12" fill="#fff" stroke="#e7e2dc" stroke-width="1.5"/>
+  <rect x="32" y="70" width="160" height="32" rx="12" fill="#f5f3f0"/>
+  <text x="112" y="92" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#57534e">你的商品頁</text>
+  <text x="112" y="118" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#0d7377">JSON-LD</text>
+  <text x="112" y="134" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#0d7377">Open Graph</text>
+  <text x="112" y="150" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#0d7377">Meta Tags</text>
+
+  <!-- Arrow 1 -->
+  <path d="M200 120 L248 120" stroke="#d4cdc4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: AI Crawler -->
+  <rect x="256" y="70" width="160" height="100" rx="12" fill="#fff" stroke="#e7e2dc" stroke-width="1.5"/>
+  <rect x="256" y="70" width="160" height="32" rx="12" fill="#0d7377" opacity="0.08"/>
+  <text x="336" y="92" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#0d7377">AI 爬蟲抓取</text>
+  <text x="336" y="118" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">GPTBot</text>
+  <text x="336" y="134" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">PerplexityBot</text>
+  <text x="336" y="150" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">Google-Extended</text>
+
+  <!-- Arrow 2 -->
+  <path d="M424 120 L472 120" stroke="#d4cdc4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: AI understands -->
+  <rect x="480" y="70" width="160" height="100" rx="12" fill="#fff" stroke="#e7e2dc" stroke-width="1.5"/>
+  <rect x="480" y="70" width="160" height="32" rx="12" fill="#0d7377" opacity="0.12"/>
+  <text x="560" y="92" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#0d7377">AI 理解商品</text>
+  <text x="560" y="118" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">品名、價格、品牌</text>
+  <text x="560" y="134" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">評價、庫存狀態</text>
+  <text x="560" y="150" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#57534e">商品描述</text>
+
+  <!-- Arrow 3 -->
+  <path d="M648 120 L696 120" stroke="#d4cdc4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Recommend -->
+  <rect x="704" y="70" width="72" height="100" rx="12" fill="#0d7377" opacity="0.1" stroke="#0d7377" stroke-width="1.5" stroke-opacity="0.3"/>
+  <text x="740" y="110" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22">✅</text>
+  <text x="740" y="136" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#0d7377">推薦</text>
+  <text x="740" y="150" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#0d7377">你的商品</text>
+
+  <!-- Bottom: what blocks it -->
+  <rect x="32" y="200" width="736" height="96" rx="12" fill="#fff" stroke="#dc2626" stroke-width="1" stroke-opacity="0.2"/>
+  <rect x="32" y="200" width="736" height="30" rx="12" fill="#dc2626" opacity="0.05"/>
+  <text x="400" y="221" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#dc2626">❌ 常見斷點 — 少了任何一項，AI 就當你不存在</text>
+
+  <text x="80" y="252" font-family="system-ui,sans-serif" font-size="11" fill="#57534e">
+    <tspan font-weight="600" fill="#1c1917">robots.txt 封鎖</tspan>
+    <tspan dx="4">AI 爬蟲進不來</tspan>
+  </text>
+  <text x="320" y="252" font-family="system-ui,sans-serif" font-size="11" fill="#57534e">
+    <tspan font-weight="600" fill="#1c1917">缺少 JSON-LD</tspan>
+    <tspan dx="4">AI 讀不懂你賣什麼</tspan>
+  </text>
+  <text x="570" y="252" font-family="system-ui,sans-serif" font-size="11" fill="#57534e">
+    <tspan font-weight="600" fill="#1c1917">純 JS 渲染</tspan>
+    <tspan dx="4">爬蟲只看到空白</tspan>
+  </text>
+
+  <circle cx="64" cy="278" r="4" fill="#dc2626" opacity="0.15"/><text x="74" y="282" font-family="ui-monospace,monospace" font-size="9" fill="#a8a29e">Disallow: GPTBot</text>
+  <circle cx="304" cy="278" r="4" fill="#dc2626" opacity="0.15"/><text x="314" y="282" font-family="ui-monospace,monospace" font-size="9" fill="#a8a29e">No Product Schema</text>
+  <circle cx="554" cy="278" r="4" fill="#dc2626" opacity="0.15"/><text x="564" y="282" font-family="ui-monospace,monospace" font-size="9" fill="#a8a29e">SPA / Client-side only</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d4cdc4"/>
+    </marker>
+  </defs>
+</svg>
