@@ -3,9 +3,64 @@ import { useI18n } from '../i18n'
 import { getPostBySlug } from './posts'
 import { SHOPIFY_APP_URL, trackShopifyClick } from '../utils/shopify'
 
+const SITE_URL = 'https://ai-vision-check-pink.vercel.app'
+
 interface BlogPostProps {
   slug: string
   onBack: () => void
+}
+
+/** Set or create a <meta> tag */
+function setMeta(attr: string, key: string, content: string) {
+  let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null
+  if (!el) {
+    el = document.createElement('meta')
+    el.setAttribute(attr, key)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+/** Set or create a <link> tag */
+function setLink(rel: string, href: string) {
+  let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', rel)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
+
+/** Inject Article JSON-LD */
+function setArticleJsonLd(post: { title: string; description: string; date: string; slug: string; tags: string[] }) {
+  const id = 'blog-article-jsonld'
+  let el = document.getElementById(id) as HTMLScriptElement | null
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    url: `${SITE_URL}/blog/${post.slug}`,
+    author: { '@type': 'Person', name: 'Pin-Han', url: 'https://github.com/Pin-Han' },
+    publisher: { '@type': 'Organization', name: 'AIViz', url: SITE_URL },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
+    keywords: post.tags,
+    inLanguage: 'zh-TW',
+  })
+}
+
+/** Clean up injected SEO tags on unmount */
+function cleanupBlogSeo() {
+  document.getElementById('blog-article-jsonld')?.remove()
 }
 
 export function BlogPost({ slug, onBack }: BlogPostProps) {
@@ -13,9 +68,34 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
   const post = getPostBySlug(slug)
 
   useEffect(() => {
-    if (post) {
-      document.title = `${post.title} — AIViz Blog`
-    }
+    if (!post) return
+
+    // Title
+    document.title = `${post.title} — AIViz Blog`
+
+    // Meta description
+    setMeta('name', 'description', post.description)
+
+    // Canonical
+    setLink('canonical', `${SITE_URL}/blog/${post.slug}`)
+
+    // Open Graph
+    setMeta('property', 'og:type', 'article')
+    setMeta('property', 'og:title', post.title)
+    setMeta('property', 'og:description', post.description)
+    setMeta('property', 'og:url', `${SITE_URL}/blog/${post.slug}`)
+
+    // Twitter
+    setMeta('name', 'twitter:title', post.title)
+    setMeta('name', 'twitter:description', post.description)
+
+    // Article JSON-LD
+    setArticleJsonLd(post)
+
+    // Scroll to top
+    window.scrollTo(0, 0)
+
+    return () => cleanupBlogSeo()
   }, [post])
 
   if (!post) {

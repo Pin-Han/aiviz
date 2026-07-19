@@ -31,7 +31,13 @@ AIViz scans a product page URL and produces a visibility report covering:
 
 - Homepage: https://ai-vision-check-pink.vercel.app/
 - About: https://ai-vision-check-pink.vercel.app/about
+- Blog: https://ai-vision-check-pink.vercel.app/blog
+- Shopify App: https://apps.shopify.com/seo-checkup
 - Source code: https://github.com/Pin-Han/aiviz
+
+## Blog posts
+
+- [你的 Shopify 商品，ChatGPT 搜得到嗎？](https://ai-vision-check-pink.vercel.app/blog/can-chatgpt-find-your-shopify-products) — Shopify 店家如何檢查 AI 搜尋可見度的完整教學
 
 ## Technical details
 

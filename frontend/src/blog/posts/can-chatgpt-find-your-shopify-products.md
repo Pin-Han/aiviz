@@ -1,9 +1,9 @@
 ---
-title: "你的 Shopify 商品，ChatGPT 搜得到嗎？"
-description: "AI 搜尋引擎正在改變消費者找商品的方式。你的 Shopify 商店準備好了嗎？這篇文章告訴你該怎麼檢查、怎麼修。"
+title: "你的 Shopify 商品，ChatGPT 搜得到嗎？完整檢查教學"
+description: "Shopify 店家必讀：如何檢查你的商品是否能被 ChatGPT、Perplexity 等 AI 搜尋引擎找到？用免費工具 AIViz 60 秒掃描，取得 AI 可見度分數和修復建議。"
 date: "2026-07-19"
 lang: "zh-TW"
-tags: ["Shopify", "AI SEO", "教學"]
+tags: ["Shopify SEO", "AI 搜尋優化", "結構化資料"]
 ---
 
 去年你可能還覺得「AI 搜尋」跟你的生意沒什麼關係。
