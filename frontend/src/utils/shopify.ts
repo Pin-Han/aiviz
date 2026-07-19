@@ -1,4 +1,4 @@
-export const SHOPIFY_APP_URL = 'https://apps.shopify.com/'
+export const SHOPIFY_APP_URL = 'https://apps.shopify.com/seo-checkup'
 
 /**
  * Returns an onClick handler that fires a GA4 event before navigating.
