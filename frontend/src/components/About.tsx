@@ -41,66 +41,73 @@ export function About({ onBack }: AboutProps) {
           </p>
         </div>
 
-        {/* What is this */}
-        <div className="glass-card p-6 animate-fade-in-up stagger-1">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 16v-4"/>
-                <path d="M12 8h.01"/>
-              </svg>
-            </div>
-            <h2 className="text-sm font-semibold text-text-primary">{t('about.what.title')}</h2>
-          </div>
-          <p className="text-sm text-text-muted leading-relaxed">{t('about.what.desc')}</p>
-        </div>
-
-        {/* Who is it for */}
-        <div className="glass-card p-6 animate-fade-in-up stagger-1">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </div>
-            <h2 className="text-sm font-semibold text-text-primary">{t('about.who.title')}</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {(['shopify', 'cyberbiz', 'woo', 'marketer'] as const).map((key) => (
-              <div key={key} className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-2/30">
-                <span className="text-accent text-xs">{'\u2713'}</span>
-                <span className="text-sm text-text-muted">{t(`about.who.${key}`)}</span>
+        {/* What · Who · How — unified card */}
+        <div className="glass-card p-6 animate-fade-in-up stagger-1 space-y-5">
+          {/* What is this */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* How it works */}
-        <div className="glass-card p-6 animate-fade-in-up stagger-2">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
+              <h2 className="text-sm font-semibold text-text-primary">{t('about.what.title')}</h2>
             </div>
-            <h2 className="text-sm font-semibold text-text-primary">{t('about.how.title')}</h2>
+            <p className="text-sm text-text-muted leading-relaxed">{t('about.what.desc')}</p>
           </div>
-          <div className="space-y-4">
-            {([1, 2, 3] as const).map((step) => (
-              <div key={step} className="flex gap-4">
-                <div className="w-7 h-7 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs font-bold text-accent">{step}</span>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-text-primary">{t(`about.how.step${step}.title`)}</p>
-                  <p className="text-sm text-text-muted mt-0.5 leading-relaxed">{t(`about.how.step${step}.desc`)}</p>
-                </div>
+
+          <hr className="border-border" />
+
+          {/* Who is it for */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
               </div>
-            ))}
+              <h2 className="text-sm font-semibold text-text-primary">{t('about.who.title')}</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {(['shopify', 'cyberbiz', 'woo', 'marketer'] as const).map((key) => (
+                <div key={key} className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-2/30">
+                  <span className="text-accent text-xs">{'\u2713'}</span>
+                  <span className="text-sm text-text-muted">{t(`about.who.${key}`)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <hr className="border-border" />
+
+          {/* How it works */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </div>
+              <h2 className="text-sm font-semibold text-text-primary">{t('about.how.title')}</h2>
+            </div>
+            <div className="space-y-4">
+              {([1, 2, 3] as const).map((step) => (
+                <div key={step} className="flex gap-4">
+                  <div className="w-7 h-7 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-accent">{step}</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-text-primary">{t(`about.how.step${step}.title`)}</p>
+                    <p className="text-sm text-text-muted mt-0.5 leading-relaxed">{t(`about.how.step${step}.desc`)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
