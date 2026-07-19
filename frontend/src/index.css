@@ -95,4 +95,93 @@
   .stagger-3 { animation-delay: 0.15s; }
   .stagger-4 { animation-delay: 0.2s; }
   .stagger-5 { animation-delay: 0.25s; }
+
+  /* Blog prose styles */
+  .prose-aiviz {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    font-size: 0.9375rem;
+  }
+  .prose-aiviz h2 {
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .prose-aiviz h3 {
+    color: var(--color-text);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-aiviz p {
+    margin-bottom: 1.25rem;
+  }
+  .prose-aiviz a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose-aiviz a:hover {
+    opacity: 0.8;
+  }
+  .prose-aiviz strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .prose-aiviz ul, .prose-aiviz ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose-aiviz li {
+    margin-bottom: 0.4rem;
+  }
+  .prose-aiviz ul li { list-style-type: disc; }
+  .prose-aiviz ol li { list-style-type: decimal; }
+  .prose-aiviz blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    background: var(--color-accent-glow);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+  }
+  .prose-aiviz blockquote p { margin-bottom: 0; }
+  .prose-aiviz code {
+    font-size: 0.8125rem;
+    background: var(--color-surface-2);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--color-text);
+  }
+  .prose-aiviz pre {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .prose-aiviz pre code {
+    background: none;
+    padding: 0;
+  }
+  .prose-aiviz hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2rem 0;
+  }
+  .prose-aiviz img {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

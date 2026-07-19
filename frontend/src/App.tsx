@@ -6,6 +6,8 @@ import { UrlInput } from './components/UrlInput'
 import { AnalysisProgress } from './components/AnalysisProgress'
 import { Report } from './components/Report'
 import { About } from './components/About'
+import { BlogList } from './blog/BlogList'
+import { BlogPost } from './blog/BlogPost'
 import { decodeReport } from './utils/shareEncoder'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
@@ -14,9 +16,17 @@ function App() {
   const { state, analyze, reset: rawReset, setSharedReport } = useAnalysis()
   const { t, locale, setLocale } = useI18n()
   const savedRef = useRef(false)
-  const [page, setPage] = useState<'app' | 'about'>(
-    window.location.pathname === '/about' ? 'about' : 'app',
-  )
+  const [page, setPage] = useState<'app' | 'about' | 'blog' | 'blog-post'>(() => {
+    const path = window.location.pathname
+    if (path === '/about') return 'about'
+    if (path.startsWith('/blog/')) return 'blog-post'
+    if (path === '/blog') return 'blog'
+    return 'app'
+  })
+  const [blogSlug, setBlogSlug] = useState<string>(() => {
+    const match = window.location.pathname.match(/^\/blog\/(.+)$/)
+    return match?.[1] ?? ''
+  })
 
   // Load shared report from URL on mount
   useEffect(() => {
@@ -79,10 +89,14 @@ function App() {
     rawReset()
   }
 
-  // Dynamic document title per page
+  // Dynamic document title per page (blog post sets its own title)
   useEffect(() => {
     if (page === 'about') {
       document.title = t('meta.title.about')
+    } else if (page === 'blog') {
+      document.title = 'Blog — AIViz'
+    } else if (page === 'blog-post') {
+      // BlogPost component sets its own title
     } else if (state.status === 'success') {
       document.title = t('meta.title.report', { url: new URL(state.data.url).hostname })
     } else {
@@ -118,9 +132,19 @@ function App() {
 
       {page === 'about' ? (
         <About onBack={() => { setPage('app'); window.history.pushState({}, '', '/') }} />
+      ) : page === 'blog' ? (
+        <BlogList
+          onBack={() => { setPage('app'); window.history.pushState({}, '', '/') }}
+          onPost={(slug) => { setBlogSlug(slug); setPage('blog-post'); window.history.pushState({}, '', `/blog/${slug}`) }}
+        />
+      ) : page === 'blog-post' ? (
+        <BlogPost
+          slug={blogSlug}
+          onBack={() => { setPage('blog'); window.history.pushState({}, '', '/blog') }}
+        />
       ) : (
         <>
-          {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} onAbout={() => { setPage('about'); window.history.pushState({}, '', '/about') }} />}
+          {state.status === 'idle' && <Landing onAnalyze={(url) => analyze(url, locale)} onAbout={() => { setPage('about'); window.history.pushState({}, '', '/about') }} onBlog={() => { setPage('blog'); window.history.pushState({}, '', '/blog') }} />}
           {state.status === 'loading' && <AnalysisProgress step={state.step} />}
           {state.status === 'loading-report' && <ReportLoading />}
           {state.status === 'success' && <Report data={state.data} onReset={reset} />}
@@ -131,7 +155,7 @@ function App() {
   )
 }
 
-function Landing({ onAnalyze, onAbout }: { onAnalyze: (url: string) => void; onAbout: () => void }) {
+function Landing({ onAnalyze, onAbout, onBlog }: { onAnalyze: (url: string) => void; onAbout: () => void; onBlog: () => void }) {
   const { t } = useI18n()
 
   return (
@@ -198,13 +222,22 @@ function Landing({ onAnalyze, onAbout }: { onAnalyze: (url: string) => void; onA
         />
       </div>
 
-      {/* Learn more link */}
-      <button
-        onClick={onAbout}
-        className="mt-12 text-xs text-accent hover:text-accent/80 transition-colors animate-fade-in-up stagger-3"
-      >
-        {t('landing.learnMore')} {'\u2192'}
-      </button>
+      {/* Navigation links */}
+      <div className="flex items-center gap-4 mt-12 animate-fade-in-up stagger-3">
+        <button
+          onClick={onAbout}
+          className="text-xs text-accent hover:text-accent/80 transition-colors"
+        >
+          {t('landing.learnMore')} {'\u2192'}
+        </button>
+        <span className="w-1 h-1 rounded-full bg-text-dim" />
+        <button
+          onClick={onBlog}
+          className="text-xs text-accent hover:text-accent/80 transition-colors"
+        >
+          Blog {'\u2192'}
+        </button>
+      </div>
 
       {/* Footer */}
       <p className="mt-6 text-xs font-mono text-text-muted tracking-[0.2em] animate-fade-in-up stagger-3">
