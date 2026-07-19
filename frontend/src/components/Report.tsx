@@ -92,6 +92,9 @@ export function Report({ data, onReset }: ReportProps) {
           </div>
         </div>
 
+        {/* Shopify detected CTA */}
+        {data.platform === 'shopify' && <ShopifyCta />}
+
         {/* Page type warning */}
         {data.pageTypeMessage && (
           <PageTypeWarning message={data.pageTypeMessage} pageType={data.pageType} url={data.url} />
@@ -125,6 +128,9 @@ export function Report({ data, onReset }: ReportProps) {
 
         {/* AI Suggestions */}
         <AiSuggestions rules={data.rules} aiReadability={data.aiReadability} />
+
+        {/* Generic Shopify CTA (non-Shopify stores) */}
+        {data.platform !== 'shopify' && <ShopifyCtaGeneric />}
 
         {/* CTA */}
         <div className="glass-card p-6 text-center animate-fade-in-up" style={{ borderColor: 'rgba(13, 115, 119, 0.15)' }}>
@@ -233,6 +239,66 @@ function DynamicRenderWarning({ url }: { url: string }) {
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+const SHOPIFY_APP_URL = 'https://apps.shopify.com/'
+
+function ShopifyCta() {
+  const { t } = useI18n()
+
+  return (
+    <div className="glass-card p-5 animate-fade-in-up" style={{ borderColor: 'rgba(99, 102, 241, 0.25)', background: 'rgba(99, 102, 241, 0.03)' }}>
+      <div className="flex items-start gap-3">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#96bf48' }}>
+          <svg width="16" height="18" viewBox="0 0 256 292" fill="white">
+            <path d="M223.774 57.34c-.201-1.46-1.48-2.268-2.537-2.357-1.055-.088-22.768-.517-22.768-.517s-15.129-14.71-16.818-16.399c-1.69-1.69-4.954-1.143-6.24-.826-.09 0-3.387 1.028-8.577 2.7-5.013-14.71-13.94-28.207-29.606-28.207-.428 0-.876.022-1.324.044C132.878 7.7 129.336 5 126.303 5c-28.872 0-42.7 36.108-47.043 54.471-11.303 3.518-19.352 5.982-20.407 6.316-6.33 1.983-6.508 2.18-7.342 8.123C50.962 78.69 33 222.972 33 222.972L173.906 252l55.752-12.078s-5.686-180.916-5.884-182.582z"/>
+          </svg>
+        </div>
+        <div className="flex-1">
+          <p className="text-sm text-text-primary leading-relaxed">
+            {t('shopify.cta.detected')}
+          </p>
+          <a
+            href={SHOPIFY_APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              inline-flex items-center gap-2 mt-3 px-4 py-2
+              rounded-lg text-xs font-mono font-semibold tracking-wider
+              text-white transition-all duration-200
+              hover:opacity-90 active:scale-[0.97]
+            "
+            style={{ background: '#96bf48' }}
+          >
+            {t('shopify.cta.button')}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ShopifyCtaGeneric() {
+  const { t } = useI18n()
+
+  return (
+    <div className="flex items-center justify-center gap-2 py-3 animate-fade-in-up">
+      <svg width="14" height="16" viewBox="0 0 256 292" fill="#96bf48" opacity="0.7">
+        <path d="M223.774 57.34c-.201-1.46-1.48-2.268-2.537-2.357-1.055-.088-22.768-.517-22.768-.517s-15.129-14.71-16.818-16.399c-1.69-1.69-4.954-1.143-6.24-.826-.09 0-3.387 1.028-8.577 2.7-5.013-14.71-13.94-28.207-29.606-28.207-.428 0-.876.022-1.324.044C132.878 7.7 129.336 5 126.303 5c-28.872 0-42.7 36.108-47.043 54.471-11.303 3.518-19.352 5.982-20.407 6.316-6.33 1.983-6.508 2.18-7.342 8.123C50.962 78.69 33 222.972 33 222.972L173.906 252l55.752-12.078s-5.686-180.916-5.884-182.582z"/>
+      </svg>
+      <a
+        href={SHOPIFY_APP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs text-text-muted hover:text-accent transition-colors"
+      >
+        {t('shopify.cta.generic')}
+      </a>
     </div>
   )
 }

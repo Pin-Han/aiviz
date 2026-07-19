@@ -137,6 +137,7 @@ export interface AnalysisResponse {
   searchSimulation: AiSearchSimulation
   pageType: 'product' | 'homepage' | 'other'
   pageTypeMessage?: string
+  platform?: 'shopify' | null
   meta: {
     crawlTimeMs: number
     aiCallTimeMs: number

@@ -94,7 +94,13 @@ export default async function handler(
     // Step 2: Parse
     const pageData = parseHtml(crawlResult.html, crawlResult.url, crawlResult.crawlTimeMs)
 
-    // Step 3: Detect page type
+    // Step 3: Detect platform & page type
+    const isShopify = /myshopify\.com/i.test(url)
+      || /cdn\.shopify\.com/i.test(crawlResult.html)
+      || /Shopify\.theme/i.test(crawlResult.html)
+      || /<meta[^>]+name=["']generator["'][^>]+content=["']Shopify/i.test(crawlResult.html)
+    const platform = isShopify ? 'shopify' as const : null
+
     const pageType = detectPageType(pageData)
     let pageTypeMessage: string | undefined
     if (pageType === 'homepage') {
@@ -218,6 +224,7 @@ export default async function handler(
       searchSimulation,
       pageType,
       pageTypeMessage,
+      platform,
       meta: {
         crawlTimeMs: crawlResult.crawlTimeMs,
         aiCallTimeMs,
