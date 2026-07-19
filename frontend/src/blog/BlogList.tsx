@@ -9,7 +9,7 @@ interface BlogListProps {
 
 export function BlogList({ onBack, onPost }: BlogListProps) {
   const { locale } = useI18n()
-  const posts = getAllPosts().filter((p) => p.lang === locale || p.lang === 'en')
+  const posts = getAllPosts()
 
   return (
     <div className="min-h-screen py-12 px-4">
