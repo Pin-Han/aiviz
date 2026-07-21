@@ -1,5 +1,6 @@
 export interface BlogPostMeta {
   slug: string
+  baseSlug: string
   title: string
   description: string
   date: string

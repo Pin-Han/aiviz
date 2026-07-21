@@ -1,5 +1,5 @@
 import { useI18n } from '../i18n'
-import { getAllPosts } from './posts'
+import { getPostsByLocale } from './posts'
 import type { BlogPostMeta } from './types'
 
 interface BlogListProps {
@@ -8,8 +8,8 @@ interface BlogListProps {
 }
 
 export function BlogList({ onBack, onPost }: BlogListProps) {
-  const { locale } = useI18n()
-  const posts = getAllPosts()
+  const { locale, t } = useI18n()
+  const posts = getPostsByLocale(locale)
 
   return (
     <div className="min-h-screen py-12 px-4">
@@ -28,18 +28,22 @@ export function BlogList({ onBack, onPost }: BlogListProps) {
         {/* Header */}
         <div className="text-center py-6 animate-fade-in-up">
           <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2 tracking-tight">Blog</h1>
-          <p className="text-sm text-text-muted">AI visibility insights for e-commerce</p>
+          <p className="text-sm text-text-muted">
+            {locale === 'zh-TW' ? '電商 AI 可見度趨勢與教學' : 'AI visibility insights for e-commerce'}
+          </p>
         </div>
 
         {/* Post list */}
         {posts.length === 0 ? (
           <div className="glass-card p-8 text-center">
-            <p className="text-sm text-text-muted">Coming soon...</p>
+            <p className="text-sm text-text-muted">
+              {locale === 'zh-TW' ? '即將推出...' : 'Coming soon...'}
+            </p>
           </div>
         ) : (
           <div className="space-y-4">
             {posts.map((post) => (
-              <PostCard key={post.slug} post={post} onClick={() => onPost(post.slug)} />
+              <PostCard key={post.slug} post={post} locale={locale} onClick={() => onPost(post.slug)} />
             ))}
           </div>
         )}
@@ -48,7 +52,7 @@ export function BlogList({ onBack, onPost }: BlogListProps) {
   )
 }
 
-function PostCard({ post, onClick }: { post: BlogPostMeta; onClick: () => void }) {
+function PostCard({ post, locale, onClick }: { post: BlogPostMeta; locale: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -56,10 +60,11 @@ function PostCard({ post, onClick }: { post: BlogPostMeta; onClick: () => void }
     >
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-mono text-text-dim tracking-wider">
-          {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+          {new Date(post.date).toLocaleDateString(
+            locale === 'zh-TW' ? 'zh-TW' : 'en-US',
+            { year: 'numeric', month: 'short', day: 'numeric' },
+          )}
         </span>
-        <span className="w-1 h-1 rounded-full bg-text-dim" />
-        <span className="text-xs font-mono text-accent/60 tracking-wider uppercase">{post.lang === 'zh-TW' ? '中文' : 'EN'}</span>
       </div>
       <h2 className="text-base font-semibold text-text-primary mb-1.5 group-hover:text-accent transition-colors">
         {post.title}

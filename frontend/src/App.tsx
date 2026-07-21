@@ -141,6 +141,7 @@ function App() {
         <BlogPost
           slug={blogSlug}
           onBack={() => { setPage('blog'); window.history.pushState({}, '', '/blog') }}
+          onSwitchPost={(slug) => { setBlogSlug(slug); window.history.pushState({}, '', `/blog/${slug}`) }}
         />
       ) : (
         <>

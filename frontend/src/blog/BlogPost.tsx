@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useI18n } from '../i18n'
-import { getPostBySlug } from './posts'
+import { getPostBySlug, getAlternatePost } from './posts'
 import { SHOPIFY_APP_URL, trackShopifyClick } from '../utils/shopify'
 
 const SITE_URL = 'https://ai-vision-check-pink.vercel.app'
@@ -8,6 +8,7 @@ const SITE_URL = 'https://ai-vision-check-pink.vercel.app'
 interface BlogPostProps {
   slug: string
   onBack: () => void
+  onSwitchPost?: (slug: string) => void
 }
 
 /** Set or create a <meta> tag */
@@ -63,9 +64,10 @@ function cleanupBlogSeo() {
   document.getElementById('blog-article-jsonld')?.remove()
 }
 
-export function BlogPost({ slug, onBack }: BlogPostProps) {
+export function BlogPost({ slug, onBack, onSwitchPost }: BlogPostProps) {
   const { t } = useI18n()
   const post = getPostBySlug(slug)
+  const altPost = getAlternatePost(slug)
 
   useEffect(() => {
     if (!post) return
@@ -142,6 +144,20 @@ export function BlogPost({ slug, onBack }: BlogPostProps) {
             {post.title}
           </h1>
           <p className="text-base text-text-muted mt-4 leading-relaxed">{post.description}</p>
+
+          {/* Language toggle */}
+          {altPost && onSwitchPost && (
+            <button
+              onClick={() => onSwitchPost(altPost.slug)}
+              className="mt-4 inline-flex items-center gap-1.5 text-xs text-accent hover:text-accent/80 transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              {altPost.lang === 'en' ? 'Read in English' : '閱讀中文版'}
+            </button>
+          )}
         </div>
 
         {/* Content */}
