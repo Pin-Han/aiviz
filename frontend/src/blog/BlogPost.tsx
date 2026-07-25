@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n'
 import { getPostBySlug, getAlternatePost } from './posts'
 import { SHOPIFY_APP_URL, trackShopifyClick } from '../utils/shopify'
@@ -65,9 +65,14 @@ function cleanupBlogSeo() {
 }
 
 export function BlogPost({ slug, onBack, onSwitchPost }: BlogPostProps) {
-  const { t } = useI18n()
+  const { t, setLocale } = useI18n()
   const post = getPostBySlug(slug)
   const altPost = getAlternatePost(slug)
+
+  // Sync UI locale to post language
+  useEffect(() => {
+    if (post) setLocale(post.lang)
+  }, [post, setLocale])
 
   useEffect(() => {
     if (!post) return
@@ -200,6 +205,9 @@ export function BlogPost({ slug, onBack, onSwitchPost }: BlogPostProps) {
           </div>
         </div>
 
+        {/* Feedback */}
+        <BlogFeedback slug={post.slug} lang={post.lang} />
+
         {/* Footer */}
         <div className="text-center pt-8 pb-8">
           <button
@@ -210,6 +218,56 @@ export function BlogPost({ slug, onBack, onSwitchPost }: BlogPostProps) {
           </button>
         </div>
       </article>
+    </div>
+  )
+}
+
+function BlogFeedback({ slug, lang }: { slug: string; lang: string }) {
+  const [voted, setVoted] = useState<'up' | 'down' | null>(null)
+
+  const vote = (type: 'up' | 'down') => {
+    setVoted(type)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'blog_feedback', {
+        article_slug: slug,
+        feedback: type,
+      })
+    }
+  }
+
+  return (
+    <div className="mt-10 pt-6 border-t border-border text-center animate-fade-in-up">
+      {voted ? (
+        <p className="text-sm text-text-muted">
+          {lang === 'zh-TW' ? '感謝你的回饋！' : 'Thanks for your feedback!'}
+        </p>
+      ) : (
+        <>
+          <p className="text-sm text-text-muted mb-3">
+            {lang === 'zh-TW' ? '這篇文章有幫助嗎？' : 'Was this article helpful?'}
+          </p>
+          <div className="flex justify-center gap-3">
+            <button
+              onClick={() => vote('up')}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-sm text-text-muted hover:border-accent hover:text-accent transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+              </svg>
+              {lang === 'zh-TW' ? '有幫助' : 'Helpful'}
+            </button>
+            <button
+              onClick={() => vote('down')}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-sm text-text-muted hover:border-text-dim hover:text-text-dim transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
+              </svg>
+              {lang === 'zh-TW' ? '可以更好' : 'Could be better'}
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
