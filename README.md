@@ -1,100 +1,90 @@
-# AIViz
+<div align="center">
 
-> Google Rich Results Test checks if Google can read your page.
-> **AIViz checks if ChatGPT, Perplexity, and Gemini can find your product.**
+# AIViz — AI Visibility Checker
 
-An open-source AI visibility checker for e-commerce product pages. Input a product URL, get a detailed report on how well AI search engines can discover, understand, and recommend your product — in 60 seconds.
+**Google has Rich Results Test. This is the AI equivalent.**
 
-**Try it now**: [aiviz.vercel.app](https://ai-vision-check-pink.vercel.app)
+Scan any product page URL and find out if ChatGPT, Perplexity, and Gemini can discover, understand, and recommend your product — in 60 seconds.
 
-[繁體中文](README.zh-TW.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FPin-Han%2Faiviz)
+[![Shopify App](https://img.shields.io/badge/Shopify_App-SEO_Checkup-96bf48?logo=shopify)](https://apps.shopify.com/seo-checkup)
 
-## Why This Exists
+[Live Demo](https://ai-vision-check-pink.vercel.app) · [Blog](https://ai-vision-check-pink.vercel.app/blog) · [Shopify App](https://apps.shopify.com/seo-checkup) · [繁體中文](README.zh-TW.md)
 
-Google has [Rich Results Test](https://search.google.com/test/rich-results). But AI search engines (ChatGPT, Perplexity, Gemini) use different signals to understand and recommend products. There's no equivalent tool for the AI era — until now.
+</div>
 
-AIViz scans your product page and answers three questions:
+---
 
-1. **Can AI crawlers access your page?** — robots.txt, JS rendering, meta tags
-2. **Can AI understand what you're selling?** — schema.org Product markup, Open Graph, structured data completeness
-3. **Would AI recommend your product?** — simulated AI search queries, keyword visibility analysis
+<!-- 
+  TODO: Replace with actual screenshot
+  Take a screenshot of a report page and save as docs/screenshot.png
+-->
+<!-- ![AIViz Screenshot](docs/screenshot.png) -->
 
-## Features
+## The Problem
 
-- **3-Layer Scoring** (0-130 pts) — Crawler accessibility + structured data + advanced optimization
-- **AI Search Simulation** — Simulates real user queries and predicts if AI would recommend your product
-- **AI Readability Assessment** — Powered by Gemini, evaluates data quality from an AI engine's perspective
-- **Copy-Paste Fix Code** — Get JSON-LD snippets you can directly add to your page
-- **Shareable Reports** — Each report gets a short URL (`/r/:id`), stored for 30 days
-- **Bilingual** — Auto-detects browser language (English / 繁體中文)
+AI search engines are sending **4-5x higher converting traffic** to e-commerce stores ([Adobe, 2026](https://business.adobe.com/blog/ai-traffic-surge-retail-sites-not-machine-readable)). But most stores are invisible to them.
 
-## Tech Stack
+Traditional SEO won't help — ChatGPT doesn't look at your meta keywords or backlinks. It looks at **structured data**, **crawler access**, and **content readability**. Most Shopify stores have gaps in all three.
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19, Vite, Tailwind CSS |
-| Backend | Vercel Serverless Functions |
-| Crawler | Cheerio (HTML parser) |
-| AI | Google Gemini 2.5 Flash |
-| Storage | Upstash Redis (report sharing + rate limiting) |
-| Hosting | Vercel |
-| i18n | Custom React Context (zh-TW / en) |
-| Analytics | Google Analytics 4 |
+AIViz scans your product page and tells you exactly what's missing.
+
+## What You Get
+
+| | Feature | Detail |
+|---|---------|--------|
+| 📊 | **3-Layer Score** (0-130 pts) | Crawler access · Structured data · Advanced optimization |
+| 🔍 | **AI Search Simulation** | Simulates real queries — would ChatGPT recommend your product? |
+| 🤖 | **AI Readability Assessment** | Gemini evaluates your page from an AI engine's perspective |
+| 🔧 | **Copy-Paste Fix Code** | Get JSON-LD snippets you can add directly to your page |
+| 🔗 | **Shareable Reports** | Each report gets a short URL (`/r/:id`), stored 30 days |
+| 🌐 | **Bilingual** | Auto-detects English / 繁體中文 |
+
+## Shopify App
+
+Running a Shopify store? **[SEO Checkup](https://apps.shopify.com/seo-checkup)** is our free Shopify App that scans all your products at once — no need to check URLs one by one.
 
 ## Scoring Rules
 
 ### Crawler Accessibility (30 pts)
-| Rule | Pts | What it checks |
-|------|-----|---------------|
+| Rule | Pts | Checks |
+|------|-----|--------|
 | robots.txt | 10 | AI crawlers (GPTBot, PerplexityBot, etc.) not blocked |
 | Meta Description | 5 | Present and adequate length |
-| Image Alt Text | 5 | Images have descriptive alt attributes |
-| JS Rendering | 5 | Content available in raw HTML (not JS-dependent) |
-| Canonical URL | 5 | Correct canonical tag present |
+| Image Alt Text | 5 | Descriptive alt attributes |
+| JS Rendering | 5 | Content in raw HTML, not JS-only |
+| Canonical URL | 5 | Correct canonical tag |
 
 ### Structured Data (80 pts)
-| Rule | Pts | What it checks |
-|------|-----|---------------|
+| Rule | Pts | Checks |
+|------|-----|--------|
 | Product Schema | 20 | schema.org/Product JSON-LD exists |
-| Name & Description | 15 | Product name and description are complete |
-| Price & Currency | 15 | Valid pricing with currency code |
-| Product Image | 10 | Absolute URL, accessible image |
-| Aggregate Rating | 10 | Review/rating data present |
+| Name & Description | 15 | Complete product info |
+| Price & Currency | 15 | Valid pricing with currency |
+| Product Image | 10 | Absolute URL, accessible |
+| Aggregate Rating | 10 | Review/rating data |
 | Brand Info | 10 | Brand name identifiable |
 
 ### Advanced (20 pts)
-| Rule | Pts | What it checks |
-|------|-----|---------------|
-| Page Speed | 10 | Server response < 3 seconds |
+| Rule | Pts | Checks |
+|------|-----|--------|
+| Page Speed | 10 | Server response < 3s |
 | llms.txt | 10 | [llms.txt](https://llmstxt.org/) file present |
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 20
-- A [Gemini API key](https://aistudio.google.com/apikey) (free tier works)
-- (Optional) [Upstash Redis](https://upstash.com/) for report sharing & rate limiting
-
-### Setup
+## Quick Start
 
 ```bash
-# Clone the repo
 git clone https://github.com/Pin-Han/aiviz.git
 cd aiviz
-
-# Install dependencies (monorepo — installs all workspaces)
 npm install
 
-# Set up API environment variables
+# Set up API env
 cp api/.env.example api/.env
-# Edit api/.env with your GEMINI_API_KEY
+# Add your GEMINI_API_KEY (free tier: https://aistudio.google.com/apikey)
 
-# Start frontend dev server
+# Run frontend
 cd frontend && npm run dev
-
-# Test a product URL locally
-cd api && npx tsx _test-local.ts https://example-shop.com/products/item
 
 # Run tests (74 tests)
 npm test
@@ -103,77 +93,69 @@ npm test
 ### Deploy to Vercel
 
 ```bash
-# Link to Vercel project
 vercel link
-
-# Set environment variables
 vercel env add GEMINI_API_KEY
-
-# Deploy
 vercel --prod
 ```
 
-For report sharing, add [Upstash Redis](https://vercel.com/marketplace/upstash) from the Vercel Marketplace with prefix `KV`.
+For report sharing, add [Upstash Redis](https://vercel.com/marketplace/upstash) from the Vercel Marketplace (prefix: `KV`).
 
-## Project Structure
+## Architecture
 
 ```
 aiviz/
-├── frontend/                # React SPA
+├── frontend/              # React 19 SPA (Vite + Tailwind CSS)
 │   ├── src/
-│   │   ├── App.tsx          # Main app + routing
-│   │   ├── components/      # UI components (Report, ScoreCard, etc.)
-│   │   ├── hooks/           # useAnalysis state machine
-│   │   └── i18n/            # Translations (zh-TW, en)
+│   │   ├── components/    # Report, ScoreCard, RadarChart, etc.
+│   │   ├── blog/          # Markdown blog with i18n
+│   │   ├── hooks/         # useAnalysis state machine
+│   │   └── i18n/          # zh-TW / en translations
 │   └── index.html
-├── api/                     # Vercel Serverless Functions
-│   ├── analyze.ts           # POST /api/analyze — main endpoint
-│   ├── reports.ts           # POST /api/reports — save report
-│   ├── reports/[id].ts      # GET /api/reports/:id — retrieve report
-│   ├── _lib/                # Internal: crawler, parser, scorer, AI provider
-│   └── _rules/              # Scoring rules (pluggable)
-│       ├── accessibility/   # robots.txt, meta, alt text, JS rendering, canonical
-│       ├── basic/           # Product schema, name, price, image, rating, brand
-│       └── advanced/        # Page speed, llms.txt
-├── shared/                  # Shared TypeScript types & constants
-└── vercel.json              # Vercel config
+├── api/                   # Vercel Serverless Functions
+│   ├── analyze.ts         # POST /api/analyze
+│   ├── reports.ts         # POST /api/reports
+│   ├── reports/[id].ts    # GET  /api/reports/:id
+│   ├── _lib/              # Crawler, parser, scorer, Gemini provider
+│   └── _rules/            # Pluggable scoring rules
+├── shared/                # TypeScript types & constants
+└── vercel.json
 ```
 
-> Files under `api/_lib/` and `api/_rules/` are prefixed with `_` so Vercel bundles them into the endpoint functions instead of deploying them as separate serverless functions.
+**Tech stack**: React 19 · Vite · Tailwind CSS · Vercel Functions · Cheerio · Gemini 2.5 Flash · Upstash Redis · GA4
 
-## Contributing
+## Add a New Rule
 
-PRs welcome! The scoring engine uses a pluggable rule system:
+The scoring engine is pluggable:
 
-1. Create a new file in `api/_rules/basic/` or `api/_rules/advanced/`
-2. Implement the `Rule` interface from `shared/types.ts`:
-   ```ts
-   interface Rule {
-     id: string
-     name: string
-     description: string
-     category: 'accessibility' | 'basic' | 'advanced'
-     maxScore: number
-     check(pageData: PageData): RuleResult
-   }
-   ```
-3. Register it in `api/_rules/index.ts`
-4. Add tests in a colocated `__tests__/` directory
+```ts
+// api/_rules/basic/my-rule.ts
+import type { Rule } from '../../../shared/types.js'
 
-Ideas for new rules:
-- `og:image` dimensions check
-- Multilingual hreflang tags
-- FAQ schema detection
-- Breadcrumb schema
-- Review schema richness
+export const myRule: Rule = {
+  id: 'my-rule',
+  name: 'My Rule',
+  description: 'Checks something useful',
+  category: 'basic',
+  maxScore: 10,
+  check(pageData) {
+    // Your logic here
+    return { score: 10, status: 'pass', message: 'All good' }
+  },
+}
+```
+
+Register it in `api/_rules/index.ts` and add tests in `__tests__/`.
+
+**Rule ideas**: OG image dimensions · hreflang tags · FAQ schema · Breadcrumb schema · Review richness
 
 ## Roadmap
 
-- [ ] Shopify App — one-click install, automatic AI visibility monitoring
-- [ ] AI Brand Monitoring — track brand mentions across AI search engines
-- [ ] Competitor Analysis — compare AI visibility against competitors
-- [ ] Scheduled Scans — periodic checks with change notifications
-- [ ] More AI providers — test against Claude, Copilot, and others
+- [x] Web tool — scan any URL, get AI visibility report
+- [x] Shopify App — [SEO Checkup](https://apps.shopify.com/seo-checkup)
+- [x] Blog — AI visibility insights ([/blog](https://ai-vision-check-pink.vercel.app/blog))
+- [ ] AI Brand Monitoring — track brand mentions across AI search
+- [ ] Competitor Analysis — compare AI visibility vs competitors
+- [ ] Scheduled Scans — periodic checks with change alerts
 
 ## License
 
