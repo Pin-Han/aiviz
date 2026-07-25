@@ -16,11 +16,11 @@ Scan any product page URL and find out if ChatGPT, Perplexity, and Gemini can di
 
 ---
 
-<!-- 
-  TODO: Replace with actual screenshot
-  Take a screenshot of a report page and save as docs/screenshot.png
--->
-<!-- ![AIViz Screenshot](docs/screenshot.png) -->
+<div align="center">
+  <img src="docs/screenshot_landing.png" alt="AIViz Landing Page" width="700" />
+  <br/><br/>
+  <img src="docs/screenshot_result.png" alt="AIViz Report Page" width="700" />
+</div>
 
 ## The Problem
 
