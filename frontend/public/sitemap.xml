@@ -37,4 +37,20 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/can-chatgpt-find-your-shopify-products.en" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/can-chatgpt-find-your-shopify-products.zh-TW" />
   </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.zh-TW</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.zh-TW" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.en" />
+  </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.en</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.en" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/schema-for-ai-search.zh-TW" />
+  </url>
 </urlset>
