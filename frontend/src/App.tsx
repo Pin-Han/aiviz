@@ -8,6 +8,7 @@ import { Report } from './components/Report'
 import { About } from './components/About'
 import { BlogList } from './blog/BlogList'
 import { BlogPost } from './blog/BlogPost'
+import { getAlternatePost } from './blog/posts'
 import { decodeReport } from './utils/shareEncoder'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
@@ -119,7 +120,18 @@ function App() {
       <div className="fixed top-4 right-4 z-50">
         <select
           value={locale}
-          onChange={(e) => setLocale(e.target.value as Locale)}
+          onChange={(e) => {
+            const newLocale = e.target.value as Locale
+            setLocale(newLocale)
+            // If on a blog post, switch to alternate language version
+            if (page === 'blog-post' && blogSlug) {
+              const alt = getAlternatePost(blogSlug)
+              if (alt && alt.lang === newLocale) {
+                setBlogSlug(alt.slug)
+                window.history.replaceState({}, '', `/blog/${alt.slug}`)
+              }
+            }
+          }}
           className="text-xs font-mono bg-surface border border-border rounded-lg px-2 py-1.5 text-text-muted cursor-pointer hover:border-border-hover transition-colors outline-none"
         >
           {SUPPORTED_LOCALES.map((l) => (
