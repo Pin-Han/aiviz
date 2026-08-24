@@ -8,3 +8,5 @@ dist/
 docs/superpowers/specs/
 docs/plans/roadmap.md
 docs/internal/
+.env*
+!.env.example
