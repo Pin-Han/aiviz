@@ -17,7 +17,7 @@
   </url>
   <url>
     <loc>https://ai-vision-check-pink.vercel.app/blog</loc>
-    <lastmod>2026-08-23</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -68,5 +68,21 @@
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/seo-aeo-geo-2026.en" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/seo-aeo-geo-2026.zh-TW" />
+  </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.zh-TW</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.zh-TW" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.en" />
+  </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.en</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.en" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.zh-TW" />
   </url>
 </urlset>
