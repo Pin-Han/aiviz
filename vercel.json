@@ -2,12 +2,24 @@
   "buildCommand": "npm install --prefix frontend && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm install",
+  "cleanUrls": true,
   "functions": {
     "api/analyze.ts": {
       "maxDuration": 30
     }
   },
   "rewrites": [
+    {
+      "source": "/r/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|TelegramBot|WhatsApp|LINE|line-poker|Googlebot|bingbot|DuckDuckBot|Applebot|redditbot|Pinterest|Embedly|Iframely|SkypeUriPreview|vkShare|GPTBot|OAI-SearchBot|ChatGPT-User|PerplexityBot|ClaudeBot|Claude-Web|Bytespider).*"
+        }
+      ],
+      "destination": "/api/og-report?id=:id"
+    },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "headers": [
