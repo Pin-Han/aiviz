@@ -17,7 +17,7 @@
   </url>
   <url>
     <loc>https://ai-vision-check-pink.vercel.app/blog</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -84,5 +84,21 @@
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.en" />
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/who-ai-actually-cites.zh-TW" />
+  </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.zh-TW</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.zh-TW" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.en" />
+  </url>
+  <url>
+    <loc>https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.en</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.en" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://ai-vision-check-pink.vercel.app/blog/holiday-sale-price-ai.zh-TW" />
   </url>
 </urlset>
